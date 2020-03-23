@@ -5,7 +5,7 @@ import store from './store'
 import axios from 'axios'
 // import vant from 'vant'
 
-import { Form, Button, Field, Toast, Icon, Loading, Image } from 'vant'
+import { Form, Button, Field, Toast, Icon, Loading, Image, Notify, Skeleton, Tabbar, TabbarItem } from 'vant'
 axios.defaults.baseURL = 'http://localhost:3000'
 
 Vue.prototype.$http = axios
@@ -42,6 +42,8 @@ axios.interceptors.response.use(
 
 Vue.config.productionTip = false
 
+Vue.use(Tabbar)
+Vue.use(TabbarItem)
 Vue.use(Form)
 Vue.use(Button)
 Vue.use(Field)
@@ -49,6 +51,8 @@ Vue.use(Toast)
 Vue.use(Icon)
 Vue.use(Loading)
 Vue.use(Image)
+Vue.use(Notify)
+Vue.use(Skeleton)
 
 new Vue({
   router,
