@@ -5,7 +5,7 @@ import store from './store'
 import axios from 'axios'
 // import vant from 'vant'
 
-import { Form, Button, Field, Toast, Icon, Loading } from 'vant'
+import { Form, Button, Field, Toast, Icon, Loading, Image } from 'vant'
 axios.defaults.baseURL = 'http://localhost:3000'
 
 Vue.prototype.$http = axios
@@ -48,6 +48,7 @@ Vue.use(Field)
 Vue.use(Toast)
 Vue.use(Icon)
 Vue.use(Loading)
+Vue.use(Image)
 
 new Vue({
   router,

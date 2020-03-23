@@ -12,5 +12,9 @@ export default {
 <style lang="less">
 html,body{
   font-size: 20px;
+  height: 100vh;
+}
+#app{
+  height: 100%;
 }
 </style>

@@ -1,5 +1,14 @@
 <template>
   <div id="login">
+    <div class="login-logo">
+      <van-image
+        width="100"
+        height="100"
+        fit="cover"
+        round
+        src="http://is3.mzstatic.com/image/thumb/Purple128/v4/f5/44/5a/f5445a87-4137-85ba-06d8-26d33e54d404/mzl.sqdgtzfe.png/512x512bb.jpg"
+      />
+    </div>
     <van-form>
       <van-field
         v-model="LoginForm.phone"
@@ -79,5 +88,20 @@ export default {
 </script>
 
 <style lang="less" scoped>
+#login{
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  justify-content: center;
+  position: absolute;
+  margin: auto;
+  .login-logo{
+
+}
+}
 
 </style>
