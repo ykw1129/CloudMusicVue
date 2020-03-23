@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-
+const My = () => import('../components/my/My')
+const Find = () => import('../components/find/Find')
+const Village = () => import('../components/village/Village')
 Vue.use(VueRouter)
 
 const routes = [
@@ -9,14 +11,14 @@ const routes = [
     name: 'Home',
     component: () => import('../components/home/Home'),
     children: [
-      { path: '/my', name: 'My', component: () => import('../components/my/My') },
-      { path: '/find', name: 'My', component: () => import('../components/find/Find') },
-      { path: '/village', name: 'My', component: () => import('../components/village/Village') }
-    ]
+      { path: '/my', component: My },
+      { path: '/find', component: Find },
+      { path: '/village', component: Village }
+    ],
+    redirect: '/my'
   },
   {
     path: '/',
-    name: 'Home',
     component: () => import('../components/home/Home'),
     redirect: '/login'
   },

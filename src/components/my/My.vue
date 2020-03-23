@@ -8,8 +8,13 @@
 export default {
   data () {
     return {
+      data () {
 
+      }
     }
+  },
+  mounted () {
+    console.log(123)
   }
 }
 </script>
