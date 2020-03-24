@@ -9,7 +9,7 @@ export default {
 
 }
 </script>
-<style lang="less">
+<style lang="less" scoped>
 html,body{
   font-size: 20px;
   height: 100vh;
