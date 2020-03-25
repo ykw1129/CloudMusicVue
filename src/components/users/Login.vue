@@ -11,7 +11,7 @@
       <van-field
         v-model="LoginForm.phone"
         label="手机号码"
-        :name="LoginForm.phone"
+        :name="phone"
         placeholder="手机号码"
         :rules="loginPhoneRules"
       />
@@ -19,7 +19,7 @@
         v-model="LoginForm.password"
         type="password"
         label="密码"
-        :name="LoginForm.password"
+        :name="password"
         placeholder="密码"
         :rules="loginPasswordRules"
       />
@@ -45,6 +45,8 @@
 export default {
   data () {
     return {
+      phone: '',
+      password: '',
       LoginForm: {
         phone: '',
         password: ''
@@ -77,8 +79,6 @@ export default {
     },
     // 登录请求post请求
     async getLogin () {
-      const vaild = await this.validateFrom()
-      if (!vaild) return false
       const { data: res } = await this.$http.post(
         '/login/cellphone',
         this.LoginForm
@@ -133,12 +133,6 @@ export default {
           }
         }, 100)
       })
-    },
-    validateFrom () {
-      const { phone, password } = [this.LoginForm.phone, this.LoginForm.password]
-      console.log(phone, password)
-      if (!phone || !this.regMobile.test(phone)) return false
-      if (!password || password.length < 3 || password.length > 16) return false
     }
   }
 }
