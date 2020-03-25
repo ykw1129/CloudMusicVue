@@ -1,30 +1,33 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import Axios from 'axios'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    // 用户id
     userId: '',
-    status: ''
+    // 是否登录
+    isLogin: false
+
   },
   mutations: {
-    setUserStatus (state, result) {
-      state.userId = result.profile.userId
+    GETISLOGIN (state, status) {
+      state.isLogin = status
+    },
+    GETUSERID (state, id) {
+      state.userId = id
     }
   },
   actions: {
-    getUserStatus (context) {
-      Axios.get('/login/status', {
-        params: { timestamp: Date.now() },
-        withCredentials: true
-      }).then((result) => {
-        context.commit('setUserStatus', result)
-      }).catch(() => {
-
-      })
+    // 获取用户id
+    getUserID ({ commit }) {
+      commit('GETUSERID', window.sessionStorage.getItem('userid'))
+    },
+    getIsLogin ({ commit }) {
+      commit('GETISLOGIN', window.sessionStorage.getItem('isLogin'))
     }
+
   },
   modules: {
   }

@@ -7,14 +7,15 @@
         alt="logo"
       >
     </div>
-    <ValidationObserver>
- <van-form ref="LoginRef">
+    <ValidationObserver ref="LoginRef">
+  <van-form >
       <ValidationProvider rules="required|mobile" name="phone" v-slot="{ errors }">
       <van-field
         v-model="LoginForm.phone"
         label="手机号码"
         type="number"
         maxlength="11"
+        name="phone"
         placeholder="手机号码"
         :error-message="errors[0]"
       />
@@ -25,6 +26,7 @@
         type="password"
         label="密码"
         maxlength="16"
+        name="password"
         placeholder="密码"
         :error-message="errors[0]"
       />
@@ -35,7 +37,7 @@
           block
           type="info"
           native-type="button"
-          @click="onClickLogin()"
+          @click="getLogin()"
         >
           登录
         </van-button>
@@ -56,38 +58,36 @@ export default {
         phone: '',
         password: ''
       },
-      isLogin: false
+      isLogin: true
     }
   },
   methods: {
-    // 点击登录事件函数
-    onClickLogin () {
-      this.getLogin()
-    },
     // 登录请求post请求
-    async getLogin () {
-      this.checkForm()
-      const { data: res } = await this.$http.post(
-        '/login/cellphone', { phone: this.LoginForm.phone, password: this.LoginForm.password }, { withCredentials: true }
-      )
-      console.log(res)
-      if (res.code !== 200) return this.$notify({ type: 'danger', message: '账号或密码错误！' })
-      else {
-        this.$notify({
-          type: 'success',
-          message: `${res.profile.nickname} 欢迎回来！`
-        })
-        this.isLogin = true
-        console.log(res)
-        window.sessionStorage.setItem('token', res.token)
-        this.$router.push('/home')
-      }
-    },
-    checkForm () {
-    },
+    getLogin () {
+      this.$refs.LoginRef.validate().then(async res => {
+        if (res) {
+        // 验证通过
+          const { data: res } = await this.$http.post(
+            '/login/cellphone', { phone: this.LoginForm.phone, password: this.LoginForm.password }, { withCredentials: true }
+          )
+          if (res.code !== 200) return this.$notify({ type: 'danger', message: '账号或密码错误！' })
+          else {
+            console.log(res)
+            this.$notify({
+              type: 'success',
+              message: `${res.profile.nickname} 欢迎回来！`
+            })
+            window.sessionStorage.setItem('isLogin', this.isLogin)
+            window.sessionStorage.setItem('token', res.token)
+            window.sessionStorage.setItem('userid', res.profile.userId)
+            this.$router.push('/home')
+          }
+        }
+      })
+    }
     // 登陆失败处理逻辑
     // 手机号码的验证
-    checkMobile (val) {
+    /*     checkMobile (val) {
       return new Promise(resolve => {
         this.$toast.loading('验证中...')
 
@@ -110,7 +110,7 @@ export default {
           }
         }, 100)
       })
-    }
+    } */
   }
 }
 </script>

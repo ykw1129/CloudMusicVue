@@ -27,7 +27,8 @@ export default {
     }
   },
   created () {
-    this.$store.dispatch('getUserStatus')
+    this.$store.dispatch('getUserID')
+    this.$store.dispatch('getIsLogin')
   },
   methods: {
 
