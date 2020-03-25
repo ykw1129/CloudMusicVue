@@ -7,22 +7,28 @@
         alt="logo"
       >
     </div>
-    <van-form ref="LoginRef">
+    <ValidationObserver>
+ <van-form ref="LoginRef">
+      <ValidationProvider rules="required|mobile" name="phone" v-slot="{ errors }">
       <van-field
         v-model="LoginForm.phone"
         label="手机号码"
-        :name="phone"
+        type="number"
+        maxlength="11"
         placeholder="手机号码"
-        :rules="loginPhoneRules"
+        :error-message="errors[0]"
       />
+      </ValidationProvider>
+      <ValidationProvider rules="required|password" name="password" v-slot="{ errors }">
       <van-field
         v-model="LoginForm.password"
         type="password"
         label="密码"
-        :name="password"
+        maxlength="16"
         placeholder="密码"
-        :rules="loginPasswordRules"
+        :error-message="errors[0]"
       />
+      </ValidationProvider>
       <div style="margin: 16px;">
         <van-button
           round
@@ -38,6 +44,7 @@
         </div>
       </div>
     </van-form>
+    </ValidationObserver>
   </div>
 </template>
 
@@ -45,29 +52,10 @@
 export default {
   data () {
     return {
-      phone: '',
-      password: '',
       LoginForm: {
         phone: '',
         password: ''
       },
-      regMobile: /^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/,
-      loginPhoneRules: [
-        { required: true, message: '请填写手机号码', trigger: 'onChange' },
-        {
-          validator: this.checkMobile,
-          message: '请输入正确的手机号码',
-          trigger: 'onBlur'
-        }
-      ],
-      loginPasswordRules: [
-        { required: true, message: '请填写您的密码', trigger: 'onChange' },
-        {
-          validator: this.checkPassword,
-          message: '密码长度应该在6-16个字符之间',
-          trigger: 'onBlur'
-        }
-      ],
       isLogin: false
     }
   },
@@ -75,18 +63,19 @@ export default {
     // 点击登录事件函数
     onClickLogin () {
       this.getLogin()
-      this.loginToast()
     },
     // 登录请求post请求
     async getLogin () {
+      this.checkForm()
       const { data: res } = await this.$http.post(
-        '/login/cellphone',
-        this.LoginForm
+        '/login/cellphone', { phone: this.LoginForm.phone, password: this.LoginForm.password }, { withCredentials: true }
       )
-      if (res.code === 200) {
+      console.log(res)
+      if (res.code !== 200) return this.$notify({ type: 'danger', message: '账号或密码错误！' })
+      else {
         this.$notify({
           type: 'success',
-          message: `登录成功!${res.profile.signature} 欢迎回来！`
+          message: `${res.profile.nickname} 欢迎回来！`
         })
         this.isLogin = true
         console.log(res)
@@ -94,21 +83,9 @@ export default {
         this.$router.push('/home')
       }
     },
-    // 登陆失败处理逻辑
-    loginToast () {
-      this.$toast.loading('正在登录...')
-      let seconds = 5
-      const timer = setInterval(() => {
-        seconds--
-        if (seconds === 0 && this.isLogin === false) {
-          this.$notify({
-            type: 'danger',
-            message: '登陆失败！'
-          })
-          clearInterval(timer)
-        }
-      }, 1000)
+    checkForm () {
     },
+    // 登陆失败处理逻辑
     // 手机号码的验证
     checkMobile (val) {
       return new Promise(resolve => {

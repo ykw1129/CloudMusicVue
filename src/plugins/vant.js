@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { Form, Button, Field, Toast, Icon, Loading, Image, Notify, Skeleton, Tabbar, TabbarItem, Col, Row } from 'vant'
+import { Search, Form, Button, Field, Toast, Icon, Loading, Image, Notify, Skeleton, Tabbar, TabbarItem, Col, Row } from 'vant'
 Vue.use(Tabbar)
 Vue.use(TabbarItem)
 Vue.use(Form)
@@ -13,3 +13,4 @@ Vue.use(Notify)
 Vue.use(Skeleton)
 Vue.use(Row)
 Vue.use(Col)
+Vue.use(Search)
