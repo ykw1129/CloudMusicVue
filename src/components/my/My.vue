@@ -1,13 +1,13 @@
 <template>
   <div id="my">
     <van-row class="search">
-      <van-col span="4">
+      <van-col span="3">
         <img
-          src="../../assets/image/logo.jpg"
+          :src="avaterUrl"
           alt="user-icon"
         >
       </van-col>
-      <van-col span="20">
+      <van-col span="21">
         <van-search
           v-model="value"
           shape="round"
@@ -23,15 +23,30 @@
 export default {
   data () {
     return {
-      value: ''
+      value: '',
+      avaterUrl: ''
+
     }
   },
   created () {
-    this.$store.dispatch('getUserID')
-    this.$store.dispatch('getIsLogin')
+
   },
   methods: {
+    // 获取用户信息 , 歌单，收藏，mv, dj 数量
+    async  getUserPlaylistStats () {
+      const { data: res } = await this.$http.get('/user/subcount', {
+        params: { timestamp: Date.now() }, withCredentials: true
+      })
+      console.log(res)
+    },
+    // 获取用户登录状态
+    async getUserStatus () {
 
+    },
+    // 获取用户详情
+    async getUserDetail () {
+
+    }
   }
 }
 </script>
@@ -44,6 +59,7 @@ export default {
 .van-col:nth-child(1){
   height: 100%;
   text-align: center;
+  padding: 6px;
   img{
     height: 100%;
     border-radius: 50%;

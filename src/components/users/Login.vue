@@ -55,8 +55,8 @@ export default {
   data () {
     return {
       LoginForm: {
-        phone: '',
-        password: ''
+        phone: '18879496391',
+        password: 'yekewu1129'
       },
       isLogin: true
     }
@@ -80,6 +80,9 @@ export default {
             window.sessionStorage.setItem('isLogin', this.isLogin)
             window.sessionStorage.setItem('token', res.token)
             window.sessionStorage.setItem('userid', res.profile.userId)
+            this.$store.dispatch('getUserID')
+            this.$store.dispatch('getIsLogin')
+            this.$store.dispatch('getUserAvater', res.profile.avatarUrl)
             this.$router.push('/home')
           }
         }
