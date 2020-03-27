@@ -16,6 +16,41 @@
         />
       </van-col>
     </van-row>
+    <van-swipe
+      class="my-swipe"
+      :autoplay="3000"
+      indicator-color="white"
+    >
+      <van-swipe-item>1</van-swipe-item>
+      <van-swipe-item>2</van-swipe-item>
+      <van-swipe-item>3</van-swipe-item>
+      <van-swipe-item>4</van-swipe-item>
+    </van-swipe>
+    <van-tabs v-model="active" class="playlist-tabs">
+      <van-tab title="我创建的歌单" >
+        <van-grid :column-num="3" square clickable icon-size="64px">
+          <van-grid-item
+            v-for="item in playlist"
+            :key="item.id"
+            :icon="item.coverImgUrl"
+            :text="item.name"
+          ></van-grid-item>
+        </van-grid>
+      </van-tab>
+      <van-tab title="我喜欢的歌单">
+        <van-grid :column-num="3">
+          <van-grid-item
+            v-for="value in 6"
+            :key="value"
+            text="2"
+          >
+          <van-image src="https://img.yzcdn.cn/vant/apple-1.jpg" />
+          <span>这是歌单这是歌单这是歌单这是歌单这是歌单这是歌单</span>
+          </van-grid-item>
+        </van-grid>
+      </van-tab>
+    </van-tabs>
+
   </div>
 </template>
 
@@ -23,17 +58,29 @@
 export default {
   data () {
     return {
+      active: '标签 1',
       userId: '',
       value: '',
-      avatarUrl: ''
+      avatarUrl: '',
+      playlist: []
 
     }
   },
   created () {
-    this.storeAvatarUrl()
+    // 初始话store
+    this.storeInit()
+    this.getUserplayList()
     // this.userId = this.$store.state.userId
   },
   methods: {
+    // 获取用户歌单
+    async getUserplayList () {
+      const { data: res } = await this.$http.get('/user/playlist', {
+        params: { uid: this.$store.state.userId }
+      })
+      console.log(res.playlist)
+      this.playlist = res.playlist
+    },
     // 获取用户信息 , 歌单，收藏，mv, dj 数量
     async  getUserPlaylistStats () {
       const { data: res } = await this.$http.get('/user/subcount', {
@@ -51,7 +98,7 @@ export default {
     // 获取用户详情
     async getUserDetail () {
       const { data: res } = await this.$http.get('/user/detail', {
-        params: { uid: this.userId, timestamp: Date.now(), withCredentials: true }
+        params: { uid: this.userId, timestamp: Date.now() }, withCredentials: true
       })
       if (res.code !== 200) {
         return this.$notify({ type: 'danger', message: '账号或密码错误！' })
@@ -60,10 +107,19 @@ export default {
         this.avatarUrl = res.profile.avatarUrl
       }
     },
+    // 获取热门话题
+    async getHotTopic () {
+      const { data: res } = await this.$http.get('/hot/topic', {
+        params: { limit: 30, offset: 30 }, withCredentials: true
+      })
+      console.log(res)
+    },
     // 之所以这样获取是防止用户logo闪烁问题
-    storeAvatarUrl () {
+    storeInit () {
+      this.$store.dispatch('getUserID')
       this.$store.dispatch('getUserAvatar')
       this.avatarUrl = this.$store.state.avatarUrl
+      this.userId = this.$store.state.userId
     }
   }
 }
@@ -77,12 +133,25 @@ export default {
 .van-col:nth-child(1){
   height: 100%;
   text-align: center;
-  padding: 6px;
+  padding: 8px;
   img{
     height: 100%;
     border-radius: 50%;
   }
 }
 }
-
+.my-swipe .van-swipe-item {
+  color: #fff;
+  font-size: 20px;
+  line-height: 150px;
+  text-align: center;
+  background-color: rgb(235, 32, 0);
+}
+.playlist-tabs{
+  .van-grid-item{
+    span{
+      text-overflow: ellipsis;
+    }
+  }
+}
 </style>

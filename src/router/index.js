@@ -42,6 +42,7 @@ router.beforeEach((to, from, next) => {
   // if (to.path === '/login') return next()
   const tokenStr = window.sessionStorage.getItem('token')
   if (!tokenStr) {
+    window.sessionStorage.clear()
     if (to.path === '/register') {
       return next()
     } else { return next('/login') }

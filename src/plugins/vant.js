@@ -1,5 +1,6 @@
 import Vue from 'vue'
-import { Search, Form, Button, Field, Toast, Icon, Loading, Image, Notify, Skeleton, Tabbar, TabbarItem, Col, Row } from 'vant'
+import { Grid, GridItem, Tab, Tabs, Swipe, SwipeItem, Search, Form, Button, Field, Toast, Icon, Loading, Image, Notify, Skeleton, Tabbar, TabbarItem, Col, Row } from 'vant'
+
 Vue.use(Tabbar)
 Vue.use(TabbarItem)
 Vue.use(Form)
@@ -14,3 +15,9 @@ Vue.use(Skeleton)
 Vue.use(Row)
 Vue.use(Col)
 Vue.use(Search)
+Vue.use(Swipe)
+Vue.use(SwipeItem)
+Vue.use(Tab)
+Vue.use(Tabs)
+Vue.use(Grid)
+Vue.use(GridItem)
