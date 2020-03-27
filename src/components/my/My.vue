@@ -1,26 +1,20 @@
 <template>
   <div id="my">
     <van-row class="search">
-      <van-skeleton
-        avatar
-        :row="1"
-        :loading="loading"
-      >
-        <van-col span="3">
-          <img
-            :src="avatarUrl"
-            alt="user-icon"
-          >
-        </van-col>
-        <van-col span="21">
-          <van-search
-            v-model="value"
-            shape="round"
-            background="rgb(235,32,0)"
-            placeholder="请输入歌曲，歌手，专辑"
-          />
-        </van-col>
-      </van-skeleton>
+      <van-col span="3">
+        <img
+          :src="avatarUrl"
+          alt="user-icon"
+        >
+      </van-col>
+      <van-col span="21">
+        <van-search
+          v-model="value"
+          shape="round"
+          background="rgb(235,32,0)"
+          placeholder="请输入歌曲，歌手，专辑"
+        />
+      </van-col>
     </van-row>
     <van-swipe
       class="my-swipe"
@@ -42,22 +36,48 @@
       v-model="active"
       class="playlist-tabs"
     >
-      <van-tab title="创建的歌单">
+      <van-tab
+        title="创建的歌单"
+        class="createlist"
+      >
         <van-grid
           :column-num="3"
           square
           clickable
           icon-size="64px"
         >
+
+          <van-grid-item
+            v-for="item in playlist"
+            :key="item.id"
+          >
+
+              <i>
+                <img v-lazy="item.coverImgUrl" />
+              </i>
+              <span>{{item.name}}</span>
+
+          </van-grid-item>
+
+        </van-grid>
+      </van-tab>
+      <van-tab title="喜欢的歌单">
+        <van-grid
+          :column-num="3"
+          square
+          clickable
+          icon-size="64px"
+        >
+
           <van-grid-item
             v-for="item in playlist"
             :key="item.id"
             :icon="item.coverImgUrl"
             :text="item.name"
-          ></van-grid-item>
+          >
+          </van-grid-item>
+
         </van-grid>
-      </van-tab>
-      <van-tab title="喜欢的歌单">
       </van-tab>
     </van-tabs>
 
@@ -170,8 +190,32 @@ export default {
   line-height: 150px;
   text-align: center;
 }
+.createlist{
+    .van-grid-item{
 
-.van-grid-item__text{
-  text-align: center;
+      i{
+            position: relative;
+    display: inline-block;
+    font: normal normal normal 14px/1 vant-icon;
+        text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+        font-size:64px ;
+        img{
+            text-align: center;
+            width: 1em;
+            height: 1em;
+            object-fit: contain;
+        }
+      }
+
+      span{
+        text-align: center;
+    color: #646566;
+    font-size: 12px;
+    word-wrap: break-word;
+    padding-top: 8px;
+
+      }
+    }
 }
 </style>
