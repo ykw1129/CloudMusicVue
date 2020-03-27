@@ -9,7 +9,7 @@ export default new Vuex.Store({
     userId: '',
     // 是否登录
     isLogin: false,
-    avaterUrl: ''
+    avatarUrl: ''
 
   },
   mutations: {
@@ -19,8 +19,8 @@ export default new Vuex.Store({
     GETUSERID (state, id) {
       state.userId = id
     },
-    GETUSERAVATER (state, url) {
-      state.avaterUrl = url
+    GETUSERAVATAR (state, url) {
+      state.avatarUrl = url
     }
   },
   actions: {
@@ -31,8 +31,8 @@ export default new Vuex.Store({
     getIsLogin ({ commit }) {
       commit('GETISLOGIN', window.sessionStorage.getItem('isLogin'))
     },
-    getUserAvater ({ commit }, url) {
-      commit('GETUSERAVATER', url)
+    getUserAvatar ({ commit }) {
+      commit('GETUSERAVATAR', window.sessionStorage.getItem('avatarUrl'))
     }
 
   },

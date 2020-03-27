@@ -3,7 +3,7 @@
     <van-row class="search">
       <van-col span="3">
         <img
-          :src="avaterUrl"
+          :src="avatarUrl"
           alt="user-icon"
         >
       </van-col>
@@ -23,13 +23,15 @@
 export default {
   data () {
     return {
+      userId: '',
       value: '',
-      avaterUrl: ''
+      avatarUrl: ''
 
     }
   },
   created () {
-
+    this.storeAvatarUrl()
+    // this.userId = this.$store.state.userId
   },
   methods: {
     // 获取用户信息 , 歌单，收藏，mv, dj 数量
@@ -41,11 +43,27 @@ export default {
     },
     // 获取用户登录状态
     async getUserStatus () {
-
+      const { data: res } = await this.$http.get('/login/status', {
+        params: { timestamp: Date.now() }, withCredentials: true
+      })
+      console.log(res)
     },
     // 获取用户详情
     async getUserDetail () {
-
+      const { data: res } = await this.$http.get('/user/detail', {
+        params: { uid: this.userId, timestamp: Date.now(), withCredentials: true }
+      })
+      if (res.code !== 200) {
+        return this.$notify({ type: 'danger', message: '账号或密码错误！' })
+      } else {
+        console.log(res)
+        this.avatarUrl = res.profile.avatarUrl
+      }
+    },
+    // 之所以这样获取是防止用户logo闪烁问题
+    storeAvatarUrl () {
+      this.$store.dispatch('getUserAvatar')
+      this.avatarUrl = this.$store.state.avatarUrl
     }
   }
 }
