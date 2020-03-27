@@ -1,34 +1,54 @@
 <template>
   <div id="my">
     <van-row class="search">
-      <van-col span="3">
-        <img
-          :src="avatarUrl"
-          alt="user-icon"
-        >
-      </van-col>
-      <van-col span="21">
-        <van-search
-          v-model="value"
-          shape="round"
-          background="rgb(235,32,0)"
-          placeholder="请输入歌曲，歌手，专辑"
-        />
-      </van-col>
+      <van-skeleton
+        avatar
+        :row="1"
+        :loading="loading"
+      >
+        <van-col span="3">
+          <img
+            :src="avatarUrl"
+            alt="user-icon"
+          >
+        </van-col>
+        <van-col span="21">
+          <van-search
+            v-model="value"
+            shape="round"
+            background="rgb(235,32,0)"
+            placeholder="请输入歌曲，歌手，专辑"
+          />
+        </van-col>
+      </van-skeleton>
     </van-row>
     <van-swipe
       class="my-swipe"
       :autoplay="3000"
       indicator-color="white"
+      height="159"
     >
-      <van-swipe-item>1</van-swipe-item>
-      <van-swipe-item>2</van-swipe-item>
-      <van-swipe-item>3</van-swipe-item>
-      <van-swipe-item>4</van-swipe-item>
+      <van-swipe-item
+        v-for="item in bannerlist"
+        :key="item.bannerId"
+      >
+        <van-image
+          :src="item.pic"
+          type="contain"
+        />
+      </van-swipe-item>
     </van-swipe>
-    <van-tabs v-model="active" class="playlist-tabs">
-      <van-tab title="我创建的歌单" >
-        <van-grid :column-num="3" square clickable icon-size="64px">
+    <van-tabs
+      v-model="active"
+      class="playlist-tabs"
+    >
+      <van-tab title="创建的歌单">
+        <van-grid
+          :column-num="3"
+          square
+          clickable
+          icon-size="64px"
+        >
           <van-grid-item
             v-for="item in playlist"
             :key="item.id"
@@ -37,17 +57,7 @@
           ></van-grid-item>
         </van-grid>
       </van-tab>
-      <van-tab title="我喜欢的歌单">
-        <van-grid :column-num="3">
-          <van-grid-item
-            v-for="value in 6"
-            :key="value"
-            text="2"
-          >
-          <van-image src="https://img.yzcdn.cn/vant/apple-1.jpg" />
-          <span>这是歌单这是歌单这是歌单这是歌单这是歌单这是歌单</span>
-          </van-grid-item>
-        </van-grid>
+      <van-tab title="喜欢的歌单">
       </van-tab>
     </van-tabs>
 
@@ -62,14 +72,17 @@ export default {
       userId: '',
       value: '',
       avatarUrl: '',
-      playlist: []
-
+      playlist: [],
+      phoneType: 1,
+      bannerlist: [],
+      loading: true
     }
   },
   created () {
     // 初始话store
     this.storeInit()
     this.getUserplayList()
+
     // this.userId = this.$store.state.userId
   },
   methods: {
@@ -78,11 +91,21 @@ export default {
       const { data: res } = await this.$http.get('/user/playlist', {
         params: { uid: this.$store.state.userId }
       })
+      console.log()
       console.log(res.playlist)
       this.playlist = res.playlist
+      this.getBanner()
+    },
+    async getBanner () {
+      const { data: res } = await this.$http.get('/banner', {
+        params: { type: this.phoneType }
+      })
+      console.log(res)
+      this.bannerlist = res.banners
+      this.loading = false
     },
     // 获取用户信息 , 歌单，收藏，mv, dj 数量
-    async  getUserPlaylistStats () {
+    async  getUserPlaylistStatus () {
       const { data: res } = await this.$http.get('/user/subcount', {
         params: { timestamp: Date.now() }, withCredentials: true
       })
@@ -121,6 +144,7 @@ export default {
       this.avatarUrl = this.$store.state.avatarUrl
       this.userId = this.$store.state.userId
     }
+
   }
 }
 </script>
@@ -145,13 +169,9 @@ export default {
   font-size: 20px;
   line-height: 150px;
   text-align: center;
-  background-color: rgb(235, 32, 0);
 }
-.playlist-tabs{
-  .van-grid-item{
-    span{
-      text-overflow: ellipsis;
-    }
-  }
+
+.van-grid-item__text{
+  text-align: center;
 }
 </style>
