@@ -37,13 +37,7 @@
       class="playlist-tabs"
     >
       <van-tab title="每日推荐">
-        <van-panel
-          title="标题"
-          desc="描述信息"
-          status="状态"
-          icon="photo-o"
-        >
-        </van-panel>
+        <recommend imgurl="https://p2.music.126.net/PjmeANWOl67Q3HnG3vEFfw==/109951164221437658.jpg" title="网易云热评10w+的中文歌" text="根据你喜欢的歌单《华语‖一听就忍不住想哭的歌①》推荐"></recommend>
       </van-tab>
       <van-tab
         title="我的歌单"
@@ -74,6 +68,7 @@
 </template>
 
 <script>
+import recommend from '../../components/my/recommend'
 export default {
   data () {
     return {
@@ -86,6 +81,9 @@ export default {
       bannerlist: [],
       loading: true
     }
+  },
+  components: {
+    recommend
   },
   created () {
     // 初始话store
