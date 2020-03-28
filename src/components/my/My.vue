@@ -36,8 +36,26 @@
       v-model="active"
       class="playlist-tabs"
     >
+     <van-tab title="每日推荐">
+        <van-grid
+          :column-num="3"
+          square
+          clickable
+          icon-size="64px"
+        >
+
+          <van-grid-item
+            v-for="item in playlist"
+            :key="item.id"
+            :icon="item.coverImgUrl"
+            :text="item.name"
+          >
+          </van-grid-item>
+
+        </van-grid>
+      </van-tab>
       <van-tab
-        title="创建的歌单"
+        title="我的歌单"
         class="createlist"
       >
         <van-grid
@@ -59,24 +77,6 @@
 
         </van-grid>
       </van-tab>
-      <van-tab title="喜欢的歌单">
-        <van-grid
-          :column-num="3"
-          square
-          clickable
-          icon-size="64px"
-        >
-
-          <van-grid-item
-            v-for="item in playlist"
-            :key="item.id"
-            :icon="item.coverImgUrl"
-            :text="item.name"
-          >
-          </van-grid-item>
-
-        </van-grid>
-      </van-tab>
     </van-tabs>
 
   </div>
@@ -86,7 +86,7 @@
 export default {
   data () {
     return {
-      active: '标签 1',
+      active: '',
       userId: '',
       value: '',
       avatarUrl: '',
@@ -99,8 +99,8 @@ export default {
   created () {
     // 初始话store
     this.storeInit()
-    this.getUserplayList()
-
+    // this.getUserplayList()
+    this.getSubscribe()
     // this.userId = this.$store.state.userId
   },
   methods: {
@@ -118,7 +118,6 @@ export default {
       const { data: res } = await this.$http.get('/banner', {
         params: { type: this.phoneType }
       })
-      console.log(res)
       this.bannerlist = res.banners
       this.loading = false
     },
@@ -161,6 +160,12 @@ export default {
       this.$store.dispatch('getUserAvatar')
       this.avatarUrl = this.$store.state.avatarUrl
       this.userId = this.$store.state.userId
+    },
+    async getSubscribe () {
+      const { data: res } = await this.$http.get('/recommend/resource', {
+        withCredentials: true
+      })
+      console.log(res)
     }
 
   }
