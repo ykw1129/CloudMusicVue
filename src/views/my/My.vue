@@ -36,23 +36,14 @@
       v-model="active"
       class="playlist-tabs"
     >
-     <van-tab title="每日推荐">
-        <van-grid
-          :column-num="3"
-          square
-          clickable
-          icon-size="64px"
+      <van-tab title="每日推荐">
+        <van-panel
+          title="标题"
+          desc="描述信息"
+          status="状态"
+          icon="photo-o"
         >
-
-          <van-grid-item
-            v-for="item in playlist"
-            :key="item.id"
-            :icon="item.coverImgUrl"
-            :text="item.name"
-          >
-          </van-grid-item>
-
-        </van-grid>
+        </van-panel>
       </van-tab>
       <van-tab
         title="我的歌单"
@@ -69,10 +60,10 @@
             v-for="item in playlist"
             :key="item.id"
           >
-              <i>
-                <img v-lazy="item.coverImgUrl" />
-              </i>
-              <span>{{item.name}}</span>
+            <i>
+              <img v-lazy="item.coverImgUrl" />
+            </i>
+            <span>{{item.name}}</span>
           </van-grid-item>
 
         </van-grid>

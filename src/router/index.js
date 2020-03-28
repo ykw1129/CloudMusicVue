@@ -1,15 +1,15 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-const My = () => import('../components/my/My')
-const Find = () => import('../components/find/Find')
-const Village = () => import('../components/village/Village')
+const My = () => import('../views/my/My')
+const Find = () => import('../views/find/Find')
+const Village = () => import('../views/village/Village')
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/home',
     name: 'Home',
-    component: () => import('../components/home/Home'),
+    component: () => import('../views/home/Home'),
     children: [
       { path: '/my', component: My },
       { path: '/find', component: Find },
@@ -19,18 +19,18 @@ const routes = [
   },
   {
     path: '/',
-    component: () => import('../components/home/Home'),
+    component: () => import('../views/home/Home'),
     redirect: '/login'
   },
   {
     path: '/login',
     name: 'Login',
-    component: () => import('../components/users/Login')
+    component: () => import('../views/users/Login')
   },
   {
     path: '/register',
     name: 'Register',
-    component: () => import('../components/users/Register')
+    component: () => import('../views/users/Register')
   }
 ]
 
