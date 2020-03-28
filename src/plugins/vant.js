@@ -22,5 +22,5 @@ Vue.use(Tabs)
 Vue.use(Grid)
 Vue.use(GridItem)
 Vue.use(Lazyload, {
-  lazyComponent: true
+
 })

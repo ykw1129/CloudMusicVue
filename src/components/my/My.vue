@@ -51,12 +51,10 @@
             v-for="item in playlist"
             :key="item.id"
           >
-
               <i>
                 <img v-lazy="item.coverImgUrl" />
               </i>
               <span>{{item.name}}</span>
-
           </van-grid-item>
 
         </van-grid>
@@ -170,6 +168,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
+  img[lazy=loading] {
+    background: gray;
+    transition: all 0.3s;
+  }
 .search{
     background-color: rgb(235, 32, 0);
   height: 54px;
