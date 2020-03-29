@@ -16,24 +16,9 @@
         />
       </van-col>
     </van-row>
-    <van-swipe
-      class="my-swipe"
-      :autoplay="3000"
-      indicator-color="white"
-      height="159"
-    >
-      <van-swipe-item
-        v-for="item in bannerlist"
-        :key="item.bannerId"
-      >
-        <van-image
-          :src="item.pic"
-          type="contain"
-        />
-      </van-swipe-item>
-    </van-swipe>
+    <myswipe />
     <van-tabs
-      @rendered="getRendred()"
+    @rendered="getChange"
       v-model="active"
       class="playlist-tabs"
     >
@@ -98,23 +83,15 @@
 
 <script>
 import recommend from '../../components/my/recommend'
+import myswipe from '../../components/my/myswipe'
 export default {
   data () {
-    var rendered = (name, title) => {
-      if (name === 'subscribe') {
-        this.getSubscribe()
-      } else {
-        this.getUserplayList()
-      }
-    }
     return {
       active: 'subscribe',
       userId: '',
       value: '',
       avatarUrl: '',
       playlist: [],
-      phoneType: 1,
-      bannerlist: [],
       recommendlist: [],
       error: false,
       loading: true,
@@ -122,14 +99,12 @@ export default {
     }
   },
   components: {
-    recommend
+    recommend,
+    myswipe
   },
   created () {
     // 初始话store
     this.storeInit()
-    // this.getUserplayList()
-    // this.getSubscribe()
-    // this.userId = this.$store.state.userId
   },
   methods: {
     // 获取用户歌单
@@ -140,14 +115,6 @@ export default {
       console.log()
       console.log(res.playlist)
       this.playlist = res.playlist
-      this.getBanner()
-    },
-    async getBanner () {
-      const { data: res } = await this.$http.get('/banner', {
-        params: { type: this.phoneType }
-      })
-      this.bannerlist = res.banners
-      this.loading = false
     },
     // 获取用户信息 , 歌单，收藏，mv, dj 数量
     async  getUserPlaylistStatus () {
@@ -204,8 +171,12 @@ export default {
         console.log(res)
       }
     },
-    getRenderd (rendered) {
-      
+    getChange (name, title) {
+      if (name === 'subscribe') {
+        this.getSubscribe()
+      } else {
+        this.getUserplayList()
+      }
     }
   }
 }
@@ -229,12 +200,6 @@ export default {
     border-radius: 50%;
   }
 }
-}
-.my-swipe .van-swipe-item {
-  color: #fff;
-  font-size: 20px;
-  line-height: 150px;
-  text-align: center;
 }
 .createlist{
     .van-grid-item{
