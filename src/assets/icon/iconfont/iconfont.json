@@ -1,0 +1,23 @@
+{
+  "id": "1721759",
+  "name": "no name",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "749772",
+      "name": "推荐",
+      "font_class": "tuijian",
+      "unicode": "e608",
+      "unicode_decimal": 58888
+    },
+    {
+      "icon_id": "866517",
+      "name": "喜欢",
+      "font_class": "xihuan",
+      "unicode": "e637",
+      "unicode_decimal": 58935
+    }
+  ]
+}

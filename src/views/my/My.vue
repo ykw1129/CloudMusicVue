@@ -16,48 +16,47 @@
         />
       </van-col>
     </van-row>
-    <van-swipe
-      class="my-swipe"
-      :autoplay="3000"
-      indicator-color="white"
-      height="159"
-    >
-      <van-swipe-item
-        v-for="item in bannerlist"
-        :key="item.bannerId"
-      >
-        <van-image
-          :src="item.pic"
-          type="contain"
-        />
-      </van-swipe-item>
-    </van-swipe>
+    <myswipe />
     <van-tabs
+    @rendered="getChange"
       v-model="active"
       class="playlist-tabs"
     >
-     <van-tab title="每日推荐">
-        <van-grid
-          :column-num="3"
-          square
-          clickable
-          icon-size="64px"
+      <van-tab name="subscribe">
+        <template #title>
+          <van-icon name="good-job-o" size="15" color="rgb(235, 32, 0)" />
+          &nbsp;
+            <span>每日推荐</span>
+        </template>
+        <van-list
+          v-model="loading"
+          :error.sync="error"
+          :finished="finished"
+          finished-text="没有更多了"
+          error-text="请求失败，点击重新加载"
         >
-
-          <van-grid-item
-            v-for="item in playlist"
-            :key="item.id"
-            :icon="item.coverImgUrl"
-            :text="item.name"
-          >
-          </van-grid-item>
-
-        </van-grid>
+          <template v-slot:default>
+            <recommend
+              :key="recommend.id"
+              v-for="recommend in recommendlist"
+              :imgurl="recommend.picUrl"
+              :title="recommend.name"
+              :text="recommend.copywriter"
+              :username="recommend.creator.nickname"
+              :userimg="recommend.creator.avatarUrl"
+            ></recommend>
+          </template>
+        </van-list>
       </van-tab>
       <van-tab
-        title="我的歌单"
         class="createlist"
+        name="mylist"
       >
+              <template #title>
+          <van-icon name="like-o" size="15" color="rgb(235, 32, 0)" />
+          &nbsp;
+          <span>我的歌单</span>
+        </template>
         <van-grid
           :column-num="3"
           square
@@ -69,10 +68,10 @@
             v-for="item in playlist"
             :key="item.id"
           >
-              <i>
-                <img v-lazy="item.coverImgUrl" />
-              </i>
-              <span>{{item.name}}</span>
+            <i>
+              <img v-lazy="item.coverImgUrl" />
+            </i>
+            <span>{{item.name}}</span>
           </van-grid-item>
 
         </van-grid>
@@ -83,25 +82,29 @@
 </template>
 
 <script>
+import recommend from '../../components/my/recommend'
+import myswipe from '../../components/my/myswipe'
 export default {
   data () {
     return {
-      active: '',
+      active: 'subscribe',
       userId: '',
       value: '',
       avatarUrl: '',
       playlist: [],
-      phoneType: 1,
-      bannerlist: [],
-      loading: true
+      recommendlist: [],
+      error: false,
+      loading: true,
+      finished: false
     }
+  },
+  components: {
+    recommend,
+    myswipe
   },
   created () {
     // 初始话store
     this.storeInit()
-    // this.getUserplayList()
-    this.getSubscribe()
-    // this.userId = this.$store.state.userId
   },
   methods: {
     // 获取用户歌单
@@ -112,14 +115,6 @@ export default {
       console.log()
       console.log(res.playlist)
       this.playlist = res.playlist
-      this.getBanner()
-    },
-    async getBanner () {
-      const { data: res } = await this.$http.get('/banner', {
-        params: { type: this.phoneType }
-      })
-      this.bannerlist = res.banners
-      this.loading = false
     },
     // 获取用户信息 , 歌单，收藏，mv, dj 数量
     async  getUserPlaylistStatus () {
@@ -161,13 +156,28 @@ export default {
       this.avatarUrl = this.$store.state.avatarUrl
       this.userId = this.$store.state.userId
     },
+    // 每日推荐歌单
     async getSubscribe () {
       const { data: res } = await this.$http.get('/recommend/resource', {
         withCredentials: true
       })
-      console.log(res)
+      if (res.code !== 200) {
+        this.loading = false
+        this.error = true
+      } else {
+        this.loading = false
+        this.finished = true
+        this.recommendlist = res.recommend
+        console.log(res)
+      }
+    },
+    getChange (name, title) {
+      if (name === 'subscribe') {
+        this.getSubscribe()
+      } else {
+        this.getUserplayList()
+      }
     }
-
   }
 }
 </script>
@@ -190,12 +200,6 @@ export default {
     border-radius: 50%;
   }
 }
-}
-.my-swipe .van-swipe-item {
-  color: #fff;
-  font-size: 20px;
-  line-height: 150px;
-  text-align: center;
 }
 .createlist{
     .van-grid-item{
