@@ -37,7 +37,25 @@
       class="playlist-tabs"
     >
       <van-tab title="每日推荐">
-        <recommend imgurl="https://p2.music.126.net/PjmeANWOl67Q3HnG3vEFfw==/109951164221437658.jpg" title="网易云热评10w+的中文歌" text="根据你喜欢的歌单《华语‖一听就忍不住想哭的歌①》推荐"></recommend>
+        <van-list
+          v-model="loading"
+          :error.sync="error"
+          :finished="finished"
+          finished-text="没有更多了"
+          error-text="请求失败，点击重新加载"
+        >
+          <template v-slot:default>
+            <recommend
+              :key="recommend.id"
+              v-for="recommend in recommendlist"
+              :imgurl="recommend.picUrl"
+              :title="recommend.name"
+              :text="recommend.copywriter"
+              :username="recommend.creator.nickname"
+              :userimg="recommend.creator.avatarUrl"
+            ></recommend>
+          </template>
+        </van-list>
       </van-tab>
       <van-tab
         title="我的歌单"
@@ -79,7 +97,11 @@ export default {
       playlist: [],
       phoneType: 1,
       bannerlist: [],
-      loading: true
+      recommendlist: [],
+      list: [1, 2, 3, 4, 5],
+      error: false,
+      loading: true,
+      finished: false
     }
   },
   components: {
@@ -154,6 +176,9 @@ export default {
       const { data: res } = await this.$http.get('/recommend/resource', {
         withCredentials: true
       })
+      this.loading = false
+      this.finished = true
+      this.recommendlist = res.recommend
       console.log(res)
     }
 

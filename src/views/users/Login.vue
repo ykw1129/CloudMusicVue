@@ -145,6 +145,7 @@ export default {
     margin: 30px;
     a {
       color: gray;
+      font-size: 0.8rem;
     }
   }
 }
