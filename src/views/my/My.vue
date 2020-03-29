@@ -33,10 +33,16 @@
       </van-swipe-item>
     </van-swipe>
     <van-tabs
+      @rendered="getRendred()"
       v-model="active"
       class="playlist-tabs"
     >
-      <van-tab title="每日推荐">
+      <van-tab name="subscribe">
+        <template #title>
+          <van-icon name="good-job-o" size="15" color="rgb(235, 32, 0)" />
+          &nbsp;
+            <span>每日推荐</span>
+        </template>
         <van-list
           v-model="loading"
           :error.sync="error"
@@ -58,9 +64,14 @@
         </van-list>
       </van-tab>
       <van-tab
-        title="我的歌单"
         class="createlist"
+        name="mylist"
       >
+              <template #title>
+          <van-icon name="like-o" size="15" color="rgb(235, 32, 0)" />
+          &nbsp;
+          <span>我的歌单</span>
+        </template>
         <van-grid
           :column-num="3"
           square
@@ -89,8 +100,15 @@
 import recommend from '../../components/my/recommend'
 export default {
   data () {
+    var rendered = (name, title) => {
+      if (name === 'subscribe') {
+        this.getSubscribe()
+      } else {
+        this.getUserplayList()
+      }
+    }
     return {
-      active: '',
+      active: 'subscribe',
       userId: '',
       value: '',
       avatarUrl: '',
@@ -98,7 +116,6 @@ export default {
       phoneType: 1,
       bannerlist: [],
       recommendlist: [],
-      list: [1, 2, 3, 4, 5],
       error: false,
       loading: true,
       finished: false
@@ -111,7 +128,7 @@ export default {
     // 初始话store
     this.storeInit()
     // this.getUserplayList()
-    this.getSubscribe()
+    // this.getSubscribe()
     // this.userId = this.$store.state.userId
   },
   methods: {
@@ -172,16 +189,24 @@ export default {
       this.avatarUrl = this.$store.state.avatarUrl
       this.userId = this.$store.state.userId
     },
+    // 每日推荐歌单
     async getSubscribe () {
       const { data: res } = await this.$http.get('/recommend/resource', {
         withCredentials: true
       })
-      this.loading = false
-      this.finished = true
-      this.recommendlist = res.recommend
-      console.log(res)
+      if (res.code !== 200) {
+        this.loading = false
+        this.error = true
+      } else {
+        this.loading = false
+        this.finished = true
+        this.recommendlist = res.recommend
+        console.log(res)
+      }
+    },
+    getRenderd (rendered) {
+      
     }
-
   }
 }
 </script>

@@ -5,6 +5,7 @@
 </template>
 <script>
 import './assets/css/reset.css'
+import './assets/icon/iconfont/iconfont.css'
 export default {
 
 }
