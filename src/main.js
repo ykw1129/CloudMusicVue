@@ -7,7 +7,7 @@ import { ValidationProvider, extend, ValidationObserver } from 'vee-validate'
 import { required, email } from 'vee-validate/dist/rules'
 import './plugins/rules'
 import './plugins/vant'
-import './plugins/cancel'
+import './plugins/interceptors'
 // import vant from 'vant'
 extend('required', required)
 extend('email', email)

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import { clearPending } from '../plugins/pendding/pendding'
 const My = () => import('../views/my/My')
 const Find = () => import('../views/find/Find')
 const Village = () => import('../views/village/Village')
@@ -38,6 +39,7 @@ const router = new VueRouter({
   routes
 })
 router.beforeEach((to, from, next) => {
+  clearPending()
   if (to.path === '/login' || to.path === '/resgiter') return next()
   // if (to.path === '/login') return next()
   const tokenStr = window.sessionStorage.getItem('token')

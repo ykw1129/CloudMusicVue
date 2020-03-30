@@ -2,7 +2,7 @@
   <div class="recommend">
     <router-link
       class="recommend-url"
-      to="url"
+      to="#"
     >
       <i class="recommend-img">
         <img

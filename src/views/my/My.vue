@@ -98,7 +98,10 @@
                   :key="item.id"
                 >
                   <i>
-                    <img v-lazy="item.coverImgUrl" />
+                    <img
+                      v-lazy="item.coverImgUrl"
+                      :alt="item.name"
+                    />
                   </i>
                   <span>{{item.name}}</span>
                 </van-grid-item>
@@ -140,7 +143,7 @@ export default {
     myswipe
   },
   created () {
-    // 初始话store
+    // 初始化store
     this.storeInit()
   },
   methods: {
@@ -199,50 +202,55 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  img[lazy=loading] {
+ img[lazy=loading] {
     background: gray;
     transition: all 0.3s;
-  }
-.search{
+}
+
+.search {
     background-color: rgb(235, 32, 0);
-  height: 54px;
-  overflow: hidden;
-.van-col:nth-child(1){
-  height: 100%;
-  text-align: center;
-  padding: 8px;
-  img{
-    height: 100%;
-    border-radius: 50%;
-  }
-}
-}
-.createlist{
-    .van-grid-item{
+    height: 54px;
+    overflow: hidden;
 
-      i{
-            position: relative;
-    display: inline-block;
-    font: normal normal normal 14px/1 vant-icon;
-        text-rendering: auto;
-    -webkit-font-smoothing: antialiased;
-        font-size:64px ;
-        img{
-            text-align: center;
-            width: 1em;
-            height: 1em;
-            object-fit: contain;
-        }
-      }
-
-      span{
+    .van-col:nth-child(1) {
+        height: 100%;
         text-align: center;
-    color: #646566;
-    font-size: 12px;
-    word-wrap: break-word;
-    padding-top: 8px;
+        padding: 8px;
 
-      }
+        img {
+            height: 100%;
+            border-radius: 50%;
+        }
+    }
+}
+
+.createlist {
+    .van-grid-item {
+
+        i {
+            position: relative;
+            display: inline-block;
+            font: normal normal normal 14px/1 vant-icon;
+            text-rendering: auto;
+            -webkit-font-smoothing: antialiased;
+            font-size: 64px;
+
+            img {
+                text-align: center;
+                width: 1em;
+                height: 1em;
+                object-fit: contain;
+            }
+        }
+
+        span {
+            text-align: center;
+            color: #646566;
+            font-size: 12px;
+            word-wrap: break-word;
+            padding-top: 8px;
+
+        }
     }
 }
 </style>

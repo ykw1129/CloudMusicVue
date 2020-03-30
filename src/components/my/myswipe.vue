@@ -36,6 +36,7 @@ export default {
       const { data: res } = await this.$http.get('/banner', {
         params: { type: this.phoneType }
       })
+      console.log(123)
       this.bannerlist = res.banners
     }
   }
