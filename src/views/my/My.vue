@@ -1,11 +1,16 @@
 <template>
   <div id="my">
+    <router-view />
+    <div class="my-hone" v-show="toggleShow">
+
     <van-row class="search">
       <van-col span="3">
+        <router-link to="/mydetail" name="my">
         <img
           :src="avatarUrl"
           alt="user-icon"
         >
+        </router-link>
       </van-col>
       <van-col span="21">
         <van-search
@@ -112,7 +117,7 @@
         </van-pull-refresh>
       </van-tab>
     </van-tabs>
-
+    </div>
   </div>
 </template>
 
@@ -138,6 +143,9 @@ export default {
       playlistFinished: false
     }
   },
+  computed: {
+    toggleShow: function () { return this.$route.meta.show }
+  },
   components: {
     recommend,
     myswipe
@@ -156,7 +164,6 @@ export default {
         this.playlistLoading = false
         this.playlistError = true
       }
-      console.log(res.playlist)
       this.playlistLoading = false
       this.playlistFinished = true
       this.playlist = res.playlist
@@ -165,6 +172,7 @@ export default {
     storeInit () {
       this.$store.dispatch('getUserID')
       this.$store.dispatch('getUserAvatar')
+      this.$store.dispatch('getIsLogin')
       this.avatarUrl = this.$store.state.avatarUrl
       this.userId = this.$store.state.userId
     },
