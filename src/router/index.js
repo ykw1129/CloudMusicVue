@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import sessionMethods from '../plugins/sessionStorage'
 import {
   clearPending
 } from '../plugins/pendding/pendding'
@@ -59,9 +60,9 @@ router.beforeEach((to, from, next) => {
   clearPending()
   if (to.path === '/login' || to.path === '/resgiter') return next()
   // if (to.path === '/login') return next()
-  const tokenStr = window.sessionStorage.getItem('token')
+  const tokenStr = sessionMethods.getSession('token')
   if (!tokenStr) {
-    window.sessionStorage.clear()
+    sessionMethods.clearSession()
     if (to.path === '/register') {
       return next()
     } else {

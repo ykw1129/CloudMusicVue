@@ -158,7 +158,7 @@ export default {
     // 获取用户歌单
     async getUserplayList () {
       const { data: res } = await this.$http.get('/user/playlist', {
-        params: { uid: this.$store.state.userId }
+        params: { uid: this.$store.state.User.userid }
       })
       if (res.code !== 200) {
         this.playlistLoading = false
@@ -170,11 +170,10 @@ export default {
     },
     // 之所以这样获取是防止用户logo闪烁问题
     storeInit () {
-      this.$store.dispatch('getUserID')
-      this.$store.dispatch('getUserAvatar')
+      this.$store.dispatch('getUserInfo')
       this.$store.dispatch('getIsLogin')
-      this.avatarUrl = this.$store.state.avatarUrl
-      this.userId = this.$store.state.userId
+      this.avatarUrl = this.$store.state.User.avatarUrl
+      this.userId = this.$store.state.User.userId
     },
     // 每日推荐歌单
     async getSubscribe () {

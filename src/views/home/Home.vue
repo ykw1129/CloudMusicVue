@@ -67,10 +67,10 @@ export default {
       console.log(res)
     },
     setTabbarActive (act) {
-      window.sessionStorage.setItem('TabbarActive', this.active)
+      this.sessionMethods.setSession('TabbarActive', this.active)
     },
     getTabbarActive () {
-      this.active = window.sessionStorage.getItem('TabbarActive')
+      this.active = this.sessionMethods.getSession('TabbarActive')
     }
   }
 }

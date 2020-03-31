@@ -57,9 +57,11 @@ export default {
       LoginForm: {
         phone: '18879496391',
         password: 'yekewu1129'
-      },
-      isLogin: true
+      }
     }
+  },
+  created () {
+    this.sessionMethods.setSession('isLogin', false)
   },
   methods: {
     // 登录请求post请求
@@ -77,10 +79,15 @@ export default {
               type: 'success',
               message: `${res.profile.nickname} 欢迎回来！`
             })
-            window.sessionStorage.setItem('isLogin', this.isLogin)
-            window.sessionStorage.setItem('token', res.token)
-            window.sessionStorage.setItem('userid', res.profile.userId)
-            window.sessionStorage.setItem('avatarUrl', res.profile.avatarUrl)
+            const UserInfo = {
+              userid: res.profile.userId,
+              avatarUrl: res.profile.avatarUrl,
+              nickname: res.profile.nickname,
+              backgroundUrl: res.profile.backgroundUrl
+            }
+            console.log(res)
+            this.sessionMethods.setSession('UserInfo', UserInfo)
+            this.sessionMethods.setSession('token', res.token)
             this.$router.push('/home')
           }
         }

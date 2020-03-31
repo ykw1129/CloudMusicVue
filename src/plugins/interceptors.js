@@ -13,6 +13,8 @@ axios.interceptors.response.use(response => {
   removePending(response) // 在请求结束后，移除本次请求
   if (response.status === 200 && window.sessionStorage.getItem('token')) {
     window.sessionStorage.setItem('isLogin', true)
+  } else {
+    window.sessionStorage.setItem('isLogin', false)
   }
   return response
 }, error => {
