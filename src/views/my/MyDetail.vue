@@ -16,16 +16,19 @@
     </template>
     </van-nav-bar>
     <div class="user-detail">
-      <div class="user-background">
-          <van-image :src="UserDetail.backgroundUrl" type="cover" style="background:#000,"/>
+      <div class="user-background" :style="{background:'url('+UserDetail.backgroundUrl+') no-repeat'}">
+
       </div>
       <div class="user-logo">
-          <van-image :src="UserDetail.avatarUrl" type="contain" round width="80" height="80" :alt="UserDetail.nickname" />
+          <van-image  Lazyload :src="UserDetail.avatarUrl" type="contain" round width="80" height="80" :alt="UserDetail.nickname" />
           <div class="user-info">
             <p>{{UserDetail.nickname}}</p>
-            <div>
+            <div class="user-follow">
               <span>关注:{{UserDetail.follows}}</span>
               <span>粉丝:{{UserDetail.followeds}}</span>
+              </div>
+              <div class="user-signature">
+                <p>{{UserDetail.signature}}</p>
               </div>
           </div>
 
@@ -80,24 +83,52 @@ export default {
 
 <style lang="less" scoped>
 .user-detail{
+  height: 412px;
   .user-background{
-  }
+    background-size: 100%;
+    height: 412px;
+    position: relative;
+    &:after{
+    position: absolute;
+    top: 0;
+    left: 0;
+    content: "";
+    background-color: black;
+    opacity: 0.2;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+}
+    }
   position: relative;
   .user-logo{
     position: relative;
     bottom: 200px;
+    z-index: 2;
     left: 40px;
     .user-info{
       padding-top: 8px;
-      color:#303030;
+      color:#ffffff;
       word-wrap: break-word;
       font-size: 0.6rem;
-      font-weight: bold;
+      p{
+        font-weight: bold;
+        padding: 4px 0;
+      }
+      .user-follow{
+        padding: 4px 0;
       span{
-        color: #888;
       }
       span:nth-child(1){
-        border-right: 1px #646566 solid ;
+        padding-right: 8px;
+        border-right: 1px #ffffff solid ;
+      }
+      span:nth-child(2){
+       padding-left: 8px;
+      }
+      .user-signature{
+        padding: 4px 0;
+      }
       }
     }
   }

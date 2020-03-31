@@ -84,7 +84,8 @@ export default {
               nickname: res.profile.nickname,
               backgroundUrl: res.profile.backgroundUrl,
               followeds: res.profile.followeds,
-              follows: res.profile.follows
+              follows: res.profile.follows,
+              signature: res.profile.signature
             }
             console.log(res)
             this.sessionMethods.setSession('UserInfo', UserInfo)
