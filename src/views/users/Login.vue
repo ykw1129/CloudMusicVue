@@ -74,7 +74,6 @@ export default {
           )
           if (res.code !== 200) return this.$notify({ type: 'danger', message: '账号或密码错误！' })
           else {
-            console.log(res)
             this.$notify({
               type: 'success',
               message: `${res.profile.nickname} 欢迎回来！`
@@ -83,7 +82,9 @@ export default {
               userid: res.profile.userId,
               avatarUrl: res.profile.avatarUrl,
               nickname: res.profile.nickname,
-              backgroundUrl: res.profile.backgroundUrl
+              backgroundUrl: res.profile.backgroundUrl,
+              followeds: res.profile.followeds,
+              follows: res.profile.follows
             }
             console.log(res)
             this.sessionMethods.setSession('UserInfo', UserInfo)

@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { NavBar, PullRefresh, List, Panel, Lazyload, Grid, GridItem, Tab, Tabs, Swipe, SwipeItem, Search, Form, Button, Field, Toast, Icon, Loading, Image, Notify, Skeleton, Tabbar, TabbarItem, Col, Row } from 'vant'
+import { Overlay, NavBar, PullRefresh, List, Panel, Lazyload, Grid, GridItem, Tab, Tabs, Swipe, SwipeItem, Search, Form, Button, Field, Toast, Icon, Loading, Image, Notify, Skeleton, Tabbar, TabbarItem, Col, Row } from 'vant'
 
 Vue.use(Tabbar)
 Vue.use(TabbarItem)
@@ -26,3 +26,4 @@ Vue.use(Panel)
 Vue.use(List)
 Vue.use(PullRefresh)
 Vue.use(NavBar)
+Vue.use(Overlay)

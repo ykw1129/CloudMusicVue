@@ -15,10 +15,26 @@
        <van-icon name="envelop-o" size="18" color="rgb(235, 32, 0)" />
     </template>
     </van-nav-bar>
-    <div class="userbackground">
-        <van-image :src="UserDetail.backgroundUrl" type="contain"/>
-        <van-image class="user-logo" :src="UserDetail.avatarUrl" type="contain" round width="80" height="80" :alt="UserDetail.nickname" />
+    <div class="user-detail">
+      <div class="user-background">
+          <van-image :src="UserDetail.backgroundUrl" type="cover" style="background:#000,"/>
+      </div>
+      <div class="user-logo">
+          <van-image :src="UserDetail.avatarUrl" type="contain" round width="80" height="80" :alt="UserDetail.nickname" />
+          <div class="user-info">
+            <p>{{UserDetail.nickname}}</p>
+            <div>
+              <span>关注:{{UserDetail.follows}}</span>
+              <span>粉丝:{{UserDetail.followeds}}</span>
+              </div>
+          </div>
+
+      </div>
     </div>
+    <van-tabs v-model="active">
+      <van-tab title="标签 1"></van-tab>
+      <van-tab title="标签 2"></van-tab>
+</van-tabs>
   </div>
 </template>
 
@@ -26,6 +42,8 @@
 export default {
   data () {
     return {
+      show: true,
+      active: '',
       UserDetail: {
 
       }
@@ -51,7 +69,6 @@ export default {
         return this.$notify({ type: 'danger', message: '获取用户资料失败' })
       } else {
         console.log(res)
-        console.log(res.createTime.toLocalString())
       }
     },
     detailInit () {
@@ -62,12 +79,27 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.userbackground{
+.user-detail{
+  .user-background{
+  }
   position: relative;
   .user-logo{
     position: relative;
-    bottom: 50px;
+    bottom: 200px;
     left: 40px;
+    .user-info{
+      padding-top: 8px;
+      color:#303030;
+      word-wrap: break-word;
+      font-size: 0.6rem;
+      font-weight: bold;
+      span{
+        color: #888;
+      }
+      span:nth-child(1){
+        border-right: 1px #646566 solid ;
+      }
+    }
   }
 }
 </style>

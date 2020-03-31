@@ -16,7 +16,7 @@ extend('email', email)
 axios.defaults.baseURL = 'http://localhost:3000'
 Vue.component('ValidationProvider', ValidationProvider)
 Vue.component('ValidationObserver', ValidationObserver)
-Vue.component('dateFormat', function (originVal) {
+Vue.filter('dateFormat', function (originVal) {
   const dt = new Date(originVal)
   const y = dt.getFullYear()
   const m = (dt.getMonth() + 1 + '').padStart(2, '0')
