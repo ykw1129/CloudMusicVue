@@ -69,6 +69,7 @@
         </van-pull-refresh>
       </van-tab>
       <van-tab title="动态" name="event">
+          <van-pull-refresh v-model="isEventRefreshLoading" @refresh="getUserEvent">
         <van-list
           v-model="isEventLoading"
           :finished="isEventFinished"
@@ -76,6 +77,7 @@
         >
 
         </van-list>
+          </van-pull-refresh>
       </van-tab>
     </van-tabs>
   </div>
@@ -87,6 +89,11 @@ export default {
     return {
       show: true,
       active: 'detail',
+      lasttime: '',
+      enventSize: 30,
+      events: {
+
+      },
       UserDetail: {
 
       },
@@ -103,7 +110,8 @@ export default {
       isDetailFinished: false,
       isEventFinished: false,
       isEventLoading: false,
-      isDetailRefreshLoading: false
+      isDetailRefreshLoading: false,
+      isEventRefreshLoading: false
 
     }
   },
@@ -134,6 +142,21 @@ export default {
         this.isDetailRefreshLoading = false
       }
     },
+    async getUserEvent () {
+      const { data: res } = await this.$http.get('/user/event', {
+        params: { uid: this.UserDetail.userid, limit: this.enventSize }
+      })
+      if (res.code !== 200) {
+        this.$notify({ type: 'danger', message: '获取用户动态失败' })
+      } else {
+        console.log(res)
+        this.events = JSON.parse(res.events[0].json)
+        console.log(this.events)
+        this.isEventLoading = false
+        this.isEventFinished = true
+        this.isEventRefreshLoading = false
+      }
+    },
     // 初始化vuex
     detailInit () {
       this.UserDetail = this.$store.state.User
@@ -141,6 +164,8 @@ export default {
     onListChange (name, title) {
       if (name === 'detail') {
         this.getUserDetail()
+      } else {
+        this.getUserEvent()
       }
     }
   }
