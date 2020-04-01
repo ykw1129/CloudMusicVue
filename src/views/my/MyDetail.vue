@@ -46,6 +46,7 @@
           </div>
           <div class="user-signature">
             <p>{{UserDetail.signature}}</p>
+            <p>来到网易云已经{{UserDetailList.createDays}}天了！</p>
           </div>
         </div>
 
@@ -95,7 +96,8 @@ export default {
         createTime: '',
         birthday: '',
         signature: '',
-        nickname: ''
+        nickname: '',
+        createDays: ''
       },
       isDetailLoading: false,
       isDetailFinished: false,
@@ -123,7 +125,8 @@ export default {
           listenSongs: res.listenSongs,
           createTime: res.createTime,
           birthday: res.profile.birthday,
-          signature: res.profile.signature
+          signature: res.profile.signature,
+          createDays: res.createDays
         }
         console.log(res)
         this.isDetailLoading = false
@@ -176,11 +179,19 @@ export default {
       font-size: 0.6rem;
       p{
         font-weight: bold;
-        padding: 4px 0;
+        padding: 6px 0;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        max-width: 15rem;
       }
       .user-follow{
-        padding: 4px 0;
+        padding: 6px 0;
       span{
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        max-width: 15rem;
       }
       span:nth-child(1){
         padding-right: 8px;
@@ -190,7 +201,7 @@ export default {
        padding-left: 8px;
       }
       .user-signature{
-        padding: 4px 0;
+        padding: 6px 0;
       }
       }
     }
