@@ -6,38 +6,78 @@
       @click-left="onClickLeft"
       @click-right="onClickRight"
     >
-    <template #left>
-      <router-link to="/my">
-   <van-icon name="arrow-left" size="18" color="rgb(235, 32, 0)"/>
-      </router-link>
-    </template>
-        <template #right>
-       <van-icon name="envelop-o" size="18" color="rgb(235, 32, 0)" />
-    </template>
+      <template #left>
+        <router-link to="/my">
+          <van-icon
+            name="arrow-left"
+            size="18"
+            color="rgb(235, 32, 0)"
+          />
+        </router-link>
+      </template>
+      <template #right>
+        <van-icon
+          name="envelop-o"
+          size="18"
+          color="rgb(235, 32, 0)"
+        />
+      </template>
     </van-nav-bar>
     <div class="user-detail">
-      <div class="user-background" :style="{background:'url('+UserDetail.backgroundUrl+') no-repeat'}">
+      <div
+        class="user-background"
+        :style="{background:'url('+UserDetail.backgroundUrl+') no-repeat'}"
+      >
 
       </div>
       <div class="user-logo">
-          <van-image  Lazyload :src="UserDetail.avatarUrl" type="contain" round width="80" height="80" :alt="UserDetail.nickname" />
-          <div class="user-info">
-            <p>{{UserDetail.nickname}}</p>
-            <div class="user-follow">
-              <span>关注:{{UserDetail.follows}}</span>
-              <span>粉丝:{{UserDetail.followeds}}</span>
-              </div>
-              <div class="user-signature">
-                <p>{{UserDetail.signature}}</p>
-              </div>
+        <van-image
+          Lazyload
+          :src="UserDetail.avatarUrl"
+          type="contain"
+          round
+          width="80"
+          height="80"
+          :alt="UserDetail.nickname"
+        />
+        <div class="user-info">
+          <p>{{UserDetail.nickname}}</p>
+          <div class="user-follow">
+            <span>关注:{{UserDetail.follows}}</span>
+            <span>粉丝:{{UserDetail.followeds}}</span>
           </div>
+          <div class="user-signature">
+            <p>{{UserDetail.signature}}</p>
+          </div>
+        </div>
 
       </div>
     </div>
     <van-tabs v-model="active">
-      <van-tab title="标签 1"></van-tab>
-      <van-tab title="标签 2"></van-tab>
-</van-tabs>
+      <van-tab title="个人信息">
+        <van-list
+          v-model="isDetailLoading"
+          :finished="isDetailFinished"
+          finished-text="没有更多了"
+        >
+          <van-cell title="昵称" :value="UserDetail.nickname"/>
+          <van-cell title="等级" value="UserDetailList.level" />
+           <van-cell title="" value="内容" />
+            <van-cell title="单元格" value="内容" />
+             <van-cell title="单元格" value="内容" />
+              <van-cell title="单元格" value="内容" />
+        </van-list>
+      </van-tab>
+      <van-tab title="动态">
+        <van-list
+          v-model="isDynamicLoading"
+          :finished="isDynamicFinished"
+          finished-text="没有更多了"
+        >
+
+        </van-list>
+      </van-tab>
+    </van-tabs>
   </div>
 </template>
 
@@ -49,7 +89,20 @@ export default {
       active: '',
       UserDetail: {
 
-      }
+      },
+      UserDetailList: {
+        level: '',
+        listenSongs: '',
+        createTime: '',
+        birthday: '',
+        signature: '',
+        nickname: ''
+      },
+      isDetailLoading: false,
+      isDetailFinished: false,
+      isDynamicFinished: false,
+      isDynamicLoading: false
+
     }
   },
   created () {
@@ -71,7 +124,12 @@ export default {
       if (res.code !== 200) {
         return this.$notify({ type: 'danger', message: '获取用户资料失败' })
       } else {
-        console.log(res)
+        this.nickname = res.nickname
+        this.level = res.level
+        this.listenSongs = res.listenSongs
+        this.createTime = res.createTime
+        this.birthday = res.profile.birthday
+        this.signature = res.profile.signature
       }
     },
     detailInit () {
