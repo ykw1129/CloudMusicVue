@@ -3,8 +3,6 @@
     <van-nav-bar
       :title="UserDetail.nickname"
       left-arrow
-      @click-left="onClickLeft"
-      @click-right="onClickRight"
     >
       <template #left>
         <router-link to="/my">
@@ -53,25 +51,26 @@
 
       </div>
     </div>
-    <van-tabs v-model="active">
-      <van-tab title="个人信息">
+    <van-tabs v-model="active" @rendered="onListChange">
+      <van-tab title="个人信息" name="detail" >
+        <van-pull-refresh v-model="isDetailRefreshLoading" @refresh="getUserDetail">
         <van-list
           v-model="isDetailLoading"
           :finished="isDetailFinished"
           finished-text="没有更多了"
         >
-          <van-cell title="昵称" :value="UserDetail.nickname"/>
-          <van-cell title="等级" value="UserDetailList.level" />
-           <van-cell title="" value="内容" />
-            <van-cell title="单元格" value="内容" />
-             <van-cell title="单元格" value="内容" />
-              <van-cell title="单元格" value="内容" />
+          <van-cell title="昵称" :value="UserDetailList.nickname"/>
+          <van-cell title="等级" :value="UserDetailList.level" />
+          <van-cell title="个性签名" :value="UserDetailList.signature" />
+          <van-cell title="生日" :value="UserDetailList.birthday|dateFormat" />
+          <van-cell title="创建日期" :value="UserDetailList.createTime|dateFormat" />
         </van-list>
+        </van-pull-refresh>
       </van-tab>
-      <van-tab title="动态">
+      <van-tab title="动态" name="event">
         <van-list
-          v-model="isDynamicLoading"
-          :finished="isDynamicFinished"
+          v-model="isEventLoading"
+          :finished="isEventFinished"
           finished-text="没有更多了"
         >
 
@@ -86,7 +85,7 @@ export default {
   data () {
     return {
       show: true,
-      active: '',
+      active: 'detail',
       UserDetail: {
 
       },
@@ -100,22 +99,16 @@ export default {
       },
       isDetailLoading: false,
       isDetailFinished: false,
-      isDynamicFinished: false,
-      isDynamicLoading: false
+      isEventFinished: false,
+      isEventLoading: false,
+      isDetailRefreshLoading: false
 
     }
   },
   created () {
     this.detailInit()
-    this.getUserDetail()
   },
   methods: {
-    onClickLeft () {
-
-    },
-    onClickRight () {
-
-    },
     // 获取用户详情
     async getUserDetail () {
       const { data: res } = await this.$http.get('/user/detail', {
@@ -124,16 +117,28 @@ export default {
       if (res.code !== 200) {
         return this.$notify({ type: 'danger', message: '获取用户资料失败' })
       } else {
-        this.nickname = res.nickname
-        this.level = res.level
-        this.listenSongs = res.listenSongs
-        this.createTime = res.createTime
-        this.birthday = res.profile.birthday
-        this.signature = res.profile.signature
+        this.UserDetailList = {
+          nickname: res.profile.nickname,
+          level: res.level,
+          listenSongs: res.listenSongs,
+          createTime: res.createTime,
+          birthday: res.profile.birthday,
+          signature: res.profile.signature
+        }
+        console.log(res)
+        this.isDetailLoading = false
+        this.isDetailFinished = true
+        this.isDetailRefreshLoading = false
       }
     },
+    // 初始化vuex
     detailInit () {
       this.UserDetail = this.$store.state.User
+    },
+    onListChange (name, title) {
+      if (name === 'detail') {
+        this.getUserDetail()
+      }
     }
   }
 }
