@@ -24,7 +24,7 @@
     <div class="user-detail">
       <div
         class="user-background"
-        :style="{background:'url('+UserDetail.backgroundUrl+') no-repeat'}"
+        :style="{backgroundImage:'url('+UserDetail.backgroundUrl+')'}"
       >
 
       </div>
@@ -52,7 +52,7 @@
 
       </div>
     </div>
-    <van-tabs v-model="active" @rendered="onListChange">
+    <van-tabs v-model="active" @rendered="onListChange" @tap="test">
       <van-tab title="个人信息" name="detail" >
         <van-pull-refresh v-model="isDetailRefreshLoading" @refresh="getUserDetail">
         <van-list
@@ -75,7 +75,7 @@
           :finished="isEventFinished"
           finished-text="没有更多了"
         >
-
+          <eventvideo></eventvideo>
         </van-list>
           </van-pull-refresh>
       </van-tab>
@@ -84,6 +84,7 @@
 </template>
 
 <script>
+import eventvideo from '../../components/my/eventvideo.vue'
 export default {
   data () {
     return {
@@ -114,6 +115,9 @@ export default {
       isEventRefreshLoading: false
 
     }
+  },
+  components: {
+    eventvideo
   },
   created () {
     this.detailInit()
@@ -167,6 +171,9 @@ export default {
       } else {
         this.getUserEvent()
       }
+    },
+    test () {
+      console.log(123)
     }
   }
 }
@@ -176,7 +183,10 @@ export default {
 .user-detail{
   height: 412px;
   .user-background{
-    background-size: 100%;
+    background-position: center 0;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 0;
     height: 412px;
     position: relative;
     &:after{

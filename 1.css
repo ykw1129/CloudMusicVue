@@ -1,0 +1,56 @@
+img[lazy=loading] {
+  background: gray;
+  transition: all 0.3s;
+}
+.recommend {
+  position: relative;
+  box-sizing: border-box;
+  padding: 10px 16px;
+  border-bottom: 1px solid #ebedf0;
+}
+.recommend-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: #646566;
+  font-size: 0.6rem;
+  word-wrap: break-word;
+  padding-top: 4px;
+}
+.recommend .recommend-url {
+  position: relative;
+  display: inline-flex;
+  width: 100%;
+}
+.recommend .recommend-url .recommend-img {
+  font-size: 40px;
+  padding-right: 8px;
+}
+.recommend .recommend-url .user-img {
+  font-size: 30px;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.recommend .recommend-url .user-img img {
+  border-radius: 50%;
+}
+.recommend .recommend-url .user-img span {
+  color: #646566;
+  font-size: 6px;
+  word-wrap: break-word;
+}
+.recommend .recommend-url i img {
+  width: 1em;
+  height: 1em;
+}
+.recommend .recommend-url .recommend-text span:nth-child(1) {
+  font-weight: bold;
+}
+.recommend .recommend-url .recommend-text span:nth-child(2) {
+  font-weight: lighter;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
