@@ -3,6 +3,8 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import axios from 'axios'
+import VueVideoPlayer from 'vue-video-player'
+import 'video.js/dist/video-js.css'
 import { ValidationProvider, extend, ValidationObserver } from 'vee-validate'
 import { required, email } from 'vee-validate/dist/rules'
 import sessionMethods from './plugins/sessionStorage'
@@ -22,6 +24,8 @@ Vue.filter('dateFormat', function (originVal) {
   const m = (dt.getMonth() + 1 + '').padStart(2, '0')
   const d = (dt.getDate() + '').padStart(2, '0')
   return `${y}-${m}-${d}`
+})
+Vue.use(VueVideoPlayer, {
 })
 Vue.prototype.sessionMethods = sessionMethods
 Vue.prototype.$http = axios
