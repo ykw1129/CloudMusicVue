@@ -117,7 +117,7 @@ export default {
         params: { uid: this.UserDetail.userid, timestamp: Date.now() }, withCredentials: true
       })
       if (res.code !== 200) {
-        return this.$notify({ type: 'danger', message: '获取用户资料失败' })
+        this.$notify({ type: 'danger', message: '获取用户资料失败' })
       } else {
         this.UserDetailList = {
           nickname: res.profile.nickname,

@@ -36,8 +36,12 @@ export default {
       const { data: res } = await this.$http.get('/banner', {
         params: { type: this.phoneType }
       })
-      console.log(res)
-      this.bannerlist = res.banners
+      if (res.code !== 200) {
+        this.$notify({ type: 'danger', message: '获取图片失败' })
+      } else {
+        console.log(res)
+        this.bannerlist = res.banners
+      }
     }
   }
 }
