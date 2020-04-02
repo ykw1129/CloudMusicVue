@@ -1,5 +1,5 @@
 <template>
-  <div id="eventvideo" @resize="getClientWidth">
+  <div id="eventvideo">
     <van-image
       class="event-logo"
       :src="avatarUrl"
@@ -13,37 +13,28 @@
       <p>{{eventTime}}</p>
       <p>{{msg}}</p>
       <div class="main">
-        <video-player
-          ref="videoPlayer"
-          class="video-player-box"
-          :options="playerOptions"
-          :playsinline="true"
-        >
-
-        </video-player>
+        <components></components>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import video from '../my/event/video'
+import mv from '../my/event/mv'
+import song from '../my/event/song'
+import playlist from '../my/event/playlist'
 export default {
   data () {
     return {
-      eventType: ['mv', 'event', 'song', 'video'],
-      playerOptions: {
-        // videojs options
-        width: '',
-        muted: false,
-        language: 'zh-CN',
-        playbackRates: [0.7, 1.0, 1.5, 2.0],
-        sources: [{
-          type: 'video/mp4',
-          src: ''
-        }],
-        poster: ''
-      }
+      eventType: ['mv', 'event', 'song', 'video', 'playlist']
     }
+  },
+  components: {
+    video,
+    mv,
+    song,
+    playlist
   },
   props: {
     eventTypecode: {
@@ -63,7 +54,6 @@ export default {
     }
   },
   created () {
-    this.getClientWidth()
   },
   mounted () {
   },
@@ -73,9 +63,7 @@ export default {
     }
   },
   methods: {
-    getClientWidth () {
-      this.playerOptions.width = document.body.clientWidth - 77
-    }
+
   }
 }
 </script>
@@ -111,11 +99,9 @@ export default {
             width: 100%;
             border-radius: 15px;
             overflow: hidden;
-                .video-js{
-                  width: 100%
+
             }
         }
     }
-}
 
 </style>
