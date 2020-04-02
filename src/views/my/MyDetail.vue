@@ -52,7 +52,7 @@
 
       </div>
     </div>
-    <van-tabs v-model="active" @rendered="onListChange" @tap="test">
+    <van-tabs v-model="active" @rendered="onListChange">
       <van-tab title="个人信息" name="detail" >
         <van-pull-refresh v-model="isDetailRefreshLoading" @refresh="getUserDetail">
         <van-list
@@ -92,9 +92,7 @@ export default {
       active: 'detail',
       lasttime: '',
       enventSize: 30,
-      events: {
-
-      },
+      events: [],
       UserDetail: {
 
       },
@@ -107,6 +105,7 @@ export default {
         nickname: '',
         createDays: ''
       },
+      eventContent: [],
       isDetailLoading: false,
       isDetailFinished: false,
       isEventFinished: false,
@@ -154,12 +153,30 @@ export default {
         this.$notify({ type: 'danger', message: '获取用户动态失败' })
       } else {
         console.log(res)
-        this.events = JSON.parse(res.events[0].json)
+        for (let i = 0; i < res.events.length; i++) {
+          this.events.push(JSON.parse(res.events[i].json))
+        }
         console.log(this.events)
+        /*         const eventkey = Object.keys(this.events[1])[1]
+        console.log(this.events[1][eventkey]) */
+
         this.isEventLoading = false
         this.isEventFinished = true
         this.isEventRefreshLoading = false
+        this.getUserEventContent()
       }
+    },
+    getUserEventContent () {
+      this.events.forEach((value, index) => {
+        // const eventType = Object.keys(this.events[index])[1]
+        /*         switch (eventType) {
+          case 'mv':
+            console.log(123)
+            break
+          case 'events':
+            console.log('这event')
+        } */
+      })
     },
     // 初始化vuex
     detailInit () {
@@ -172,8 +189,8 @@ export default {
         this.getUserEvent()
       }
     },
-    test () {
-      console.log(123)
+    async getEvent () {
+
     }
   }
 }

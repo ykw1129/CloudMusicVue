@@ -1,17 +1,18 @@
 <template>
-  <div id="eventvideo">
+  <div id="eventvideo" @resize="getClientWidth">
     <van-image
       class="event-logo"
-      src="https://p3.music.126.net/-jXdovptMqKbGTqNEyuSNQ==/109951164845855380.jpg"
+      :src="avatarUrl"
       type="contain"
       height="45"
       width="45"
       round
     />
     <div class="event-main">
-      <p>这是我的名字</p>
-      <p>这是日期</p>
-      <div class="video">
+      <p>{{creator}}</p>
+      <p>{{eventTime}}</p>
+      <p>{{msg}}</p>
+      <div class="main">
         <video-player
           ref="videoPlayer"
           class="video-player-box"
@@ -29,24 +30,51 @@
 export default {
   data () {
     return {
+      eventType: ['mv', 'event', 'song', 'video'],
       playerOptions: {
         // videojs options
-        height: 250,
-        width: 320,
-        muted: true,
+        width: '',
+        muted: false,
         language: 'zh-CN',
         playbackRates: [0.7, 1.0, 1.5, 2.0],
         sources: [{
           type: 'video/mp4',
-          src: 'https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm'
+          src: ''
         }],
-        poster: 'http://p4.music.126.net/HkESOXh-Y-vai1pZBGQHnA==/109951163573686211.jpg'
+        poster: ''
       }
     }
+  },
+  props: {
+    eventTypecode: {
+      type: String
+    },
+    creator: {
+      type: String
+    },
+    eventTime: {
+      type: Number
+    },
+    msg: {
+      type: String
+    },
+    avatarUrl: {
+      type: String
+    }
+  },
+  created () {
+    this.getClientWidth()
+  },
+  mounted () {
   },
   computed: {
     player () {
       return this.$refs.videoPlayer.player
+    }
+  },
+  methods: {
+    getClientWidth () {
+      this.playerOptions.width = document.body.clientWidth - 77
     }
   }
 }
@@ -54,14 +82,15 @@ export default {
 
 <style lang="less" scoped>
 #eventvideo{
-    height: 250px;
+    height: 300px;
     padding: 20px 16px;
     display: flex;
     flex-direction: row;
     .event-logo{
-        width: 100%;
+        width: 45px;
     }
     .event-main{
+        flex: 1;
         height: 100%;
         p{
             padding: 6px;
@@ -73,16 +102,17 @@ export default {
             color: #999999;
             font-size: 6px;
         }
+        &:nth-child(3){
+          color:black;
+          font-size: 8px;
         }
-        .video{
+        }
+        .main{
             width: 100%;
-            height: 100%;
-            .video-player-box{
-                .video-js .vjs-icon-placeholder {
-                        width: 100%;
-                        height: 100%;
-                        display: block;
-}
+            border-radius: 15px;
+            overflow: hidden;
+                .video-js{
+                  width: 100%
             }
         }
     }
