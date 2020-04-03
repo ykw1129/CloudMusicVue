@@ -75,7 +75,7 @@
           :finished="isEventFinished"
           finished-text="没有更多了"
         >
-          <eventvideo></eventvideo>
+          <eventvideo v-for="(event,index) in events" :key="index" :eventTime="event.eventTime"  :creator="UserDetail.nickname" :eventTypecode="event.type"></eventvideo>
         </van-list>
           </van-pull-refresh>
       </van-tab>
@@ -118,6 +118,11 @@ export default {
   components: {
     eventvideo
   },
+  computed: {
+    getSceondKey (event) {
+      return event(Object.keys(event)[1])
+    }
+  },
   created () {
     this.detailInit()
   },
@@ -154,7 +159,10 @@ export default {
       } else {
         console.log(res)
         for (let i = 0; i < res.events.length; i++) {
+          console.log(res.events[i].eventTime)
           this.events.push(JSON.parse(res.events[i].json))
+          this.events[i].eventTime = res.events[i].eventTime
+          this.events[i].type = Object.keys(this.events[i])[1]
         }
         console.log(this.events)
         /*         const eventkey = Object.keys(this.events[1])[1]

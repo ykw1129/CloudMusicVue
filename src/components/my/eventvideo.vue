@@ -10,17 +10,19 @@
     />
     <div class="event-main">
       <p>{{creator}}</p>
-      <p>{{eventTime}}</p>
+      <p>{{eventTime|dateFormat}}</p>
       <p>{{msg}}</p>
       <div class="main">
-        <components></components>
+        <keep-alive>
+        <components :is="eventTypecode"></components>
+        </keep-alive>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import video from '../my/event/video'
+import eventvideo from '../my/event/video'
 import mv from '../my/event/mv'
 import song from '../my/event/song'
 import playlist from '../my/event/playlist'
@@ -31,7 +33,7 @@ export default {
     }
   },
   components: {
-    video,
+    eventvideo,
     mv,
     song,
     playlist
