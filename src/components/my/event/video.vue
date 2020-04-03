@@ -1,13 +1,15 @@
 <template>
   <div id="video">
-    <video-player
-      ref="videoPlayer"
-      class="video-player-box"
-      :options="playerOptions"
-      :playsinline="true"
+    <video
+      ref="video"
+      :src="videoUrl"
+      controls="controls"
+      :width="videoWidth"
+      :poster="videoPoster"
     >
+      您的游览器不支持html5
+    </video>
 
-    </video-player>
   </div>
 </template>
 
@@ -15,23 +17,40 @@
 export default {
   data () {
     return {
-      playerOptions: {
-        // videojs options
-        width: '',
-        muted: false,
-        language: 'zh-CN',
-        playbackRates: [0.7, 1.0, 1.5, 2.0],
-        sources: [{
-          type: 'video/mp4',
-          src: 'https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm'
-        }],
-        poster: ''
-      }
+      videoWidth: '',
+      videoUrl: '',
+      videoId: '',
+      videoPoster: ''
     }
   },
+  props: {
+    childId: {
+    },
+    posterUrl: {
+      type: String
+    }
+  },
+  created () {
+    this.videoId = this.childId
+    this.videoPoster = this.posterUrl
+    this.getVideoUrl()
+  },
+  mounted () {
+    this.getVideoInit()
+  },
   methods: {
-    getClientWidth () {
-      this.playerOptions.width = document.body.clientWidth - 77
+    getVideoInit () {
+      this.videoWidth = document.body.clientWidth - 77
+      this.$refs.video.volume = 0.1
+    },
+    async getVideoUrl () {
+      const { data: res } = await this.$http.get('/video/url', {
+        params: { id: this.videoId }
+      })
+      if (res.code !== 200) {
+        this.$notify({ type: 'danger', message: '获取视频失败' })
+      }
+      this.videoUrl = res.urls[0].url
     }
   }
 }

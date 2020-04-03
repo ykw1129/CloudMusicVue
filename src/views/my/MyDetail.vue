@@ -52,32 +52,73 @@
 
       </div>
     </div>
-    <van-tabs v-model="active" @rendered="onListChange">
-      <van-tab title="个人信息" name="detail" >
-        <van-pull-refresh v-model="isDetailRefreshLoading" @refresh="getUserDetail">
-        <van-list
-          v-model="isDetailLoading"
-          :finished="isDetailFinished"
-          finished-text="没有更多了"
+    <van-tabs
+      v-model="active"
+      @rendered="onListChange"
+    >
+      <van-tab
+        title="个人信息"
+        name="detail"
+      >
+        <van-pull-refresh
+          v-model="isDetailRefreshLoading"
+          @refresh="getUserDetail"
         >
-          <van-cell title="昵称" :value="UserDetailList.nickname"/>
-          <van-cell title="等级" :value="UserDetailList.level" />
-          <van-cell title="个性签名" :value="UserDetailList.signature" />
-          <van-cell title="生日" :value="UserDetailList.birthday|dateFormat" />
-          <van-cell title="创建日期" :value="UserDetailList.createTime|dateFormat" />
-        </van-list>
+          <van-list
+            v-model="isDetailLoading"
+            :finished="isDetailFinished"
+            finished-text="没有更多了"
+          >
+            <van-cell
+              title="昵称"
+              :value="UserDetailList.nickname"
+            />
+            <van-cell
+              title="等级"
+              :value="UserDetailList.level"
+            />
+            <van-cell
+              title="个性签名"
+              :value="UserDetailList.signature"
+            />
+            <van-cell
+              title="生日"
+              :value="UserDetailList.birthday|dateFormat"
+            />
+            <van-cell
+              title="创建日期"
+              :value="UserDetailList.createTime|dateFormat"
+            />
+          </van-list>
         </van-pull-refresh>
       </van-tab>
-      <van-tab title="动态" name="event">
-          <van-pull-refresh v-model="isEventRefreshLoading" @refresh="getUserEvent">
-        <van-list
-          v-model="isEventLoading"
-          :finished="isEventFinished"
-          finished-text="没有更多了"
+      <van-tab
+        title="动态"
+        name="event"
+      >
+        <van-pull-refresh
+          v-model="isEventRefreshLoading"
+          @refresh="getRefreshUserEvent"
         >
-          <eventvideo v-for="(event,index) in events" :key="index" :eventTime="event.eventTime"  :creator="UserDetail.nickname" :eventTypecode="event.type"></eventvideo>
-        </van-list>
-          </van-pull-refresh>
+          <van-list
+            v-model="isEventLoading"
+            :finished="isEventFinished"
+            finished-text="没有更多了"
+          >
+            <eventvideo
+              ref="eventAllRef"
+              v-for="event in events"
+              :imgUrl="event.imgUrl"
+              :urlId="event.id"
+              :key="event.id"
+              :creator="event.nickname"
+              :eventTime="event.eventTime"
+              :eventTypecode="event.type"
+              :avatarUrl="event.creatorAvatarUrl"
+              :msg = "event.msg"
+            ></eventvideo>
+          </van-list>
+        </van-pull-refresh>
       </van-tab>
     </van-tabs>
   </div>
@@ -159,10 +200,17 @@ export default {
       } else {
         console.log(res)
         for (let i = 0; i < res.events.length; i++) {
-          console.log(res.events[i].eventTime)
           this.events.push(JSON.parse(res.events[i].json))
           this.events[i].eventTime = res.events[i].eventTime
           this.events[i].type = Object.keys(this.events[i])[1]
+          this.events[i].creatorAvatarUrl = res.events[i].user.avatarUrl
+          this.events[i].id = this.events[i][this.events[i].type].id || this.events[i][this.events[i].type].videoId
+          this.events[i].nickname = res.events[i].user.nickname
+          this.events[i].imgUrl = this.events[i][this.events[i].type].coverImgUrl || this.events[i][this.events[i].type].imgurl || this.events[i][this.events[i].type].coverUrl || null
+          if (this.events[i].type === 'video') {
+            this.events[i].type = 'eventvideo'
+          }
+          // this.$refs.eventAllRef.getEventData(this.events[i].id)
         }
         console.log(this.events)
         /*         const eventkey = Object.keys(this.events[1])[1]
@@ -171,20 +219,11 @@ export default {
         this.isEventLoading = false
         this.isEventFinished = true
         this.isEventRefreshLoading = false
-        this.getUserEventContent()
       }
     },
-    getUserEventContent () {
-      this.events.forEach((value, index) => {
-        // const eventType = Object.keys(this.events[index])[1]
-        /*         switch (eventType) {
-          case 'mv':
-            console.log(123)
-            break
-          case 'events':
-            console.log('这event')
-        } */
-      })
+    getRefreshUserEvent () {
+      this.events = []
+      this.getUserEvent()
     },
     // 初始化vuex
     detailInit () {

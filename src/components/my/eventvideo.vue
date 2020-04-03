@@ -14,7 +14,7 @@
       <p>{{msg}}</p>
       <div class="main">
         <keep-alive>
-        <components :is="eventTypecode"></components>
+          <components :is="eventTypecode" :childId="id" :posterUrl="poster"></components>
         </keep-alive>
       </div>
     </div>
@@ -29,7 +29,8 @@ import playlist from '../my/event/playlist'
 export default {
   data () {
     return {
-      eventType: ['mv', 'event', 'song', 'video', 'playlist']
+      id: '',
+      poster: ''
     }
   },
   components: {
@@ -53,29 +54,34 @@ export default {
     },
     avatarUrl: {
       type: String
+    },
+    urlId: {
+    },
+    imgUrl: {
+      type: String
     }
   },
   created () {
+    this.id = this.urlId
+    this.poster = this.imgUrl
   },
   mounted () {
+
   },
   computed: {
-    player () {
-      return this.$refs.videoPlayer.player
-    }
   },
   methods: {
-
   }
 }
 </script>
 
 <style lang="less" scoped>
 #eventvideo{
-    height: 300px;
     padding: 20px 16px;
     display: flex;
     flex-direction: row;
+    box-sizing: border-box;
+    border-bottom: 1px solid #aaaaaa;
     .event-logo{
         width: 45px;
     }
