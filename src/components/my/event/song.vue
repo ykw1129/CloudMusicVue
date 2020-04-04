@@ -1,6 +1,6 @@
 <template>
   <div>
-      这是song组件
+      <h1>这是song组件</h1>
   </div>
 </template>
 

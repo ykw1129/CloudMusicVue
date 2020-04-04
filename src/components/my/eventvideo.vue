@@ -81,7 +81,7 @@ export default {
     display: flex;
     flex-direction: row;
     box-sizing: border-box;
-    border-bottom: 1px solid #aaaaaa;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     .event-logo{
         width: 45px;
     }
