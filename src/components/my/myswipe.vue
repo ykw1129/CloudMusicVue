@@ -7,13 +7,11 @@
       height="159"
     >
       <van-swipe-item
+      class="swipe-items"
         v-for="item in bannerlist"
         :key="item.bannerId"
       >
-        <van-image
-          :src="item.pic"
-          type="contain"
-        />
+         <img :src="item.pic" :alt="item.typeTitle">
       </van-swipe-item>
     </van-swipe>
   </div>
@@ -36,7 +34,12 @@ export default {
       const { data: res } = await this.$http.get('/banner', {
         params: { type: this.phoneType }
       })
-      this.bannerlist = res.banners
+      if (res.code !== 200) {
+        this.$notify({ type: 'danger', message: '获取图片失败' })
+      } else {
+        console.log(res)
+        this.bannerlist = res.banners
+      }
     }
   }
 }
@@ -48,5 +51,15 @@ export default {
   font-size: 20px;
   line-height: 150px;
   text-align: center;
+}
+.swipe-items{
+    background-position: center 0;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    img{
+      height: 100%;
+      width: 100%;
+    }
 }
 </style>

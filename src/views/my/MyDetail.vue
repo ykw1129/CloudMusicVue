@@ -3,8 +3,6 @@
     <van-nav-bar
       :title="UserDetail.nickname"
       left-arrow
-      @click-left="onClickLeft"
-      @click-right="onClickRight"
     >
       <template #left>
         <router-link to="/my">
@@ -26,7 +24,7 @@
     <div class="user-detail">
       <div
         class="user-background"
-        :style="{background:'url('+UserDetail.backgroundUrl+') no-repeat'}"
+        :style="{backgroundImage:'url('+UserDetail.backgroundUrl+')'}"
       >
 
       </div>
@@ -48,45 +46,94 @@
           </div>
           <div class="user-signature">
             <p>{{UserDetail.signature}}</p>
+            <p>来到网易云已经{{UserDetailList.createDays}}天了！</p>
           </div>
         </div>
 
       </div>
     </div>
-    <van-tabs v-model="active">
-      <van-tab title="个人信息">
-        <van-list
-          v-model="isDetailLoading"
-          :finished="isDetailFinished"
-          finished-text="没有更多了"
+    <van-tabs
+      v-model="active"
+      @rendered="onListChange"
+    >
+      <van-tab
+        title="个人信息"
+        name="detail"
+      >
+        <van-pull-refresh
+          v-model="isDetailRefreshLoading"
+          @refresh="getUserDetail"
         >
-          <van-cell title="昵称" :value="UserDetail.nickname"/>
-          <van-cell title="等级" value="UserDetailList.level" />
-           <van-cell title="" value="内容" />
-            <van-cell title="单元格" value="内容" />
-             <van-cell title="单元格" value="内容" />
-              <van-cell title="单元格" value="内容" />
-        </van-list>
+          <van-list
+            v-model="isDetailLoading"
+            :finished="isDetailFinished"
+            finished-text="没有更多了"
+          >
+            <van-cell
+              title="昵称"
+              :value="UserDetailList.nickname"
+            />
+            <van-cell
+              title="等级"
+              :value="UserDetailList.level"
+            />
+            <van-cell
+              title="个性签名"
+              :value="UserDetailList.signature"
+            />
+            <van-cell
+              title="生日"
+              :value="UserDetailList.birthday|dateFormat"
+            />
+            <van-cell
+              title="创建日期"
+              :value="UserDetailList.createTime|dateFormat"
+            />
+          </van-list>
+        </van-pull-refresh>
       </van-tab>
-      <van-tab title="动态">
-        <van-list
-          v-model="isDynamicLoading"
-          :finished="isDynamicFinished"
-          finished-text="没有更多了"
+      <van-tab
+        title="动态"
+        name="event"
+      >
+        <van-pull-refresh
+          v-model="isEventRefreshLoading"
+          @refresh="getRefreshUserEvent"
         >
-
-        </van-list>
+          <van-list
+            v-model="isEventLoading"
+            :finished="isEventFinished"
+            finished-text="没有更多了"
+          >
+            <eventvideo
+              ref="eventAllRef"
+              v-for="event in events"
+              :imgUrl="event.imgUrl"
+              :urlId="event.id"
+              :key="event.id"
+              :creator="event.nickname"
+              :eventTime="event.eventTime"
+              :eventTypecode="event.type"
+              :avatarUrl="event.creatorAvatarUrl"
+              :msg = "event.msg"
+            ></eventvideo>
+          </van-list>
+        </van-pull-refresh>
       </van-tab>
     </van-tabs>
   </div>
 </template>
 
 <script>
+import eventvideo from '../../components/my/eventvideo.vue'
 export default {
   data () {
     return {
       show: true,
-      active: '',
+      active: 'detail',
+      lasttime: '',
+      enventSize: 30,
+      events: [],
       UserDetail: {
 
       },
@@ -96,44 +143,101 @@ export default {
         createTime: '',
         birthday: '',
         signature: '',
-        nickname: ''
+        nickname: '',
+        createDays: ''
       },
+      eventContent: [],
       isDetailLoading: false,
       isDetailFinished: false,
-      isDynamicFinished: false,
-      isDynamicLoading: false
+      isEventFinished: false,
+      isEventLoading: false,
+      isDetailRefreshLoading: false,
+      isEventRefreshLoading: false
 
+    }
+  },
+  components: {
+    eventvideo
+  },
+  computed: {
+    getSceondKey (event) {
+      return event(Object.keys(event)[1])
     }
   },
   created () {
     this.detailInit()
-    this.getUserDetail()
   },
   methods: {
-    onClickLeft () {
-
-    },
-    onClickRight () {
-
-    },
     // 获取用户详情
     async getUserDetail () {
       const { data: res } = await this.$http.get('/user/detail', {
         params: { uid: this.UserDetail.userid, timestamp: Date.now() }, withCredentials: true
       })
       if (res.code !== 200) {
-        return this.$notify({ type: 'danger', message: '获取用户资料失败' })
+        this.$notify({ type: 'danger', message: '获取用户资料失败' })
       } else {
-        this.nickname = res.nickname
-        this.level = res.level
-        this.listenSongs = res.listenSongs
-        this.createTime = res.createTime
-        this.birthday = res.profile.birthday
-        this.signature = res.profile.signature
+        this.UserDetailList = {
+          nickname: res.profile.nickname,
+          level: res.level,
+          listenSongs: res.listenSongs,
+          createTime: res.createTime,
+          birthday: res.profile.birthday,
+          signature: res.profile.signature,
+          createDays: res.createDays
+        }
+        console.log(res)
+        this.isDetailLoading = false
+        this.isDetailFinished = true
+        this.isDetailRefreshLoading = false
       }
     },
+    async getUserEvent () {
+      const { data: res } = await this.$http.get('/user/event', {
+        params: { uid: this.UserDetail.userid, limit: this.enventSize }
+      })
+      if (res.code !== 200) {
+        this.$notify({ type: 'danger', message: '获取用户动态失败' })
+      } else {
+        console.log(res)
+        for (let i = 0; i < res.events.length; i++) {
+          this.events.push(JSON.parse(res.events[i].json))
+          this.events[i].eventTime = res.events[i].eventTime
+          this.events[i].type = Object.keys(this.events[i])[1]
+          this.events[i].creatorAvatarUrl = res.events[i].user.avatarUrl
+          this.events[i].id = this.events[i][this.events[i].type].id || this.events[i][this.events[i].type].videoId
+          this.events[i].nickname = res.events[i].user.nickname
+          this.events[i].imgUrl = this.events[i][this.events[i].type].coverImgUrl || this.events[i][this.events[i].type].imgurl || this.events[i][this.events[i].type].coverUrl || null
+          if (this.events[i].type === 'video') {
+            this.events[i].type = 'eventvideo'
+          }
+          // this.$refs.eventAllRef.getEventData(this.events[i].id)
+        }
+        console.log(this.events)
+        /*         const eventkey = Object.keys(this.events[1])[1]
+        console.log(this.events[1][eventkey]) */
+
+        this.isEventLoading = false
+        this.isEventFinished = true
+        this.isEventRefreshLoading = false
+      }
+    },
+    getRefreshUserEvent () {
+      this.events = []
+      this.getUserEvent()
+    },
+    // 初始化vuex
     detailInit () {
       this.UserDetail = this.$store.state.User
+    },
+    onListChange (name, title) {
+      if (name === 'detail') {
+        this.getUserDetail()
+      } else {
+        this.getUserEvent()
+      }
+    },
+    async getEvent () {
+
     }
   }
 }
@@ -143,7 +247,10 @@ export default {
 .user-detail{
   height: 412px;
   .user-background{
-    background-size: 100%;
+    background-position: center 0;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 0;
     height: 412px;
     position: relative;
     &:after{
@@ -171,11 +278,19 @@ export default {
       font-size: 0.6rem;
       p{
         font-weight: bold;
-        padding: 4px 0;
+        padding: 6px 0;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        max-width: 15rem;
       }
       .user-follow{
-        padding: 4px 0;
+        padding: 6px 0;
       span{
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        max-width: 15rem;
       }
       span:nth-child(1){
         padding-right: 8px;
@@ -185,7 +300,7 @@ export default {
        padding-left: 8px;
       }
       .user-signature{
-        padding: 4px 0;
+        padding: 6px 0;
       }
       }
     }
