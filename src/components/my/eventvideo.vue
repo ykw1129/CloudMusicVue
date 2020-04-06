@@ -10,7 +10,7 @@
     />
     <div class="event-main">
       <p>{{creator}}</p>
-      <p>{{eventTime|dateFormat}}</p>
+      <p>{{eventTime|dateFormatAccurate}}</p>
       <p>{{msg}}</p>
       <div class="main">
         <keep-alive>

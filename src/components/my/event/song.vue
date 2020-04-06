@@ -1,9 +1,9 @@
 <template>
   <div id="song">
-    <img src="http://p1.music.126.net/-jXdovptMqKbGTqNEyuSNQ==/109951164845855380.jpg" alt="">
+    <img :src="songImgUrl" :alt="songName">
     <div class="song_right">
-    <span>我是歌的名字</span>
-    <span>我是歌手名字</span>
+    <span>{{songName}}</span>
+    <span>{{songAuther}}</span>
     </div>
   </div>
 </template>
@@ -12,11 +12,37 @@
 export default {
   data () {
     return {
-
+      songId: '',
+      songImgUrl: '',
+      songName: '',
+      songAuther: ''
     }
   },
-  methods: {
+  props: {
+    childId: [Number]
 
+  },
+  created () {
+    this.songId = this.childId
+    this.getSongDetail()
+  },
+  mounted () {
+
+  },
+  methods: {
+    async getSongDetail () {
+      const { data: res } = await this.$http.get('/song/detail', {
+        params: { ids: this.songId }
+      })
+      if (res.code !== 200) {
+        this.$notify({ type: 'danger', message: '获取歌曲失败' })
+      }
+      this.songImgUrl = res.songs[0].al.picUrl
+      this.songName = res.songs[0].name
+      this.songAuther = res.songs[0].ar.map(value => {
+        return value.name
+      }).join('/')
+    }
   }
 }
 </script>
