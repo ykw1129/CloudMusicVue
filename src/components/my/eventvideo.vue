@@ -96,7 +96,7 @@ export default {
         }
         &:nth-child(2){
             color: #999999;
-            font-size: 6px;
+            font-size: 12px;
         }
         &:nth-child(3){
           color:black;
@@ -105,7 +105,7 @@ export default {
         }
         .main{
             width: 100%;
-            border-radius: 15px;
+            border-radius: 5px;
             overflow: hidden;
 
             }

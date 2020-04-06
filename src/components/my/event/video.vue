@@ -41,7 +41,7 @@ export default {
   methods: {
     getVideoInit () {
       this.videoWidth = document.body.clientWidth - 77
-      this.$refs.video.volume = 0.1
+      this.$refs.video.volume = 0.5
     },
     async getVideoUrl () {
       const { data: res } = await this.$http.get('/video/url', {
