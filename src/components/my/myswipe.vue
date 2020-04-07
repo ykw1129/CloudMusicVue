@@ -37,7 +37,6 @@ export default {
       if (res.code !== 200) {
         this.$notify({ type: 'danger', message: '获取图片失败' })
       } else {
-        console.log(res)
         this.bannerlist = res.banners
       }
     }
