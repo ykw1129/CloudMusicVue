@@ -210,6 +210,9 @@ export default {
           if (this.events[i].type === 'video') {
             this.events[i].type = 'eventvideo'
           }
+          if (this.events[i].type === 'song') {
+            this.events[i].name = this.events[i][this.events[i].type].name
+          }
           // this.$refs.eventAllRef.getEventData(this.events[i].id)
         }
         console.log(this.events)
