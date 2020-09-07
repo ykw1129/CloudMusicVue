@@ -233,7 +233,6 @@ export default {
 
 .createlist {
     .van-grid-item {
-
         i {
             position: relative;
             display: inline-block;
