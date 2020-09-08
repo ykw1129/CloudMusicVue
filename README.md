@@ -8,9 +8,9 @@
  
 <h3>Interface Screenshots</h3>
 <p align="center">
-<img width="30%" src="./src/assets/image/screenshot/login.png" alt="login">
-<img width="30%" src="./src/assets/image/screenshot/my1.png" alt="my1">
-<img width="30%" src="./src/assets/image/screenshot/my2.png" alt="my2">
+<img width="30%" src="/screenshot/login.png" alt="login">
+<img width="30%" src="/screenshot/my1.png" alt="my1">
+<img width="30%" src="/screenshot/my2.png" alt="my2">
 </p>
 
 
