@@ -19,7 +19,7 @@ axios.interceptors.response.use(response => {
   return response
 }, error => {
   if (axios.isCancel(error)) {
-    console.log('repeated request: ' + error.message)
+    console.log('重复请求: ' + error.message)
   } else {
     // handle error code
   }
