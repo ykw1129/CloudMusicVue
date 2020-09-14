@@ -19,7 +19,7 @@ export default {
       setTimeout(() => {
         this.data = '用户数据'
         this.isloading = false
-      }, 3000)
+      }, 4000)
     }
   }
 }
