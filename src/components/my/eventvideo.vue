@@ -30,7 +30,8 @@ export default {
   data () {
     return {
       id: '',
-      poster: ''
+      poster: '',
+      song: ''
     }
   },
   components: {
