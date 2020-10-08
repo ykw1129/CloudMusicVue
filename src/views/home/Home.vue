@@ -50,21 +50,21 @@ export default {
       const { data: res } = await this.$http.get('/user/subcount', {
         params: { timestamp: Date.now() }, withCredentials: true
       })
-      console.log(res)
+      console.log('获取用户信息 , 歌单，收藏，mv, dj 数量', res)
     },
     // 获取用户登录状态
     async getUserStatus () {
       const { data: res } = await this.$http.get('/login/status', {
         params: { timestamp: Date.now() }, withCredentials: true
       })
-      console.log(res)
+      console.log('获取用户登录状态', res)
     },
     // 获取热门话题
     async getHotTopic () {
       const { data: res } = await this.$http.get('/hot/topic', {
         params: { limit: 30, offset: 30 }, withCredentials: true
       })
-      console.log(res)
+      console.log('获取热门话题', res)
     },
     setTabbarActive (act) {
       this.sessionMethods.setSession('TabbarActive', this.active)

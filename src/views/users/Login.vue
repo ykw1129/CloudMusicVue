@@ -87,7 +87,7 @@ export default {
               follows: res.profile.follows,
               signature: res.profile.signature
             }
-            console.log(res)
+            console.log('登录成功信息', res)
             this.sessionMethods.setSession('UserInfo', UserInfo)
             this.sessionMethods.setSession('token', res.token)
             this.$router.push('/home')

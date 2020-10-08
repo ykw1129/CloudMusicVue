@@ -8,6 +8,7 @@ const My = () => import('../views/my/My')
 const Find = () => import('../views/find/Find')
 const Village = () => import('../views/village/Village')
 const Detail = () => import('../views/my/MyDetail')
+const Player = () => import('../views/player/Player')
 Vue.use(VueRouter)
 
 const routes = [{
@@ -50,6 +51,11 @@ const routes = [{
   path: '/register',
   name: 'Register',
   component: () => import('../views/users/Register')
+},
+{
+  path: '/player:id',
+  name: 'Player',
+  component: Player
 }
 ]
 

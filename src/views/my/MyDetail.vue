@@ -185,7 +185,7 @@ export default {
           signature: res.profile.signature,
           createDays: res.createDays
         }
-        console.log(res)
+        console.log('获取用户详情', res)
         this.isDetailLoading = false
         this.isDetailFinished = true
         this.isDetailRefreshLoading = false
@@ -198,7 +198,7 @@ export default {
       if (res.code !== 200) {
         this.$notify({ type: 'danger', message: '获取用户动态失败' })
       } else {
-        console.log(res)
+        console.log('获取用户动态', res)
         for (let i = 0; i < res.events.length; i++) {
           this.events.push(JSON.parse(res.events[i].json))
           this.events[i].eventTime = res.events[i].eventTime
@@ -215,7 +215,7 @@ export default {
           }
           // this.$refs.eventAllRef.getEventData(this.events[i].id)
         }
-        console.log(this.events)
+        console.log('获取用户动态事件', this.events)
         /*         const eventkey = Object.keys(this.events[1])[1]
         console.log(this.events[1][eventkey]) */
 
