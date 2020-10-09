@@ -200,8 +200,12 @@ export default {
         for (let i = 0; i < res.events.length; i++) {
           this.events.push(JSON.parse(res.events[i].json))
           this.events[i].eventTime = res.events[i].eventTime
-          this.events[i].type = Object.keys(this.events[i])[1]
+          const a = Object.keys(this.events[i]).filter((current, index, arr) => {
+            return arr[index] !== 'soundeffectsInfo'
+          })
+          this.events[i].type = a[1]
           this.events[i].creatorAvatarUrl = res.events[i].user.avatarUrl
+          console.log(this.events[i])
           this.events[i].id = this.events[i][this.events[i].type].id || this.events[i][this.events[i].type].videoId
           this.events[i].nickname = res.events[i].user.nickname
           this.events[i].imgUrl = this.events[i][this.events[i].type].coverImgUrl || this.events[i][this.events[i].type].imgurl || this.events[i][this.events[i].type].coverUrl || null
