@@ -160,9 +160,7 @@ export default {
     eventvideo
   },
   computed: {
-    getSceondKey (event) {
-      return event(Object.keys(event)[1])
-    }
+
   },
   created () {
     this.detailInit()
