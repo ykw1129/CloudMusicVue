@@ -90,6 +90,7 @@ export default {
             console.log('登录成功信息', res)
             this.sessionMethods.setSession('UserInfo', UserInfo)
             this.sessionMethods.setSession('token', res.token)
+            this.localMethods.getLocal('PlayList')
             this.$router.push('/home')
           }
         }

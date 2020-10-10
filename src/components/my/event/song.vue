@@ -1,5 +1,5 @@
 <template>
-  <div id="song">
+  <div id="song" @click="toPlayer">
     <img :src="songImgUrl" :alt="songName">
     <div class="song_right">
     <span>{{songName}}</span>
@@ -42,6 +42,10 @@ export default {
       this.songAuther = res.songs[0].ar.map(value => {
         return value.name
       }).join('/')
+    },
+    toPlayer (id) {
+      id = this.songId
+      this.$router.push({ name: 'Player', params: { id } })
     }
   }
 }

@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@liripeng/vue-audio-player": "^1.0.5",
+    "@vant/touch-emulator": "^1.2.0",
     "axios": "^0.19.2",
     "core-js": "^3.6.4",
     "vant": "^2.5.7",

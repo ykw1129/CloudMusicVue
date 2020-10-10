@@ -8,6 +8,9 @@ export default new Vuex.Store({
     isLogin: false,
     User: {
 
+    },
+    playList: {
+
     }
 
   },
@@ -17,6 +20,9 @@ export default new Vuex.Store({
     },
     GETUSERINFO (state, user) {
       state.User = user
+    },
+    GETPLAYLIST (state, playlist) {
+      state.playList = playlist
     }
   },
   actions: {
@@ -25,6 +31,9 @@ export default new Vuex.Store({
     },
     getUserInfo ({ commit }) {
       commit('GETUSERINFO', sessionMethods.getSession('UserInfo'))
+    },
+    getPlayList ({ commit }) {
+      commit('GETPLAYLIST', sessionMethods.getSession('PlayList'))
     }
 
   },

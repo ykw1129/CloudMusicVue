@@ -53,7 +53,7 @@ const routes = [{
   component: () => import('../views/users/Register')
 },
 {
-  path: '/player:id',
+  path: '/player/:id',
   name: 'Player',
   component: Player
 }
@@ -64,7 +64,7 @@ const router = new VueRouter({
 })
 router.beforeEach((to, from, next) => {
   clearPending()
-  if (to.path === '/login' || to.path === '/resgiter') return next()
+  if (to.path === '/login' || to.path === '/register') return next()
   // if (to.path === '/login') return next()
   const tokenStr = sessionMethods.getSession('token')
   if (!tokenStr) {

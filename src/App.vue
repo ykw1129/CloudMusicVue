@@ -13,7 +13,9 @@ export default {
 <style lang="less">
 html,body{
   font-size: 20px;
-  height: 100vh;
+  max-width: 640px;
+  min-width: 320px;
+  margin: auto;
 }
 #app{
   height: 100%;

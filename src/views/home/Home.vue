@@ -80,7 +80,13 @@ export default {
 h1 {
   text-align: center;
 }
-.wrap{
+.van-tabbar{
+  width: 100%;
+  max-width: 640px;
+  min-width: 320px;
+  margin: auto;
   height: 50px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 </style>

@@ -3,11 +3,10 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import axios from 'axios'
-import '@liripeng/vue-audio-player/lib/vue-audio-player.css'
-import { AudioPlayer } from '@liripeng/vue-audio-player'
 import { ValidationProvider, extend, ValidationObserver } from 'vee-validate'
 import { required, email } from 'vee-validate/dist/rules'
 import sessionMethods from './plugins/sessionStorage'
+import localMethods from './plugins/localStorage'
 import './plugins/rules'
 import './plugins/vant'
 import './plugins/interceptors'
@@ -16,7 +15,6 @@ extend('required', required)
 extend('email', email)
 // 设置
 axios.defaults.baseURL = 'http://localhost:3000'
-Vue.component('AudioPlayer', AudioPlayer)
 Vue.component('ValidationProvider', ValidationProvider)
 Vue.component('ValidationObserver', ValidationObserver)
 Vue.filter('dateFormat', function (originVal) {
@@ -60,6 +58,7 @@ Vue.directive('loading', {
   }
 })
 Vue.prototype.sessionMethods = sessionMethods
+Vue.prototype.localMethods = localMethods
 Vue.prototype.$http = axios
 Vue.config.productionTip = false
 new Vue({
