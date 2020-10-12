@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import axios from 'axios'
 import sessionMethods from '../plugins/sessionStorage'
-import localMethods from '../plugins/localStorage'
+axios.defaults.baseURL = 'http://localhost:3000'
+// import localMethods from '../plugins/localStorage'
 Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
@@ -14,11 +16,19 @@ export default new Vuex.Store({
       playState: false,
       currentSong: '',
       currentIndex: '',
-      list: [
-
-      ]
+      list: []
     }
 
+  },
+  getters: {
+    // 将播放列表中的音乐url设置成vue-audio-player适合的数组形式
+    getAudioPlayerUrlList: (state) => {
+      const arr = []
+      state.playList.list.forEach((item) => {
+        arr.push(item.songUrl)
+      })
+      return arr
+    }
   },
   mutations: {
     GETISLOGIN (state, status) {
@@ -27,8 +37,10 @@ export default new Vuex.Store({
     GETUSERINFO (state, user) {
       state.User = user
     },
-    GETPLAYLIST (state, playlist) {
-      state.playList = playlist
+    TOPLAYLIST (state, list) {
+      state.playList.list.unshift(list)
+      state.playList.playState = true
+      state.playList.currentIndex = 0
     }
   },
   actions: {
@@ -38,8 +50,8 @@ export default new Vuex.Store({
     getUserInfo ({ commit }) {
       commit('GETUSERINFO', sessionMethods.getSession('UserInfo'))
     },
-    getPlayList ({ commit }) {
-      commit('GETPLAYLIST', localMethods.getLocal('PlayList'))
+    toPlayList ({ commit }, list) {
+      commit('TOPLAYLIST', list)
     }
 
   },

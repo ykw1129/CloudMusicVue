@@ -1,5 +1,5 @@
 <template>
-  <div id="song" @click="toPlayer">
+  <div id="song" @click="toPlayer" :data-id="songId">
     <img :src="songImgUrl" :alt="songName">
     <div class="song_right">
     <span>{{songName}}</span>
@@ -15,7 +15,8 @@ export default {
       songId: '',
       songImgUrl: '',
       songName: '',
-      songAuther: ''
+      songAuther: '',
+      songUrl: ''
     }
   },
   props: {
@@ -43,14 +44,26 @@ export default {
         return value.name
       }).join('/')
     },
-    toPlayer (id) {
-      id = this.songId
-      /*  const song = {
+    async getSongUrl () {
+      const { data: res } = await this.$http.get('/song/url', {
+        params: { id: this.songId }
+      })
+      if (res.code !== 200) {
+        this.$notify({ type: 'danger', message: '获取歌曲失败' })
+      }
+      this.songUrl = res.data[0].url
+      const song = {
         songId: this.songId,
         songImgUrl: this.songImgUrl,
         songName: this.songName,
-        songAuther: this.songAuther
-      } */
+        songAuther: this.songAuther,
+        songUrl: this.songUrl
+      }
+      this.$store.dispatch('toPlayList', song)
+      this.$router.push({ name: 'Player' })
+    },
+    toPlayer () {
+      this.getSongUrl()
     }
   }
 }
