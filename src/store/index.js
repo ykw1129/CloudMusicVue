@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import sessionMethods from '../plugins/sessionStorage'
+import localMethods from '../plugins/localStorage'
 Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
@@ -10,7 +11,12 @@ export default new Vuex.Store({
 
     },
     playList: {
+      playState: false,
+      currentSong: '',
+      currentIndex: '',
+      list: [
 
+      ]
     }
 
   },
@@ -33,7 +39,7 @@ export default new Vuex.Store({
       commit('GETUSERINFO', sessionMethods.getSession('UserInfo'))
     },
     getPlayList ({ commit }) {
-      commit('GETPLAYLIST', sessionMethods.getSession('PlayList'))
+      commit('GETPLAYLIST', localMethods.getLocal('PlayList'))
     }
 
   },

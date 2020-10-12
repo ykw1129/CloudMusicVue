@@ -45,7 +45,12 @@ export default {
     },
     toPlayer (id) {
       id = this.songId
-      this.$router.push({ name: 'Player', params: { id } })
+      /*  const song = {
+        songId: this.songId,
+        songImgUrl: this.songImgUrl,
+        songName: this.songName,
+        songAuther: this.songAuther
+      } */
     }
   }
 }

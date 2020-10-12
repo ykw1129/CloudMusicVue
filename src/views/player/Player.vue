@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import '@liripeng/vue-audio-player/lib/vue-audio-player.css'
 import { AudioPlayer } from '@liripeng/vue-audio-player'
 export default {
@@ -15,6 +16,11 @@ export default {
 
       ]
     }
+  },
+  computed: {
+    ...mapGetters([
+      'playList'
+    ])
   },
   components: {
     AudioPlayer
@@ -33,6 +39,7 @@ export default {
     }
   },
   created () {
+    // this.audioList = this.$store
     this.getSongUrl()
   }
 }
