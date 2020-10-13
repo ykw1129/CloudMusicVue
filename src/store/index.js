@@ -1,8 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import axios from 'axios'
 import sessionMethods from '../plugins/sessionStorage'
-axios.defaults.baseURL = 'http://localhost:3000'
 // import localMethods from '../plugins/localStorage'
 Vue.use(Vuex)
 export default new Vuex.Store({
@@ -25,22 +23,41 @@ export default new Vuex.Store({
     getAudioPlayerUrlList: (state) => {
       const arr = []
       state.playList.list.forEach((item) => {
-        arr.push(item.songUrl)
+        arr.unshift(item.songUrl)
       })
       return arr
     }
   },
   mutations: {
+    // 获取是否登录信息
     GETISLOGIN (state, status) {
       state.isLogin = status
     },
+    // 获取用户个人信息
     GETUSERINFO (state, user) {
       state.User = user
     },
+    // 进入播放器
     TOPLAYLIST (state, list) {
       state.playList.list.unshift(list)
+      // js数组中的对象去重
+      var result = []
+      var obj = {}
+      for (var i = 0; i < state.playList.list.length; i++) {
+        state.playList.list[i].index = i
+        if (!obj[state.playList.list[i].songId]) {
+          result.unshift(state.playList.list[i])
+          obj[state.playList.list[i].songId] = true
+        }
+      }
+      state.playList.list = result
       state.playList.playState = true
-      state.playList.currentIndex = 0
+      state.playList.currentIndex = list.index
+      state.playList.currentSong = list.songName
+    },
+    // 切换播放器状态
+    PLAYSWITCH (state) {
+      state.playList.playState = !state.playList.playState
     }
   },
   actions: {

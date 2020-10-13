@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 import '@liripeng/vue-audio-player/lib/vue-audio-player.css'
 import { AudioPlayer } from '@liripeng/vue-audio-player'
 
@@ -16,12 +16,12 @@ export default {
     }
   },
   computed: {
-    ...mapState({
-      audioList: state => state.playList.list
-    }),
-    ...mapGetters([
+    ...mapMutations({
 
-    ])
+    }),
+    ...mapGetters({
+      audioList: 'getAudioPlayerUrlList'
+    })
   },
   components: {
     AudioPlayer

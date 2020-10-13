@@ -1,7 +1,9 @@
 <template>
   <div id="my">
+    <transition name="fade">
     <router-view />
-    <div class="my-hone" v-show="toggleShow">
+    </transition>
+    <div class="my-hone" v-if="this.$route.meta.show">
 
     <van-row class="search">
       <van-col span="3">
@@ -144,7 +146,7 @@ export default {
     }
   },
   computed: {
-    toggleShow: function () { return this.$route.meta.show }
+    // toggleShow: function () { return this.$route.meta.show }
   },
   components: {
     recommend,
@@ -209,6 +211,12 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.fade-enter-active{
+  transition: opacity .5s;
+}
+.fade-enter{
+  opacity: 0;
+}
  img[lazy=loading] {
     background: gray;
     transition: all 0.3s;

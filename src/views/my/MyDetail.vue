@@ -37,7 +37,7 @@
           height="80"
           :alt="UserDetail.nickname"
         />
-        <div class="user-info">
+        <div class="user-info" v-cloak>
           <p>{{UserDetail.nickname}}</p>
           <div class="user-follow">
             <span>关注:{{UserDetail.follows}}</span>
@@ -81,10 +81,12 @@
               :value="UserDetailList.signature"
             />
             <van-cell
+            v-cloak
               title="生日"
               :value="UserDetailList.birthday|dateFormat"
             />
             <van-cell
+            v-cloak
               title="创建日期"
               :value="UserDetailList.createTime|dateFormat"
             />

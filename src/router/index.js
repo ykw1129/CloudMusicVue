@@ -53,7 +53,7 @@ const routes = [{
   component: () => import('../views/users/Register')
 },
 {
-  path: '/player/:id',
+  path: '/player',
   name: 'Player',
   component: Player
 }
