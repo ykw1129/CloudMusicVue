@@ -1,11 +1,12 @@
 <template>
     <div>
-        <AudioPlayer :audio-list="audioList"/>
+
+        <AudioPlayer :audio-list="audioList" ref="AudioComponent" />
     </div>
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters, mapMutations, mapState } from 'vuex'
 import '@liripeng/vue-audio-player/lib/vue-audio-player.css'
 import { AudioPlayer } from '@liripeng/vue-audio-player'
 
@@ -16,9 +17,12 @@ export default {
     }
   },
   computed: {
-    ...mapMutations({
-
+    ...mapState({
+      playList: state => state.playList
     }),
+    ...mapMutations([
+      'PLAYSWITCH'
+    ]),
     ...mapGetters({
       audioList: 'getAudioPlayerUrlList'
     })
@@ -27,12 +31,18 @@ export default {
     AudioPlayer
   },
   methods: {
-    getAudioList () {
-
+    getPlayState () {
+      this.$nextTick(() => {
+        if (this.playList.playState) {
+          this.$refs.AudioComponent.play()
+        } else {
+          this.$refs.AudioComponent.pause()
+        }
+      })
     }
   },
-  created () {
-
+  mounted () {
+    this.getPlayState()
   }
 }
 </script>
