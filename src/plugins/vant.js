@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { Cell, CellGroup, Overlay, NavBar, PullRefresh, List, Panel, Lazyload, Grid, GridItem, Tab, Tabs, Swipe, SwipeItem, Search, Form, Button, Field, Toast, Icon, Loading, Image, Notify, Skeleton, Tabbar, TabbarItem, Col, Row } from 'vant'
+import { Dialog, Cell, CellGroup, Overlay, NavBar, PullRefresh, List, Panel, Lazyload, Grid, GridItem, Tab, Tabs, Swipe, SwipeItem, Search, Form, Button, Field, Toast, Icon, Loading, Image, Notify, Skeleton, Tabbar, TabbarItem, Col, Row } from 'vant'
 
 Vue.use(Tabbar)
 Vue.use(TabbarItem)
@@ -21,7 +21,9 @@ Vue.use(Tab)
 Vue.use(Tabs)
 Vue.use(Grid)
 Vue.use(GridItem)
-Vue.use(Lazyload)
+Vue.use(Lazyload, {
+  lazyComponent: true
+})
 Vue.use(Panel)
 Vue.use(List)
 Vue.use(PullRefresh)
@@ -29,3 +31,4 @@ Vue.use(NavBar)
 Vue.use(Overlay)
 Vue.use(Cell)
 Vue.use(CellGroup)
+Vue.use(Dialog)

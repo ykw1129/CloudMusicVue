@@ -12,6 +12,7 @@ import localMethods from './plugins/localStorage'
 import './plugins/rules'
 import './plugins/vant'
 import './plugins/interceptors'
+import { Dialog } from 'vant'
 // import vant from 'vant'
 extend('required', required)
 extend('email', email)
@@ -59,6 +60,7 @@ Vue.directive('loading', {
     }
   }
 })
+Vue.prototype.$dialog = Dialog
 Vue.prototype.sessionMethods = sessionMethods
 Vue.prototype.localMethods = localMethods
 Vue.prototype.$http = axios

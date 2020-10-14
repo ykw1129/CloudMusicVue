@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import sessionMethods from '../plugins/sessionStorage'
-// import localMethods from '../plugins/localStorage'
+import localMethods from '../plugins/localStorage'
 Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
@@ -13,7 +13,9 @@ export default new Vuex.Store({
     playList: {
       playState: false,
       currentSong: '',
+      currentSongAuthor: '',
       currentIndex: '',
+      currentSongImgUrl: '',
       list: []
     }
 
@@ -23,7 +25,7 @@ export default new Vuex.Store({
     getAudioPlayerUrlList: (state) => {
       const arr = []
       state.playList.list.forEach((item) => {
-        arr.unshift(item.songUrl)
+        arr.push(item.songUrl)
       })
       return arr
     }
@@ -44,20 +46,35 @@ export default new Vuex.Store({
       var result = []
       var obj = {}
       for (var i = 0; i < state.playList.list.length; i++) {
-        state.playList.list[i].index = i
+        state.playList.list[i].index = i + 1
         if (!obj[state.playList.list[i].songId]) {
-          result.unshift(state.playList.list[i])
+          result.push(state.playList.list[i])
           obj[state.playList.list[i].songId] = true
         }
       }
       state.playList.list = result
       state.playList.playState = true
+      state.playList.currentSongAuthor = list.songAuthor
+      state.playList.currentSongImgUrl = list.songImgUrl
       state.playList.currentIndex = list.index
       state.playList.currentSong = list.songName
+      localMethods.setLocal('playList', state.playList)
     },
-    // 切换播放器状态
+    // 播放器状态
     PLAYSWITCH (state) {
       state.playList.playState = !state.playList.playState
+    },
+    // 获取音乐播放列表
+    GETPLAYLIST (state, playlist) {
+      playlist.playState = false
+      state.playList = playlist
+    },
+    // 切换歌曲
+    CHANGESONG (state, currentPlayIndex) {
+      state.playList.currentIndex = currentPlayIndex
+      state.playList.currentSong = state.playList.list[currentPlayIndex].songName
+      state.playList.currentSongAuthor = state.playList.list[currentPlayIndex].songAuthor
+      state.playList.currentSongImgUrl = state.playList.list[currentPlayIndex].songImgUrl
     }
   },
   actions: {
@@ -69,6 +86,9 @@ export default new Vuex.Store({
     },
     toPlayList ({ commit }, list) {
       commit('TOPLAYLIST', list)
+    },
+    getPlayList ({ commit }) {
+      commit('GETPLAYLIST', localMethods.getLocal('playList'))
     }
 
   },

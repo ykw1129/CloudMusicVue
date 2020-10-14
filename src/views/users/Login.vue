@@ -88,9 +88,9 @@ export default {
               signature: res.profile.signature
             }
             console.log('登录成功信息', res)
+            this.sessionMethods.setSession('isLogin', true)
             this.sessionMethods.setSession('UserInfo', UserInfo)
             this.sessionMethods.setSession('token', res.token)
-            this.localMethods.getLocal('PlayList')
             this.$router.push('/home')
           }
         }

@@ -3,7 +3,7 @@
     <img :src="songImgUrl" :alt="songName">
     <div class="song_right">
     <span>{{songName}}</span>
-    <span>{{songAuther}}</span>
+    <span>{{songAuthor}}</span>
     </div>
   </div>
 </template>
@@ -15,7 +15,7 @@ export default {
       songId: '',
       songImgUrl: '',
       songName: '',
-      songAuther: '',
+      songAuthor: '',
       songUrl: ''
     }
   },
@@ -40,7 +40,7 @@ export default {
       }
       this.songImgUrl = res.songs[0].al.picUrl
       this.songName = res.songs[0].name
-      this.songAuther = res.songs[0].ar.map(value => {
+      this.songAuthor = res.songs[0].ar.map(value => {
         return value.name
       }).join('/')
     },
@@ -56,7 +56,7 @@ export default {
         songId: this.songId,
         songImgUrl: this.songImgUrl,
         songName: this.songName,
-        songAuther: this.songAuther,
+        songAuthor: this.songAuthor,
         songUrl: this.songUrl
       }
       this.$store.dispatch('toPlayList', song)
