@@ -22,9 +22,12 @@
 </template>
 
 <script>
-import eventvideo from '../my/event/video'
+import myvideo from '../my/event/video'
 import mv from '../my/event/mv'
 import song from '../my/event/song'
+import event from '../my/event/event'
+import album from '../my/event/album'
+import djRadio from '../my/event/djradio'
 import playlist from '../my/event/playlist'
 export default {
   data () {
@@ -35,10 +38,13 @@ export default {
     }
   },
   components: {
-    eventvideo,
+    myvideo,
     mv,
     song,
-    playlist
+    playlist,
+    album,
+    event,
+    djRadio
   },
   props: {
     eventTypecode: {

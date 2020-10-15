@@ -106,7 +106,7 @@
             :finished="isEventFinished"
             finished-text="没有更多了"
           >
-            <eventvideo
+            <eventswitch
               ref="eventAllRef"
               v-for="event in events"
               :imgUrl="event.imgUrl"
@@ -117,7 +117,7 @@
               :eventTypecode="event.type"
               :avatarUrl="event.creatorAvatarUrl"
               :msg = "event.msg"
-            ></eventvideo>
+            ></eventswitch>
           </van-list>
         </van-pull-refresh>
       </van-tab>
@@ -126,7 +126,7 @@
 </template>
 
 <script>
-import eventvideo from '../../components/my/eventvideo.vue'
+import eventswitch from '../../components/my/eventswitch.vue'
 export default {
   data () {
     return {
@@ -158,7 +158,7 @@ export default {
     }
   },
   components: {
-    eventvideo
+    eventswitch
   },
   computed: {
 
@@ -200,26 +200,65 @@ export default {
         console.log('获取用户动态', res)
         for (let i = 0; i < res.events.length; i++) {
           this.events.push(JSON.parse(res.events[i].json))
+          switch (res.events[i].type) {
+            case 18:
+              this.events[i].type = 'song'
+              this.events[i].id = this.events[i][this.events[i].type].id
+              this.events[i].imgUrl = this.events[i][this.events[i].type].img80x80
+              this.events[i].name = this.events[i][this.events[i].type].name
+              break
+            case 19:
+              this.events[i].type = 'album'
+              this.events[i].id = this.events[i][this.events[i].type].id
+              this.events[i].name = this.events[i][this.events[i].type].name
+              this.events[i].imgUrl = this.events[i][this.events[i].type].img80x80
+              break
+            case 17: case 28:
+              this.events[i].type = 'djRadio'
+              this.events[i].id = this.events[i][this.events[i].type].id
+              this.events[i].name = this.events[i][this.events[i].type].name
+              this.events[i].imgUrl = this.events[i][this.events[i].type].img80x80
+              break
+            case 22:
+              this.events[i].type = 'event'
+              this.events[i].id = this.events[i][this.events[i].type].id
+              this.events[i].imgUrl = this.events[i][this.events[i].type].pics[0].originUrl
+              break
+            case 39:
+              this.events[i].type = 'releasevideo'
+              this.events[i].id = this.events[i][this.events[i].type].id
+              break
+            case 35: case 13:
+              this.events[i].type = 'playlist'
+              this.events[i].id = this.events[i][this.events[i].type].id
+              break
+            case 24:
+              this.events[i].type = 'specialcolumn'
+              this.events[i].id = this.events[i][this.events[i].type].id
+              break
+            case 41: case 21:
+              this.events[i].type = 'myvideo'
+              this.events[i].id = this.events[i][this.events[i].type.substr(2)].videoId
+              break
+          }
           this.events[i].eventTime = res.events[i].eventTime
-          const a = Object.keys(this.events[i]).filter((current, index, arr) => {
-            return arr[index] !== 'soundeffectsInfo'
-          })
-          this.events[i].type = a[1]
+          this.events[i].nickname = res.events[i].user.nickname
           this.events[i].creatorAvatarUrl = res.events[i].user.avatarUrl
+          /*           const a = Object.keys(this.events[i]).filter((current, index, arr) => {
+            return arr[index] !== 'soundeffectsInfo'
+          }) */
+          /*           this.events[i].creatorAvatarUrl = res.events[i].user.avatarUrl
           this.events[i].id = this.events[i][this.events[i].type].id || this.events[i][this.events[i].type].videoId
           this.events[i].nickname = res.events[i].user.nickname
-          this.events[i].imgUrl = this.events[i][this.events[i].type].coverImgUrl || this.events[i][this.events[i].type].imgurl || this.events[i][this.events[i].type].coverUrl || null
           if (this.events[i].type === 'video') {
             this.events[i].type = 'eventvideo'
           }
           if (this.events[i].type === 'song') {
             this.events[i].name = this.events[i][this.events[i].type].name
-          }
+          } */
           // this.$refs.eventAllRef.getEventData(this.events[i].id)
         }
         console.log('获取用户动态事件', this.events)
-        /*         const eventkey = Object.keys(this.events[1])[1]
-        console.log(this.events[1][eventkey]) */
 
         this.isEventLoading = false
         this.isEventFinished = true

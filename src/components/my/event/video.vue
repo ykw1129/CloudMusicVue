@@ -57,5 +57,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
-
+#video{
+  video{
+    border-radius: 15px;
+  }
+}
 </style>

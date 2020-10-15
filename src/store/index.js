@@ -16,6 +16,7 @@ export default new Vuex.Store({
       currentSongAuthor: '',
       currentIndex: '',
       currentSongImgUrl: '',
+      currentSongUrl: '',
       list: []
     }
 
@@ -56,6 +57,7 @@ export default new Vuex.Store({
       state.playList.playState = true
       state.playList.currentSongAuthor = list.songAuthor
       state.playList.currentSongImgUrl = list.songImgUrl
+      state.playList.currentSongUrl = list.songUrl
       state.playList.currentIndex = list.index
       state.playList.currentSong = list.songName
       localMethods.setLocal('playList', state.playList)
@@ -75,6 +77,7 @@ export default new Vuex.Store({
       state.playList.currentSong = state.playList.list[currentPlayIndex].songName
       state.playList.currentSongAuthor = state.playList.list[currentPlayIndex].songAuthor
       state.playList.currentSongImgUrl = state.playList.list[currentPlayIndex].songImgUrl
+      state.playList.currentSongUrl = state.playList.list[currentPlayIndex].songUrl
     }
   },
   actions: {

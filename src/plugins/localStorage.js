@@ -3,10 +3,10 @@ function setLocal (key, value) {
   if (typeof value === 'object') { // 如果要存储对象，则先转为json串
     value = JSON.stringify(value)
   }
-  localStorage.setItem(key, value)
+  localStorage.setItem(key, escape(value))
 }
 function getLocal (key) {
-  const value = localStorage.getItem(key)// 字符串或json串
+  const value = unescape(localStorage.getItem(key))// 字符串或json串
   try {
     // 使用try catch防止项目报错 中断项目运行
     const json = JSON.parse(value)// json串转为js对象

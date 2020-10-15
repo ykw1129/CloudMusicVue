@@ -25,7 +25,7 @@
            <img :src="playList.currentSongImgUrl" alt="">
         </div>
       </lazy-component>
-        <AudioPlayer :audio-list="audioList" ref="AudioComponent" :before-next="playNext" :before-prev="playPrev" :before-play="playBefore"/>
+        <AudioPlayer :audio-list="audioList" ref="AudioComponent" :before-next="beforePlayNext" :before-prev="beforePlayPrev" :before-play="playBefore"/>
     </div>
 </template>
 
@@ -42,17 +42,18 @@ export default {
     }
   },
   watch: {
-    audioList: function (val, oldval) {
-      if (val.length === 0) {
+    currentSongUrl: function (val, oldval) {
+      if (val === null) {
         // 若列表中没有歌曲，返回上一页面
-        Dialog.alert({ message: '播放列表中没有歌曲！' }).then(() => {
-          history.go(-1)
+        Dialog.alert({ message: '抱歉！此歌曲暂时无资源。' }).then(() => {
+          console.log(this)
         })
       }
     }
   },
   computed: {
     ...mapState({
+      currentSongUrl: state => state.playList.currentSongUrl,
       playList: state => state.playList
     }),
     ...mapMutations([
@@ -99,10 +100,10 @@ export default {
         })
       }
     },
-    playNext (next) {
+    beforePlayNext (next) {
       next()
     },
-    playPrev (prev) {
+    beforePlayPrev (prev) {
       prev()
     },
     playBefore (play) {
@@ -129,6 +130,7 @@ export default {
   img{
     width: 200px;
     height: 200px;
+    border-radius: 15px;
   }
 }
 </style>
