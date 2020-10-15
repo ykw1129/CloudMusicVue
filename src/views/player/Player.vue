@@ -20,11 +20,9 @@
         />
       </template>
     </van-nav-bar>
-      <lazy-component>
         <div class="songimg">
            <img :src="playList.currentSongImgUrl" alt="">
         </div>
-      </lazy-component>
         <AudioPlayer :audio-list="audioList" ref="AudioComponent" :before-next="beforePlayNext" :before-prev="beforePlayPrev" :before-play="playBefore"/>
     </div>
 </template>
@@ -37,6 +35,7 @@ import { Dialog } from 'vant'
 export default {
   data () {
     return {
+      isPlaying: '',
       currentPlayIndex: '',
       currentSongInfo: {}
     }
@@ -87,14 +86,14 @@ export default {
     titleRun () {
 
     },
-    hasAudioList (val) {
-      if (val.length === 0) {
+    hasAudioList () {
+      if (this.audioList.length === 0) {
         // 若列表中没有歌曲，返回上一页面
         this.dialog.alert({ message: '播放列表中没有歌曲！' }).then(() => {
           history.go(-1)
         })
       }
-      if (val[this.currentPlayIndex] === null) {
+      if (this.audioList[this.currentPlayIndex] === null) {
         this.dialog.alert({ message: '此音乐没有资源，播放下一首' }).then(() => {
           this.$refs.AudioComponent.playNext()
         })
@@ -119,6 +118,7 @@ export default {
   mounted () {
     this.getPlayState()
     this.currentPlayIndex = this.$refs.AudioComponent.currentPlayIndex
+    console.log(this.$refs.AudioComponent)
   }
 }
 </script>
