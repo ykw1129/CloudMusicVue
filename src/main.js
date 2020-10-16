@@ -13,7 +13,6 @@ import './plugins/rules'
 import './plugins/vant'
 import './plugins/interceptors'
 import { Dialog } from 'vant'
-// import vant from 'vant'
 extend('required', required)
 extend('email', email)
 // 设置
