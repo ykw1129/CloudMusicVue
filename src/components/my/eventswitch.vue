@@ -14,7 +14,7 @@
       <p>{{msg}}</p>
       <div class="main">
         <keep-alive>
-          <components :is="eventTypecode" :childId="id" :posterUrl="poster"></components>
+          <components :is="eventTypecode" :childId="urlId" :imgUrl="imgUrl" :creator="bycreator" :componentName="componentName"></components>
         </keep-alive>
       </div>
     </div>
@@ -32,9 +32,6 @@ import playlist from '../my/event/playlist'
 export default {
   data () {
     return {
-      id: '',
-      poster: '',
-      song: ''
     }
   },
   components: {
@@ -47,6 +44,9 @@ export default {
     djRadio
   },
   props: {
+    componentName: {
+      type: String
+    },
     eventTypecode: {
       type: String
     },
@@ -63,14 +63,16 @@ export default {
       type: String
     },
     urlId: {
+
     },
     imgUrl: {
+      type: String
+    },
+    bycreator: {
       type: String
     }
   },
   created () {
-    this.id = this.urlId
-    this.poster = this.imgUrl
   },
   mounted () {
 

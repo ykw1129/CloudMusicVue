@@ -20,6 +20,7 @@ extend('email', email)
 axios.defaults.baseURL = 'http://localhost:3000'
 Vue.component('ValidationProvider', ValidationProvider)
 Vue.component('ValidationObserver', ValidationObserver)
+// 年月日
 Vue.filter('dateFormat', function (originVal) {
   const dt = new Date(originVal)
   const y = dt.getFullYear()
@@ -27,6 +28,7 @@ Vue.filter('dateFormat', function (originVal) {
   const d = (dt.getDate() + '').padStart(2, '0')
   return `${y}-${m}-${d}`
 })
+// 年月日 时分秒
 Vue.filter('dateFormatAccurate', function (originVal) {
   const dt = new Date(originVal)
   const y = dt.getFullYear()

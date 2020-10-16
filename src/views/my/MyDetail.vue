@@ -112,6 +112,8 @@
               :imgUrl="event.imgUrl"
               :urlId="event.id"
               :key="event.id"
+              :componentName="event.name"
+              :bycreator="event.bycreator"
               :creator="event.nickname"
               :eventTime="event.eventTime"
               :eventTypecode="event.type"
@@ -206,6 +208,7 @@ export default {
               this.events[i].id = this.events[i][this.events[i].type].id
               this.events[i].imgUrl = this.events[i][this.events[i].type].img80x80
               this.events[i].name = this.events[i][this.events[i].type].name
+              this.events[i].bycreator = this.events[i][this.events[i].type].artists.map((item) => { return item.name }).join('/')
               break
             case 19:
               this.events[i].type = 'album'
@@ -230,6 +233,9 @@ export default {
               break
             case 35: case 13:
               this.events[i].type = 'playlist'
+              this.events[i].name = this.events[i][this.events[i].type].name
+              this.events[i].imgUrl = this.events[i][this.events[i].type].coverImgUrl
+              this.events[i].bycreator = this.events[i][this.events[i].type].creator.nickname
               this.events[i].id = this.events[i][this.events[i].type].id
               break
             case 24:

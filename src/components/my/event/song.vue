@@ -1,5 +1,5 @@
 <template>
-  <div id="song" @click="toPlayer" :data-id="songId">
+  <div id="song" @click="toPlayer">
     <img :src="songImgUrl" :alt="songName">
     <div class="song_right">
     <span>{{songName}}</span>
@@ -12,25 +12,33 @@
 export default {
   data () {
     return {
-      songId: '',
       songImgUrl: '',
       songName: '',
       songAuthor: '',
-      songUrl: ''
+      songUrl: '',
+      songHdImgUrl: ''
     }
   },
   props: {
-    childId: [Number]
-
+    childId: [Number, String],
+    imgUrl: [String],
+    componentName: [String],
+    creator: [String]
   },
   created () {
-    this.songId = this.childId
+    this.init()
     this.getSongDetail()
   },
   mounted () {
 
   },
   methods: {
+    init () {
+      this.songId = this.childId
+      this.songName = this.componentName
+      this.songAuthor = this.creator
+      this.songImgUrl = this.imgUrl
+    },
     async getSongDetail () {
       const { data: res } = await this.$http.get('/song/detail', {
         params: { ids: this.songId }
@@ -38,11 +46,7 @@ export default {
       if (res.code !== 200) {
         this.$notify({ type: 'danger', message: '获取歌曲失败' })
       }
-      this.songImgUrl = res.songs[0].al.picUrl
-      this.songName = res.songs[0].name
-      this.songAuthor = res.songs[0].ar.map(value => {
-        return value.name
-      }).join('/')
+      this.songHdImgUrl = res.songs[0].al.picUrl
     },
     async getSongUrl () {
       const { data: res } = await this.$http.get('/song/url', {
@@ -54,7 +58,7 @@ export default {
       this.songUrl = res.data[0].url
       const song = {
         songId: this.songId,
-        songImgUrl: this.songImgUrl,
+        songImgUrl: this.songHdImgUrl,
         songName: this.songName,
         songAuthor: this.songAuthor,
         songUrl: this.songUrl
@@ -81,15 +85,25 @@ export default {
     box-sizing: content-box;
   }
   .song_right{
-    padding-left: 5px;
+    padding-left: 10px;
     flex: 1;
     display: flex;
     justify-content: space-evenly;
     flex-direction: column;
     &>span:nth-child(1){
       font-size: 12px;
+      display: inline-block;
+      max-width: 270px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
     &>span:nth-child(2){
+            display: inline-block;
+      max-width: 270px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
       font-size: 10px;
       color: rgba(0, 0, 0, 0.6);
       -webkit-text-size-adjust:none;

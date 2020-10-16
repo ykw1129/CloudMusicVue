@@ -45,7 +45,11 @@ export default {
       if (val === null) {
         // 若列表中没有歌曲，返回上一页面
         Dialog.alert({ message: '抱歉！此歌曲暂时无资源。' }).then(() => {
-          console.log(this)
+          if (this.audioList.length === 1) {
+            history.go(-1)
+          } else {
+            this.$refs.AudioComponent.playNext()
+          }
         })
       }
     }
@@ -81,22 +85,27 @@ export default {
       })
     },
     back () {
+      this.$delete(this.$refs.AudioComponent.playing, 'currentTime')
       history.go(-1)
     },
     titleRun () {
 
     },
     hasAudioList () {
-      if (this.audioList.length === 0) {
+      const isAllNull = this.audioList.some((url) => {
+        return url != null
+      })
+      if (!isAllNull) {
         // 若列表中没有歌曲，返回上一页面
-        this.dialog.alert({ message: '播放列表中没有歌曲！' }).then(() => {
+        this.$dialog.alert({ message: '播放列表中没有歌曲！' }).then(() => {
           history.go(-1)
         })
-      }
-      if (this.audioList[this.currentPlayIndex] === null) {
-        this.dialog.alert({ message: '此音乐没有资源，播放下一首' }).then(() => {
-          this.$refs.AudioComponent.playNext()
-        })
+      } else {
+        if (this.audioList[this.currentPlayIndex] === null) {
+          this.$dialog.alert({ message: '此音乐没有资源，播放下一首' }).then(() => {
+            this.$refs.AudioComponent.playNext()
+          })
+        }
       }
     },
     beforePlayNext (next) {
@@ -108,6 +117,7 @@ export default {
     playBefore (play) {
       this.currentPlayIndex = this.$refs.AudioComponent.currentPlayIndex
       this.$store.commit('CHANGESONG', this.currentPlayIndex)
+      this.hasAudioList()
       play()
     }
 
