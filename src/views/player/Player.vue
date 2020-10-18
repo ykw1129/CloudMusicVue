@@ -44,8 +44,12 @@ export default {
     currentSongUrl: {
       handler (val) {
         if (!val) {
+          console.log(this.audioList)
           this.$dialog.alert({ message: '此音乐没有资源，播放下一首' }).then(() => {
-            this.$refs.AudioComponent.playNext()
+            this.$store.commit('FIXPLAYERURLLIST')
+            setTimeout(() => {
+              this.$refs.AudioComponent.playNext()
+            }, 500)
           })
         }
       },
@@ -53,7 +57,9 @@ export default {
     },
     currentSongImgUrl: {
       handler (val) {
-
+        if (val) {
+          this.loading = false
+        }
       },
       immediate: true
     }
@@ -84,9 +90,13 @@ export default {
     getPlayState () {
       this.$nextTick(() => {
         if (this.playState) {
-          this.$refs.AudioComponent.play()
+          setTimeout(() => {
+            this.$refs.AudioComponent.play()
+          }, 500)
         } else {
-          this.$refs.AudioComponent.pause()
+          setTimeout(() => {
+            this.$refs.AudioComponent.pause()
+          }, 500)
         }
       })
     },
@@ -110,11 +120,11 @@ export default {
       }
     },
     beforePlayNext (next) {
-      this.$refs.AudioComponent.pause()
+      // this.$refs.AudioComponent.pause()
       next()
     },
     beforePlayPrev (prev) {
-      this.$refs.AudioComponent.pause()
+      // this.$refs.AudioComponent.pause()
       prev()
     },
     playBefore (play) {
@@ -125,11 +135,10 @@ export default {
 
   },
   created () {
-
   },
   mounted () {
     this.getPlayState()
-    this.loading = false
+
     this.hasAllAudioList()
   }
 }

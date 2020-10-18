@@ -78,6 +78,10 @@ export default new Vuex.Store({
       state.playList.currentSongAuthor = state.playList.list[currentPlayIndex].songAuthor
       state.playList.currentSongImgUrl = state.playList.list[currentPlayIndex].songImgUrl
       state.playList.currentSongUrl = state.playList.list[currentPlayIndex].songUrl
+    },
+    // 修正播放列表,删除链接为null的歌曲
+    FIXPLAYERURLLIST (state) {
+      state.playList.list.splice(state.playList.currentIndex, 1)
     }
   },
   actions: {
