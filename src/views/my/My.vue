@@ -211,6 +211,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
+
+      .van-cell{
+  font-size: 0.4rem;
+}
 .fade-enter-active{
   transition: opacity .5s;
 }
@@ -224,18 +228,36 @@ export default {
 
 .search {
     background-color: rgb(235, 32, 0);
-    height: 54px;
+    height: 1.2rem;
     overflow: hidden;
-
     .van-col:nth-child(1) {
         height: 100%;
         text-align: center;
-        padding: 8px;
+        padding: 0.08rem;
 
         img {
             height: 100%;
             border-radius: 50%;
         }
+    }
+    .van-col:nth-child(2){
+      height: 100%;
+
+    }
+    /deep/ .van-field__body{
+        height: 100%;
+    }
+    /deep/ .van-icon-search::before{
+        font-size: 0.4rem;
+    }
+    /deep/ .van-field__left-icon{
+      display: flex;
+      margin-right: 0.2rem;
+    }
+    /deep/ .van-field__left-icon .van-icon{
+      display: inline;
+      margin: auto;
+      line-height:1
     }
 }
 
@@ -244,15 +266,15 @@ export default {
         i {
             position: relative;
             display: inline-block;
-            font: normal normal normal 14px/1 vant-icon;
+            font: normal normal normal 0.14rem/1 vant-icon;
             text-rendering: auto;
             -webkit-font-smoothing: antialiased;
-            font-size: 64px;
+            font-size: 0.64rem;
 
             img {
                 text-align: center;
-                width: 1em;
-                height: 1em;
+                width: 2em;
+                height: 2em;
                 object-fit: contain;
             }
         }
@@ -260,11 +282,14 @@ export default {
         span {
             text-align: center;
             color: #646566;
-            font-size: 12px;
+            font-size: 0.4rem;
             word-wrap: break-word;
-            padding-top: 8px;
+            padding-top: 0.3rem;
 
         }
     }
+}
+.van-search{
+  height: 100%;
 }
 </style>

@@ -82,11 +82,17 @@ h1 {
 }
 .van-tabbar{
   width: 100%;
-  max-width: 640px;
   min-width: 320px;
   margin: auto;
-  height: 50px;
+  height:1.2rem;
   left: 50%;
   transform: translateX(-50%);
 }
+.van-tabbar-item{
+  font-size: 0.3rem;
+}
+.van-icon{
+  font-size: 0.3rem!important;
+}
+
 </style>

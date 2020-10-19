@@ -12,8 +12,7 @@ export default {
 </script>
 <style lang="less">
 html,body{
-  font-size: 20px;
-  max-width: 640px;
+  font-size: 0.2rem;
   min-width: 320px;
   margin: auto;
 }

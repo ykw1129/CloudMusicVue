@@ -45,11 +45,8 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.my-swipe .van-swipe-item {
-  color: #fff;
-  font-size: 20px;
-  line-height: 150px;
-  text-align: center;
+.my-swipe {
+  height: 100%;
 }
 .swipe-items{
     background-position: center 0;
@@ -60,5 +57,9 @@ export default {
       height: 100%;
       width: 100%;
     }
+
 }
+       /deep/ .van-swipe__track{
+      height: auto!important;
+    }
 </style>

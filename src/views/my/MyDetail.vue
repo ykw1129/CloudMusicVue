@@ -219,6 +219,7 @@ export default {
               this.events[i].id = this.events[i][this.events[i].type].id
               this.events[i].name = this.events[i][this.events[i].type].name
               this.events[i].imgUrl = this.events[i][this.events[i].type].img80x80
+              this.events[i].bycreator = this.events[i][this.events[i].type].artist.name
               break
             case 17: case 28:
               this.events[i].des = '分享电台'
@@ -226,6 +227,7 @@ export default {
               this.events[i].id = this.events[i][this.events[i].type].id
               this.events[i].name = this.events[i][this.events[i].type].name
               this.events[i].imgUrl = this.events[i][this.events[i].type].img80x80
+              this.events[i].bycreator = this.events[i][this.events[i].type].dj.nickname
               break
             case 22:
               this.events[i].des = '转发'
@@ -298,13 +300,13 @@ export default {
 
 <style lang="less" scoped>
 .user-detail{
-  height: 412px;
+  height: 10rem;
   .user-background{
     background-position: center 0;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: 50% 0;
-    height: 412px;
+    height: 10rem;
     position: relative;
     &:after{
     position: absolute;
@@ -321,14 +323,14 @@ export default {
   position: relative;
   .user-logo{
     position: relative;
-    bottom: 200px;
+    bottom: 5rem;
     z-index: 2;
-    left: 40px;
+    left: 0.8rem;
     .user-info{
-      padding-top: 8px;
+      padding-top: 0.16rem;
       color:#ffffff;
       word-wrap: break-word;
-      font-size: 0.6rem;
+      font-size: 0.3rem;
       p{
         font-weight: bold;
         padding: 6px 0;

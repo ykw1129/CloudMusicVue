@@ -93,14 +93,14 @@ export default {
     &>span:nth-child(1){
       font-size: 12px;
       display: inline-block;
-      max-width: 270px;
+      max-width: 230px;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
     }
     &>span:nth-child(2){
             display: inline-block;
-      max-width: 270px;
+      max-width: 230px;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;

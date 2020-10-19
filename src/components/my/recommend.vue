@@ -54,7 +54,7 @@ img[lazy=loading] {
 .recommend {
     position: relative;
     box-sizing: border-box;
-    padding: 10px 16px;
+    padding: 0.1rem 0.16rem;
     border-bottom: 1px solid @bordercolor;
 
     &-text {
@@ -73,12 +73,12 @@ img[lazy=loading] {
         width: 90%;
 
         .recommend-img {
-            font-size: 40px;
-            padding-right: 8px;
+            font-size: 1rem;
+            padding-right: 0.08rem;
         }
 
         .user-img {
-            font-size: 30px;
+            font-size: 0.8rem;
             position: absolute;
             right: -10%;
             top: 50%;
@@ -105,12 +105,14 @@ img[lazy=loading] {
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
+                font-size: 0.35rem;
             }
 
             span:nth-child(2) {
                 font-weight: lighter;
                 white-space: nowrap;
                 overflow: hidden;
+                font-size: 0.30rem;
                 text-overflow: ellipsis;
             }
         }
