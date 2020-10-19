@@ -44,7 +44,6 @@ export default {
     currentSongUrl: {
       handler (val) {
         if (!val) {
-          console.log(this.audioList)
           this.$dialog.alert({ message: '此音乐没有资源，播放下一首' }).then(() => {
             this.$store.commit('FIXPLAYERURLLIST')
             setTimeout(() => {
@@ -108,7 +107,6 @@ export default {
     },
     // 判断audioList是否存在歌曲
     hasAllAudioList () {
-      console.log(this.audioList)
       const isAllNull = this.audioList.some((url) => {
         return url != null
       })

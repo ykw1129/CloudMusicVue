@@ -46,7 +46,7 @@ border-radius: 3px;
 #playlist{
   padding: 4px 10px;
   display: flex;
-  background: rgba(0, 0, 0, 0.1);
+  background: #F5F5F5;
   &>img{
     width: 40px;
     height: 40px;

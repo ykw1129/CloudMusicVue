@@ -44,7 +44,7 @@ export default {
         params: { ids: this.songId }
       })
       if (res.code !== 200) {
-        this.$notify({ type: 'danger', message: '获取歌曲失败' })
+        this.$notify({ type: 'danger', message: '获取歌曲高清图片失败' })
       }
       this.songHdImgUrl = res.songs[0].al.picUrl
     },
@@ -77,7 +77,7 @@ export default {
 #song{
   padding: 4px 10px;
   display: flex;
-  background: rgba(0, 0, 0, 0.1);
+  background: #F5F5F5;
   &>img{
     width: 40px;
     height: 40px;

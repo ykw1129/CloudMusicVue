@@ -107,11 +107,11 @@
             finished-text="没有更多了"
           >
             <eventswitch
-              ref="eventAllRef"
               v-for="event in events"
               :imgUrl="event.imgUrl"
               :urlId="event.id"
               :key="event.id"
+              :des="event.des"
               :componentName="event.name"
               :bycreator="event.bycreator"
               :creator="event.nickname"
@@ -119,6 +119,8 @@
               :eventTypecode="event.type"
               :avatarUrl="event.creatorAvatarUrl"
               :msg = "event.msg"
+              :actName="event.actName"
+              :content="event.content"
             ></eventswitch>
           </van-list>
         </van-pull-refresh>
@@ -205,33 +207,42 @@ export default {
           switch (res.events[i].type) {
             case 18:
               this.events[i].type = 'song'
+              this.events[i].des = '分享单曲'
               this.events[i].id = this.events[i][this.events[i].type].id
               this.events[i].imgUrl = this.events[i][this.events[i].type].img80x80
               this.events[i].name = this.events[i][this.events[i].type].name
               this.events[i].bycreator = this.events[i][this.events[i].type].artists.map((item) => { return item.name }).join('/')
               break
             case 19:
+              this.events[i].des = '分享专辑'
               this.events[i].type = 'album'
               this.events[i].id = this.events[i][this.events[i].type].id
               this.events[i].name = this.events[i][this.events[i].type].name
               this.events[i].imgUrl = this.events[i][this.events[i].type].img80x80
               break
             case 17: case 28:
+              this.events[i].des = '分享电台'
               this.events[i].type = 'djRadio'
               this.events[i].id = this.events[i][this.events[i].type].id
               this.events[i].name = this.events[i][this.events[i].type].name
               this.events[i].imgUrl = this.events[i][this.events[i].type].img80x80
               break
             case 22:
+              this.events[i].des = '转发'
               this.events[i].type = 'event'
+              this.events[i].actName = this.events[i][this.events[i].type].actName
+              this.events[i].bycreator = this.events[i][this.events[i].type].user.nickname
               this.events[i].id = this.events[i][this.events[i].type].id
+              this.events[i].content = JSON.parse(this.events[i][this.events[i].type].json).msg
               this.events[i].imgUrl = this.events[i][this.events[i].type].pics[0].originUrl
               break
             case 39:
+              this.events[i].des = '发布视频'
               this.events[i].type = 'releasevideo'
               this.events[i].id = this.events[i][this.events[i].type].id
               break
             case 35: case 13:
+              this.events[i].des = '分享歌单'
               this.events[i].type = 'playlist'
               this.events[i].name = this.events[i][this.events[i].type].name
               this.events[i].imgUrl = this.events[i][this.events[i].type].coverImgUrl
@@ -239,10 +250,12 @@ export default {
               this.events[i].id = this.events[i][this.events[i].type].id
               break
             case 24:
+              this.events[i].des = '分享专栏'
               this.events[i].type = 'specialcolumn'
               this.events[i].id = this.events[i][this.events[i].type].id
               break
             case 41: case 21:
+              this.events[i].des = '分享视频'
               this.events[i].type = 'myvideo'
               this.events[i].id = this.events[i][this.events[i].type.substr(2)].videoId
               break
@@ -250,19 +263,6 @@ export default {
           this.events[i].eventTime = res.events[i].eventTime
           this.events[i].nickname = res.events[i].user.nickname
           this.events[i].creatorAvatarUrl = res.events[i].user.avatarUrl
-          /*           const a = Object.keys(this.events[i]).filter((current, index, arr) => {
-            return arr[index] !== 'soundeffectsInfo'
-          }) */
-          /*           this.events[i].creatorAvatarUrl = res.events[i].user.avatarUrl
-          this.events[i].id = this.events[i][this.events[i].type].id || this.events[i][this.events[i].type].videoId
-          this.events[i].nickname = res.events[i].user.nickname
-          if (this.events[i].type === 'video') {
-            this.events[i].type = 'eventvideo'
-          }
-          if (this.events[i].type === 'song') {
-            this.events[i].name = this.events[i][this.events[i].type].name
-          } */
-          // this.$refs.eventAllRef.getEventData(this.events[i].id)
         }
         console.log('获取用户动态事件', this.events)
 

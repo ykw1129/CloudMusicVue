@@ -9,12 +9,12 @@
       round
     />
     <div class="event-main">
-      <p>{{creator}}</p>
+      <p>{{creator}} <span>{{des}}:</span></p>
       <p>{{eventTime|dateFormatAccurate}}</p>
       <p>{{msg}}</p>
       <div class="main">
         <keep-alive>
-          <components :is="eventTypecode" :childId="urlId" :imgUrl="imgUrl" :creator="bycreator" :componentName="componentName"></components>
+          <components :is="eventTypecode" :childId="urlId" :imgUrl="imgUrl" :creator="bycreator" :componentName="componentName" :content="content" :actName="actName"></components>
         </keep-alive>
       </div>
     </div>
@@ -44,6 +44,9 @@ export default {
     djRadio
   },
   props: {
+    des: {
+      type: String
+    },
     componentName: {
       type: String
     },
@@ -70,7 +73,11 @@ export default {
     },
     bycreator: {
       type: String
-    }
+    },
+    content: {
+      type: String
+    },
+    actName: { type: String }
   },
   created () {
   },
@@ -100,8 +107,13 @@ export default {
         p{
             padding: 6px;
         &:nth-child(1){
-            color: #666666;
+            color: #6495ED;
             font-size: 12px;
+            span{
+              color: #666666;
+              font-size: 10px;
+              padding-left: 10px;
+            }
         }
         &:nth-child(2){
             color: #999999;
@@ -114,7 +126,7 @@ export default {
         }
         .main{
             width: 100%;
-            border-radius: 5px;
+            border-radius: 3px;
             overflow: hidden;
 
             }
