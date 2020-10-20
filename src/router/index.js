@@ -10,6 +10,7 @@ const Find = () => import('../views/find/Find')
 const Village = () => import('../views/village/Village')
 const Detail = () => import('../views/my/MyDetail')
 const Player = () => import('../views/player/Player')
+const PlayList = () => import('../views/playlist/PlayList')
 Vue.use(VueRouter)
 
 const routes = [{
@@ -57,6 +58,12 @@ const routes = [{
   path: '/player',
   name: 'Player',
   component: Player
+},
+{
+  path: '/playlist/:id',
+  name: 'PlayList',
+  component: PlayList
+
 }
 ]
 

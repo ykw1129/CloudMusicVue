@@ -1,5 +1,5 @@
 <template>
-  <div id="playlist">
+  <div id="playlist" @click="toPlayListPage">
     <img :src="playlistImgUrl" :alt="playlistName">
     <div class="right">
     <div class="top"><div class="icon van-hairline--surround">歌单</div> <span class="name">{{playlistName}}</span></div>
@@ -30,6 +30,9 @@ export default {
       this.playlistName = this.componentName
       this.playlistAuthor = this.creator
       this.playlistImgUrl = this.imgUrl
+    },
+    toPlayListPage () {
+      this.$router.push({ name: 'PlayList', params: { id: this.playlistId } })
     }
   },
   created () {
