@@ -43,24 +43,24 @@ export default {
 
 <style lang="less" scoped>
 #event{
-  padding: 5px 10px;
+  padding: 0.1rem 0.1rem;
   background-color: #F5F5F5;
   .creator{
     color: #6495ED;
-    font-size: 12px;
+    font-size: 0.24rem;
   }
   span{
     color: #6495ED;
-    font-size: 12px;
-    margin: 0 2px;
+    font-size: 0.24rem;
+    margin: 0.01rem;
   }
   .msg{
-    font-size: 12px;
+    font-size: 0.24rem;
     color: #333;
     line-height: 1.5;
   }
   .img{
-    max-width: 150px;
+    max-width: 3rem;
     img{
       width: 100%;
     }

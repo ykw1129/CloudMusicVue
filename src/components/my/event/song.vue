@@ -75,36 +75,36 @@ export default {
 
 <style lang="less" scoped>
 #song{
-  padding: 4px 10px;
+  padding: 0.04rem 0.1rem;
   display: flex;
   background: #F5F5F5;
   &>img{
-    width: 40px;
-    height: 40px;
+    width: 0.8rem;
+    height: 0.8rem;
     border-radius: 5px;
     box-sizing: content-box;
   }
   .song_right{
-    padding-left: 10px;
+    padding-left: 0.2rem;
     flex: 1;
     display: flex;
     justify-content: space-evenly;
     flex-direction: column;
     &>span:nth-child(1){
-      font-size: 12px;
+      font-size: 0.24rem;
       display: inline-block;
-      max-width: 230px;
+      max-width: 5rem;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
     }
     &>span:nth-child(2){
             display: inline-block;
-      max-width: 230px;
+      max-width: 5rem;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
-      font-size: 10px;
+      font-size: 0.2rem;
       color: rgba(0, 0, 0, 0.6);
       -webkit-text-size-adjust:none;
     }

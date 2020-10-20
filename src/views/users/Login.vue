@@ -142,12 +142,13 @@ export default {
   h1 {
     margin-bottom: 2%;
     color: gray;
+    font-size: 0.5rem;
   }
   .login-logo {
-    margin: 50px;
+    margin: 1rem;
     img {
-      width: 100px;
-      height: 100px;
+      width: 2rem;
+      height: 2rem;
       border-radius: 50%;
     }
   }
@@ -155,8 +156,25 @@ export default {
     margin: 30px;
     a {
       color: gray;
-      font-size: 0.8rem;
+      font-size: 0.4rem;
     }
+  }
+  /deep/ .van-cell{
+    padding: 0.2rem 0.32rem;
+  }
+  /deep/ .van-field__label{
+    width: 1.5rem;
+    margin-right: 0.24rem;
+    span{
+      font-size: 0.28rem;
+    }
+  }
+  /deep/ .van-field__body{
+    font-size: 0.28rem;
+  }
+  /deep/ .van-button{
+    height: 0.88rem;
+    font-size: 0.28rem;
   }
 }
 </style>

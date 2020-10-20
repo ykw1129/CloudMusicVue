@@ -40,7 +40,6 @@ export default {
   },
   methods: {
     getVideoInit () {
-      this.videoWidth = document.body.clientWidth - 77
       this.$refs.video.volume = 0.5
     },
     async getVideoUrl () {
@@ -59,6 +58,7 @@ export default {
 <style lang="less" scoped>
 #video{
   video{
+    width: 100%;
     border-radius: 15px;
   }
 }

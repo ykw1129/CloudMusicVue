@@ -87,12 +87,12 @@ h1 {
   height:1.2rem;
   left: 50%;
   transform: translateX(-50%);
+  /deep/  .van-icon{
+  font-size: 0.3rem!important;
+}
 }
 .van-tabbar-item{
   font-size: 0.3rem;
-}
-.van-icon{
-  font-size: 0.3rem!important;
 }
 
 </style>
