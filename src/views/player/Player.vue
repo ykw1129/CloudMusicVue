@@ -51,8 +51,7 @@ export default {
             }, 500)
           })
         }
-      },
-      immediate: true
+      }
     },
     currentSongImgUrl: {
       handler (val) {
@@ -71,14 +70,11 @@ export default {
       playList: state => state.playList
     }),
     ...mapMutations([
-      'PLAYSWITCH'
     ]),
     ...mapGetters({
       audioList: 'getAudioPlayerUrlList'
     }),
     ...mapActions([
-      'getUserInfo',
-      'getIsLogin',
       'getPlayList'
     ])
   },
@@ -107,6 +103,15 @@ export default {
     },
     // 判断audioList是否存在歌曲
     hasAllAudioList () {
+      this.$store.commit('GETPLAYLIST')
+      if (this.currentSongUrl === null) {
+        this.$dialog.alert({ message: '此音乐没有资源，播放下一首' }).then(() => {
+          this.$store.commit('FIXPLAYERURLLIST')
+          setTimeout(() => {
+            this.$refs.AudioComponent.playNext()
+          }, 500)
+        })
+      }
       const isAllNull = this.audioList.some((url) => {
         return url != null
       })
@@ -133,11 +138,16 @@ export default {
 
   },
   created () {
+    console.log('created', this.currentSongUrl)
   },
   mounted () {
-    this.getPlayState()
+    console.log('mounted', this.currentSongUrl)
 
     this.hasAllAudioList()
+    this.getPlayState()
+  },
+  beforeDestroy () {
+    this.$store.commit('STOPPLAYER')
   }
 }
 </script>

@@ -17,7 +17,8 @@ export default new Vuex.Store({
       currentIndex: '',
       currentSongImgUrl: '',
       currentSongUrl: '',
-      list: []
+      list: [],
+      status: true
     }
 
   },
@@ -62,14 +63,16 @@ export default new Vuex.Store({
       state.playList.currentSong = list.songName
       localMethods.setLocal('playList', state.playList)
     },
-    // 播放器状态
-    PLAYSWITCH (state) {
-      state.playList.playState = !state.playList.playState
-    },
     // 获取音乐播放列表
-    GETPLAYLIST (state, playlist) {
-      playlist.playState = false
-      state.playList = playlist
+    GETPLAYLIST (state) {
+      state.playList = localMethods.getLocal('playList')
+      if (state.playList.status) {
+        state.playList.playState = false
+        state.playList.status = false
+      } else {
+        state.playList.playState = true
+        state.playList.status = true
+      }
     },
     // 切换歌曲
     CHANGESONG (state, currentPlayIndex) {
@@ -78,10 +81,16 @@ export default new Vuex.Store({
       state.playList.currentSongAuthor = state.playList.list[currentPlayIndex].songAuthor
       state.playList.currentSongImgUrl = state.playList.list[currentPlayIndex].songImgUrl
       state.playList.currentSongUrl = state.playList.list[currentPlayIndex].songUrl
+      localMethods.setLocal('playList', state.playList)
     },
     // 修正播放列表,删除链接为null的歌曲
     FIXPLAYERURLLIST (state) {
       state.playList.list.splice(state.playList.currentIndex, 1)
+      localMethods.setLocal('playList', state.playList)
+    },
+    // 关掉音乐
+    STOPPLAYER (state) {
+      state.playList.playState = false
     }
   },
   actions: {
