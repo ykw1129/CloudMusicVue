@@ -17,7 +17,7 @@ import { Dialog } from 'vant'
 extend('required', required)
 extend('email', email)
 // 设置
-axios.defaults.baseURL = 'http://localhost:3000'
+axios.defaults.baseURL = 'https://mapi.ykweb.xyz'
 Vue.component('ValidationProvider', ValidationProvider)
 Vue.component('ValidationObserver', ValidationObserver)
 // 年月日

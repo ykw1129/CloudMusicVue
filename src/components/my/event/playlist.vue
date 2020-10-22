@@ -3,7 +3,7 @@
     <img :src="playlistImgUrl" :alt="playlistName">
     <div class="right">
     <div class="top"><div class="icon van-hairline--surround">歌单</div> <span class="name">{{playlistName}}</span></div>
-    <div class="bottom"><sub>by</sub> <span>{{playlistAuthor}}</span></div>
+    <div class="bottom"><span class="sub">by</span> <span>{{playlistAuthor}}</span></div>
     </div>
   </div>
 </template>
@@ -59,8 +59,9 @@ border-radius: 3px;
   .right{
     padding-left: 0.2rem;
     flex: 1;
+    font-size: 0.2rem!important;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-around;
     flex-direction: column;
    .top{
      display: flex;
@@ -79,7 +80,7 @@ border-radius: 3px;
     }
     .bottom{
       color: rgba(0, 0, 0, 0.4);
-      sub{
+      .sub{
         font-size: 0.24rem;
       }
       span{

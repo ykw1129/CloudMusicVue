@@ -57,6 +57,7 @@ img[lazy=loading] {
     position: relative;
     box-sizing: border-box;
     padding: 0.1rem 0.16rem;
+    box-sizing: border-box;
     border-bottom: 1px solid @bordercolor;
 
     &-text {
@@ -66,7 +67,7 @@ img[lazy=loading] {
         color: #646566;
         font-size: 0.6rem;
         word-wrap: break-word;
-        padding-top: 4px;
+        padding-top: 0.1rem;
     }
 
     .recommend-url {
