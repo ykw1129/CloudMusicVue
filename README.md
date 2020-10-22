@@ -6,11 +6,16 @@
 </a>
 </p>
  
-<h3>Interface Screenshots</h3>
+<h2>Interface Screenshots</h2>
 <p align="center">
 <img width="30%" src="/screenshot/login.png" alt="login">
 <img width="30%" src="/screenshot/my1.png" alt="my1">
 <img width="30%" src="/screenshot/my2.png" alt="my2">
+</p>
+
+<h2>GIF</h2>
+<p align="center">
+<img width="50%" src="/screenshot/music.gif" alt="gif">
 </p>
 
 
