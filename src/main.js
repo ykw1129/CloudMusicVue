@@ -17,6 +17,8 @@ import { Dialog } from 'vant'
 extend('required', required)
 extend('email', email)
 // 设置
+window.console.log = console.log() // 打开默认设置
+window.console.log = function () {} // 关闭默认设置
 axios.defaults.baseURL = 'https://mapi.ykweb.xyz'
 Vue.component('ValidationProvider', ValidationProvider)
 Vue.component('ValidationObserver', ValidationObserver)

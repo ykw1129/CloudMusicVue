@@ -1,12 +1,10 @@
 <template>
   <div class="recommend" @click="toPlayList">
     <div class="recommend-url">
-      <i class="recommend-img">
         <img
           v-lazy="imgurl"
           alt="title"
         >
-      </i>
       <div class="recommend-text">
         <span>{{title}}</span>
         <span>{{text}}</span>
@@ -54,9 +52,8 @@ img[lazy=loading] {
 @bordercolor: #ebedf0;
 
 .recommend {
-    position: relative;
     box-sizing: border-box;
-    padding: 0.1rem 0.16rem;
+    padding: 0.16rem 0.16rem;
     box-sizing: border-box;
     border-bottom: 1px solid @bordercolor;
 
@@ -67,18 +64,12 @@ img[lazy=loading] {
         color: #646566;
         font-size: 0.6rem;
         word-wrap: break-word;
-        padding-top: 0.1rem;
     }
 
     .recommend-url {
         position: relative;
-        display: inline-flex;
-        width: 90%;
-
-        .recommend-img {
-            font-size: 1rem;
-            padding-right: 0.08rem;
-        }
+        display: flex;
+        width: 92%;
 
         .user-img {
             font-size: 0.8rem;
@@ -88,21 +79,22 @@ img[lazy=loading] {
             transform: translateY(-50%);
 
             img {
+              vertical-align: mid;
                 border-radius: 50%;
             }
         }
-
-        i {
-
             img {
-                width: 1em;
-                height: 1em;
+                width: 1rem;
+                height: 1rem;
+                vertical-align: baseline;
+                padding-right: 0.08rem;
             }
-        }
 
         .recommend-text {
           flex: 1;
+          vertical-align: bottom;
           overflow: hidden;
+          height: 1rem;
             span:nth-child(1) {
                 font-weight: bold;
                 white-space: nowrap;
@@ -115,7 +107,7 @@ img[lazy=loading] {
                 font-weight: lighter;
                 white-space: nowrap;
                 overflow: hidden;
-                font-size: 0.30rem;
+                font-size: 0.32rem;
                 text-overflow: ellipsis;
             }
         }
