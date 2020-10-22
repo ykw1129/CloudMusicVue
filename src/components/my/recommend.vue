@@ -1,9 +1,6 @@
 <template>
-  <div class="recommend">
-    <router-link
-      class="recommend-url"
-      to="#"
-    >
+  <div class="recommend" @click="toPlayList">
+    <div class="recommend-url">
       <i class="recommend-img">
         <img
           v-lazy="imgurl"
@@ -20,8 +17,7 @@
           alt="username"
         >
       </i>
-
-    </router-link>
+    </div>
   </div>
 </template>
 
@@ -38,7 +34,13 @@ export default {
     text: String,
     url: String,
     userimg: String,
-    username: String
+    username: String,
+    id: [String, Number]
+  },
+  methods: {
+    toPlayList () {
+      this.$router.push({ name: 'PlayList', params: { id: this.id } })
+    }
   }
 }
 </script>

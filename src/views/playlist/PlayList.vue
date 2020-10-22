@@ -48,7 +48,7 @@
     finished-text="没有更多了"
   >
               <template v-slot:default>
-                <playlistItem v-for="(privilege,index) in privileges" :key="privilege.id" :songId="privilege.id" :index="index"/>;
+                <playlistItem v-for="(privilege,index) in privileges" :key="privilege.id" :songId="privilege.id" :index="index"/>
               </template>
   </van-list>
 </van-pull-refresh>
@@ -84,7 +84,7 @@ export default {
       const { data: res } = await this.$http.get('/playlist/detail', { params: { id: window.location.hash.substr(11) } })
       if (res.code !== 200) return this.$notify({ type: 'danger', message: '获取歌单失败！' })
       this.playlistCoverImg = res.playlist.coverImgUrl
-      this.playlistCreatorName = res.playlist.creator.signature
+      this.playlistCreatorName = res.playlist.creator.nickname
       this.playlistName = res.playlist.name
       this.playlistDescription = res.playlist.description
       this.playlistTags = res.playlist.tags

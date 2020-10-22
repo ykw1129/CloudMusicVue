@@ -54,6 +54,7 @@
           >
             <template v-slot:default>
               <recommend
+                :id ="recommend.id"
                 :key="recommend.id"
                 v-for="recommend in recommendlist"
                 :imgurl="recommend.picUrl"
@@ -101,6 +102,7 @@
               >
 
                 <van-grid-item
+                @click="toPlayList(item.id)"
                   v-for="item in playlist"
                   :key="item.id"
                 >
@@ -205,7 +207,11 @@ export default {
     onPlaylistRefresh () {
       this.getUserplayList()
       this.isPlaylistLoading = false
+    },
+    toPlayList (id) {
+      this.$router.push({ name: 'PlayList', params: { id: id } })
     }
+
   }
 }
 </script>

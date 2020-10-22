@@ -1,11 +1,11 @@
 <template>
-  <div class="songitem van-hairline--bottom">
+  <div class="songitem van-hairline--bottom" @click="toPlayer">
     <div class="index">
       <p>{{index+1}}</p>
     </div>
     <div class="content">
-      <p class="name">{{songMsg.name}}<span>{{songMsg.des}}</span></p>
-      <p class="album">{{songMsg.singer}}-{{songMsg.album}}</p>
+      <p class="name">{{songMsg.songName}}<span>{{songMsg.des}}</span></p>
+      <p class="album">{{songMsg.songAuthor}}-{{songMsg.album}}</p>
     </div>
     <div class="operation">
       <van-icon name="more-o" />
@@ -43,10 +43,32 @@ export default {
       }
       this.songMsg = {
         album: res.songs[0].al.name,
-        name: res.songs[0].name,
+        songName: res.songs[0].name,
         des: res.songs[0].alia[0] ? '(' + res.songs[0].alia[0] + ')' : null,
-        singer: res.songs[0].ar.map((item) => { return item.name }).join('/')
+        songAuthor: res.songs[0].ar.map((item) => { return item.name }).join('/'),
+        songImgUrl: res.songs[0].al.picUrl
       }
+    },
+    async getSongUrl () {
+      const { data: res } = await this.$http.get('/song/url', {
+        params: { id: this.songId }
+      })
+      if (res.code !== 200) {
+        this.$notify({ type: 'danger', message: '获取歌曲失败' })
+      }
+      this.songMsg.songUrl = res.data[0].url
+      const song = {
+        songId: this.songId,
+        songImgUrl: this.songMsg.songImgUrl,
+        songName: this.songMsg.songName,
+        songAuthor: this.songMsg.songAuthor,
+        songUrl: this.songMsg.songUrl
+      }
+      this.$store.dispatch('toPlayList', song)
+      this.$router.push({ name: 'Player' })
+    },
+    toPlayer () {
+      this.getSongUrl()
     }
   }
 }

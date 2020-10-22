@@ -55,6 +55,7 @@ export default new Vuex.Store({
         }
       }
       state.playList.list = result
+      state.playList.status = true
       state.playList.playState = true
       state.playList.currentSongAuthor = list.songAuthor
       state.playList.currentSongImgUrl = list.songImgUrl
@@ -67,11 +68,11 @@ export default new Vuex.Store({
     GETPLAYLIST (state) {
       state.playList = localMethods.getLocal('playList')
       if (state.playList.status) {
-        state.playList.playState = false
+        state.playList.playState = true
         state.playList.status = false
       } else {
-        state.playList.playState = true
-        state.playList.status = true
+        state.playList.playState = false
+        state.playList.status = false
       }
     },
     // 切换歌曲

@@ -138,11 +138,8 @@ export default {
 
   },
   created () {
-    console.log('created', this.currentSongUrl)
   },
   mounted () {
-    console.log('mounted', this.currentSongUrl)
-
     this.hasAllAudioList()
     this.getPlayState()
   },
