@@ -43,6 +43,7 @@ export default {
 
 <style lang="less" scoped>
 #event{
+  font-size: .2rem!important;
   padding: 0.1rem 0.1rem;
   background-color: #F5F5F5;
   .creator{

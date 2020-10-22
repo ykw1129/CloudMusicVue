@@ -79,7 +79,9 @@ img[lazy=loading] {
             transform: translateY(-50%);
 
             img {
-              vertical-align: mid;
+              width: 1em;
+              height: 1em;
+              vertical-align: middle;
                 border-radius: 50%;
             }
         }
@@ -93,20 +95,23 @@ img[lazy=loading] {
         .recommend-text {
           flex: 1;
           vertical-align: bottom;
-          overflow: hidden;
-          height: 1rem;
+          height: 0.9rem;
             span:nth-child(1) {
+              line-height: 1.2;
                 font-weight: bold;
                 white-space: nowrap;
-                overflow: hidden;
+                overflow-x: hidden;
+                 max-width: 7rem;
                 text-overflow: ellipsis;
                 font-size: 0.35rem;
             }
 
             span:nth-child(2) {
+                line-height: 1.2;
                 font-weight: lighter;
                 white-space: nowrap;
                 overflow: hidden;
+                max-width: 7rem;
                 font-size: 0.32rem;
                 text-overflow: ellipsis;
             }

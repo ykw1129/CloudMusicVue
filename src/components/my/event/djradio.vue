@@ -44,7 +44,7 @@ border-color: rgb(235, 32, 0);
 border-radius: 3px;
 }
 #radio{
-  padding: 0.08rem 0.2rem;
+  padding: 0.08rem 0.1rem;
   display: flex;
   background: #F5F5F5;
   &>img{
@@ -56,8 +56,9 @@ border-radius: 3px;
   .right{
     padding-left: 0.2rem;
     flex: 1;
+    font-size: 0.2rem!important;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-around;
     flex-direction: column;
    .top{
      display: flex;
@@ -76,7 +77,7 @@ border-radius: 3px;
     }
     .bottom{
       color: rgba(0, 0, 0, 0.4);
-      sub{
+      .sub{
         font-size: 0.24rem;
       }
       span{
