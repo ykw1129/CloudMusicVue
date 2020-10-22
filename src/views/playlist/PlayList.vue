@@ -48,7 +48,7 @@
     finished-text="没有更多了"
   >
               <template v-slot:default>
-                <playlistItem />
+                <playlistItem v-for="(privilege,index) in privileges" :key="privilege.id" :songId="privilege.id" :index="index"/>;
               </template>
   </van-list>
 </van-pull-refresh>
@@ -66,13 +66,14 @@ export default {
       loading: false,
       refreshing: false,
       playlistId: '',
-      mainColor: 'rgb(144,144,144)',
+      mainColor: '#DCDCDC',
       playlistCoverImg: '',
       playlistCreatorName: '',
       playlistCreatorAvatar: '',
       playlistName: '',
       playlistDescription: '',
-      playlistTags: []
+      playlistTags: [],
+      privileges: []
     }
   },
   components: {
@@ -89,7 +90,9 @@ export default {
       this.playlistTags = res.playlist.tags
       this.playlistCreatorAvatar = res.playlist.creator.avatarUrl
       this.getMainColor(res.playlist.coverImgUrl)
-      console.log(res)
+      this.privileges = res.privileges
+      this.finished = true
+      this.loading = true
     },
     back () {
       history.go(-1)
@@ -180,6 +183,10 @@ export default {
         font-size: 0.3rem;
       }
     }
+  }
+  .list{
+    background: #F5F5F5;
+    border-radius: 10px 10px 0 0;
   }
 }
 </style>
