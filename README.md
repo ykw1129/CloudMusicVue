@@ -16,6 +16,7 @@
 <h2>GIF</h2>
 <p align="center">
 <img width="50%" src="/screenshot/music.gif" alt="gif">
+<img width="50%" src="/screenshot/music2.gif" alt="gif2">
 </p>
 
 
