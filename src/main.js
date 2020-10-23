@@ -20,7 +20,6 @@ extend('email', email)
 // window.console.log = console.log() // 打开默认设置
 // window.console.log = function () {} // 关闭默认设置
 // axios.defaults.baseURL = 'https://mapi.ykweb.xyz'
-axios.defaults.baseURL = 'http://localhost:3000'
 Vue.component('ValidationProvider', ValidationProvider)
 Vue.component('ValidationObserver', ValidationObserver)
 // 年月日

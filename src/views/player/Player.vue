@@ -22,7 +22,7 @@
     </van-nav-bar>
             <div class="songimg">
             <van-skeleton avatar avatar-size="200px" avatar-shape="square" :loading="loading">
-           <img :src="currentSongImgUrl" alt="">
+           <img :src="currentSongImgUrl+'?param=400y400'" alt="">
             </van-skeleton>
             </div>
         <AudioPlayer :audio-list="audioList" ref="AudioComponent" :before-next="beforePlayNext" :before-prev="beforePlayPrev" :before-play="playBefore"/>

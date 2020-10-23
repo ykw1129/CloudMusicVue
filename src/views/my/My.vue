@@ -182,7 +182,7 @@ export default {
     // 每日推荐歌单
     async getSubscribe () {
       const { data: res } = await this.$http.get('/recommend/resource', {
-        withCredentials: true
+        withCredentials: true, params: { timestamp: Date.parse(new Date()) }
       })
       if (res.code !== 200) {
         this.subscribeLoading = false
