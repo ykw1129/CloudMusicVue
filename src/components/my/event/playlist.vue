@@ -1,6 +1,6 @@
 <template>
   <div id="playlist" @click="toPlayListPage">
-    <img :src="playlistImgUrl" :alt="playlistName">
+    <img :src="playlistImgUrl+'?param=80y80'" :alt="playlistName">
     <div class="right">
     <div class="top"><div class="icon van-hairline--surround">歌单</div> <span class="name">{{playlistName}}</span></div>
     <div class="bottom"><span class="sub">by</span> <span>{{playlistAuthor}}</span></div>

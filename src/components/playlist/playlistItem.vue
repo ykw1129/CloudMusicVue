@@ -8,7 +8,7 @@
       <p class="album">{{songMsg.songAuthor}}-{{songMsg.album}}</p>
     </div>
     <div class="operation">
-      <van-icon name="more-o" color="#BEBEBE"/>
+      <van-icon name="more-o" color="#BEBEBE" size="0.5rem"/>
     </div>
   </div>
 </template>

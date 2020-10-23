@@ -2,7 +2,7 @@
   <div class="recommend" @click="toPlayList">
     <div class="recommend-url">
         <img
-          v-lazy="imgurl"
+          v-lazy="imgurl+'?param=100y100'"
           alt="title"
         >
       <div class="recommend-text">
@@ -11,7 +11,7 @@
       </div>
       <i class="user-img">
         <img
-          v-lazy="userimg"
+          v-lazy="userimg+'?param=100y100'"
           alt="username"
         >
       </i>

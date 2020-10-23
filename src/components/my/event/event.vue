@@ -5,7 +5,7 @@
       {{msg}}
     </div>
     <div class="img">
-      <img :src="imgUrl" :alt="actName">
+      <img :src="imgUrl+'?param=360y502'" :alt="actName">
     </div>
   </div>
 </template>
