@@ -2,7 +2,6 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import axios from 'axios'
 import './plugins/reponsive'
 import '@vant/touch-emulator'
 import 'default-passive-events'
@@ -12,7 +11,6 @@ import sessionMethods from './plugins/sessionStorage'
 import localMethods from './plugins/localStorage'
 import './plugins/rules'
 import './plugins/vant'
-import './plugins/interceptors'
 import { Dialog } from 'vant'
 extend('required', required)
 extend('email', email)
@@ -43,7 +41,6 @@ Vue.filter('dateFormatAccurate', function (originVal) {
 })
 Vue.directive('loading', {
   update (el, binding, vnode) {
-    console.log(el, binding, vnode)
     if (binding.value) {
       const div = document.createElement('div')
       div.innerText = '加载中...'
@@ -67,7 +64,6 @@ Vue.directive('loading', {
 Vue.prototype.$dialog = Dialog
 Vue.prototype.sessionMethods = sessionMethods
 Vue.prototype.localMethods = localMethods
-Vue.prototype.$http = axios
 Vue.config.productionTip = false
 new Vue({
   router,

@@ -1,3 +1,4 @@
+import { getSongDetail, getSongUrl } from '@/api/song';
 <template>
   <div class="songitem van-hairline--bottom" @click="toPlayer">
     <div class="index">
@@ -14,6 +15,7 @@
 </template>
 
 <script>
+import { getSongDetail, getSongUrl } from '@/api/song'
 export default {
   data () {
     return {
@@ -35,9 +37,7 @@ export default {
   },
   methods: {
     async getSongMsg () {
-      const { data: res } = await this.$http.get('/song/detail', {
-        params: { ids: this.songId }
-      })
+      const { data: res } = await getSongDetail(this.songId)
       if (res.code !== 200) {
         this.$notify({ type: 'danger', message: '获取' + this.songId + '歌曲失败' })
       }
@@ -50,12 +50,11 @@ export default {
       }
     },
     async getSongUrl () {
-      const { data: res } = await this.$http.get('/song/url', {
-        params: { id: this.songId }
-      })
+      const { data: res } = await getSongUrl(this.songId)
       if (res.code !== 200) {
         this.$notify({ type: 'danger', message: '获取歌曲失败' })
       }
+      console.log(res.data[0])
       this.songMsg.songUrl = res.data[0].url
       const song = {
         songId: this.songId,

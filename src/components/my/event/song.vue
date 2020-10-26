@@ -9,6 +9,7 @@
 </template>
 
 <script>
+import { getSongDetail, getSongUrl } from '@/api/song'
 export default {
   data () {
     return {
@@ -27,7 +28,7 @@ export default {
   },
   created () {
     this.init()
-    this.getSongDetail()
+    this.getDetail()
   },
   mounted () {
 
@@ -39,19 +40,15 @@ export default {
       this.songAuthor = this.creator
       this.songImgUrl = this.imgUrl
     },
-    async getSongDetail () {
-      const { data: res } = await this.$http.get('/song/detail', {
-        params: { ids: this.songId }
-      })
+    async getDetail () {
+      const { data: res } = await getSongDetail(this.songId)
       if (res.code !== 200) {
         this.$notify({ type: 'danger', message: '获取歌曲高清图片失败' })
       }
       this.songHdImgUrl = res.songs[0].al.picUrl
     },
-    async getSongUrl () {
-      const { data: res } = await this.$http.get('/song/url', {
-        params: { id: this.songId }
-      })
+    async getUrl () {
+      const { data: res } = await getSongUrl(this.songId)
       if (res.code !== 200) {
         this.$notify({ type: 'danger', message: '获取歌曲失败' })
       }
@@ -67,7 +64,7 @@ export default {
       this.$router.push({ name: 'Player' })
     },
     toPlayer () {
-      this.getSongUrl()
+      this.getUrl()
     }
   }
 }

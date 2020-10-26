@@ -61,7 +61,7 @@
       >
         <van-pull-refresh
           v-model="isDetailRefreshLoading"
-          @refresh="getUserDetail"
+          @refresh="getDetail"
         >
           <van-list
             v-model="isDetailLoading"
@@ -130,6 +130,7 @@
 </template>
 
 <script>
+import { getUserDetail, getUserEvent } from '@/api/user'
 import eventswitch from '../../components/my/eventswitch.vue'
 export default {
   data () {
@@ -172,10 +173,8 @@ export default {
   },
   methods: {
     // 获取用户详情
-    async getUserDetail () {
-      const { data: res } = await this.$http.get('/user/detail', {
-        params: { uid: this.UserDetail.userid, timestamp: Date.now() }, withCredentials: true
-      })
+    async getDetail () {
+      const { data: res } = await getUserDetail(this.UserDetail.userid, { withCredentials: true })
       if (res.code !== 200) {
         this.$notify({ type: 'danger', message: '获取用户资料失败' })
       } else {
@@ -194,10 +193,8 @@ export default {
         this.isDetailRefreshLoading = false
       }
     },
-    async getUserEvent () {
-      const { data: res } = await this.$http.get('/user/event', {
-        params: { uid: this.UserDetail.userid, limit: this.enventSize }
-      })
+    async getEvent () {
+      const { data: res } = await getUserEvent({ id: this.UserDetail.userid, limit: this.enventSize })
       if (res.code !== 200) {
         this.$notify({ type: 'danger', message: '获取用户动态失败' })
       } else {
@@ -275,7 +272,7 @@ export default {
     },
     getRefreshUserEvent () {
       this.events = []
-      this.getUserEvent()
+      this.getEvent()
     },
     // 初始化vuex
     detailInit () {
@@ -283,13 +280,10 @@ export default {
     },
     onListChange (name, title) {
       if (name === 'detail') {
-        this.getUserDetail()
+        this.getDetail()
       } else {
-        this.getUserEvent()
+        this.getEvent()
       }
-    },
-    async getEvent () {
-
     },
     back () {
       history.go(-1)

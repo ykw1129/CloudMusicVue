@@ -6,10 +6,7 @@
       indicator-color="white"
       height="159"
     >
-      <van-swipe-item
-      class="swipe-items"
-        v-for="item in bannerlist"
-        :key="item.bannerId"
+      <van-swipe-item class="swipe-items" v-for="item in bannerlist" :key="item.bannerId"
       >
          <img :src="item.pic" :alt="item.typeTitle">
       </van-swipe-item>
@@ -18,6 +15,7 @@
 </template>
 
 <script>
+import { getBanner } from '@/api/banner'
 export default {
   data () {
     return {
@@ -31,9 +29,7 @@ export default {
   methods: {
     // 轮播图
     async getBanner () {
-      const { data: res } = await this.$http.get('/banner', {
-        params: { type: this.phoneType }
-      })
+      const { data: res } = await getBanner(this.phoneType)
       if (res.code !== 200) {
         this.$notify({ type: 'danger', message: '获取图片失败' })
       } else {

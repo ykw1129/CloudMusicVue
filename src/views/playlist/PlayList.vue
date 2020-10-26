@@ -57,6 +57,7 @@
 </template>
 
 <script>
+import { getPlayList } from '@/api/playlist'
 import playlistItem from '../../components/playlist/playlistItem'
 import analyze from 'rgbaster'
 export default {
@@ -80,8 +81,8 @@ export default {
     playlistItem
   },
   methods: {
-    async getPlayList () {
-      const { data: res } = await this.$http.get('/playlist/detail', { params: { id: window.location.hash.substr(11) } })
+    async getList () {
+      const { data: res } = await getPlayList(window.location.hash.substr(11))
       if (res.code !== 200) return this.$notify({ type: 'danger', message: '获取歌单失败！' })
       this.playlistCoverImg = res.playlist.coverImgUrl
       this.playlistCreatorName = res.playlist.creator.nickname
@@ -107,7 +108,7 @@ export default {
     }
   },
   created () {
-    this.getPlayList()
+    this.getList()
   },
   mounted () {
 

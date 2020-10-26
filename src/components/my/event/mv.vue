@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import { getMvUrl } from '@/api/mv'
 export default {
   data () {
     return {
@@ -44,9 +45,7 @@ export default {
       this.$refs.video.volume = 0.1
     },
     async getMvUrl () {
-      const { data: res } = await this.$http.get('/mv/url', {
-        params: { id: this.mvId }
-      })
+      const { data: res } = await getMvUrl(this.mvId)
       if (res.code !== 200) {
         this.$notify({ type: 'danger', message: '获取mv地址失败' })
       }

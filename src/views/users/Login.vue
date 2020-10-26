@@ -51,6 +51,7 @@
 </template>
 
 <script>
+import { login } from '@/api/user'
 export default {
   data () {
     return {
@@ -69,10 +70,7 @@ export default {
       this.$refs.LoginRef.validate().then(async response => {
         if (response) {
         // 验证通过
-          const { data: res } = await this.$http.post(
-            '/login/cellphone', { phone: this.LoginForm.phone, password: this.LoginForm.password, timestamp: Date.parse(new Date()) }, { withCredentials: true }
-          )
-          console.log(res, this.LoginForm.phone, this.LoginForm.password)
+          const { data: res } = await login({ phone: this.LoginForm.phone, password: this.LoginForm.password, timestamp: Date.parse(new Date()) }, { withCredentials: true })
           if (res.code !== 200) {
             this.$notify({ type: 'danger', message: '账号或密码错误！' })
             this.LoginForm.password = null

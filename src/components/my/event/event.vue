@@ -30,6 +30,7 @@ export default {
     this.getTags()
   },
   methods: {
+    // 处理两个及以上歌手的信息
     getTags () {
       const arr = this.content.split('#').filter((s) => {
         return s && s.trim()

@@ -126,6 +126,7 @@
 </template>
 
 <script>
+import { getSubscribePlayList, getUserCreatePlayList } from '@/api/playlist'
 import recommend from '../../components/my/recommend'
 import myswipe from '../../components/my/myswipe'
 export default {
@@ -161,9 +162,7 @@ export default {
   methods: {
     // 获取用户歌单
     async getUserplayList () {
-      const { data: res } = await this.$http.get('/user/playlist', {
-        params: { uid: this.$store.state.User.userid }
-      })
+      const { data: res } = await getUserCreatePlayList(this.$store.state.User.userid)
       if (res.code !== 200) {
         this.playlistLoading = false
         this.playlistError = true
@@ -181,9 +180,7 @@ export default {
     },
     // 每日推荐歌单
     async getSubscribe () {
-      const { data: res } = await this.$http.get('/recommend/resource', {
-        withCredentials: true, params: { timestamp: Date.parse(new Date()) }
-      })
+      const { data: res } = await getSubscribePlayList({ withCredentials: true })
       if (res.code !== 200) {
         this.subscribeLoading = false
         this.subscribeError = true

@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import { getVideoUrl } from '@/api/video'
 export default {
   data () {
     return {
@@ -33,7 +34,7 @@ export default {
   created () {
     this.videoId = this.childId
     this.videoPoster = this.posterUrl
-    this.getVideoUrl()
+    this.getVideo()
   },
   mounted () {
     this.getVideoInit()
@@ -42,10 +43,8 @@ export default {
     getVideoInit () {
       this.$refs.video.volume = 0.5
     },
-    async getVideoUrl () {
-      const { data: res } = await this.$http.get('/video/url', {
-        params: { id: this.videoId }
-      })
+    async getVideo () {
+      const { data: res } = await getVideoUrl(this.videoId)
       if (res.code !== 200) {
         this.$notify({ type: 'danger', message: '获取视频失败' })
       }
