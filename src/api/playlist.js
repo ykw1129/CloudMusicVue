@@ -3,8 +3,9 @@ import request from '@/utils/request'
 // 获取推荐歌单
 export function getSubscribePlayList (data) {
   return request({
-    url: `/recommend/resource?timestamp=${new Date()}`,
+    url: `/recommend/resource?timestamp=${Date.now()}`,
     method: 'get',
+    withCredentials: true,
     data
   })
 }

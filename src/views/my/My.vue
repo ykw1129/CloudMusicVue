@@ -180,7 +180,7 @@ export default {
     },
     // 每日推荐歌单
     async getSubscribe () {
-      const { data: res } = await getSubscribePlayList({ withCredentials: true })
+      const { data: res } = await getSubscribePlayList()
       if (res.code !== 200) {
         this.subscribeLoading = false
         this.subscribeError = true
