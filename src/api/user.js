@@ -42,3 +42,30 @@ export function getUserStatus (data) {
     data
   })
 }
+
+// 获取用户是否已经注册
+export function getIsRegister (query) {
+  return request({
+    url: `/cellphone/existence/check?phone=${query.phone}`,
+    method: 'get',
+    withCredentials: true
+  })
+}
+
+// 注册
+export function Register (data) {
+  return request({
+    url: '/register/cellphone',
+    method: 'post',
+    withCredentials: true,
+    data
+  })
+}
+// 获取注册验证码
+export function getCaptcha (query) {
+  return request({
+    url: `/captcha/sent?phone=${query.phone}`,
+    method: 'get',
+    withCredentials: true
+  })
+}
