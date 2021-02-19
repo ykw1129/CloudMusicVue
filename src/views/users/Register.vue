@@ -98,9 +98,9 @@ export default {
     }
   },
   methods: {
+    // 点击注册
     async onClickRegister () {
       const { data: res } = await Register(this.registerForm)
-      console.log(res)
       if (res.code !== 200) {
         this.$notify({ type: 'danger', message: '注册失败' })
       } else {
@@ -180,6 +180,7 @@ export default {
         , 1000)
       })
     },
+    // 获取验证码点击处理
     handleCaptchaBtn () {
       this.getCaptchaCode(this.registerForm.phone)
       this.captchaCountDown().then((time) => {
@@ -192,9 +193,9 @@ export default {
         this.$refs.captcha_btn.classList.add('van-button--primary')
       })
     },
+    // 判断是否注册
     async handleIsRegister (phone) {
       const { data: res } = await getIsRegister({ phone })
-      console.log(res)
       if (res.code !== 200) {
         this.$notify({ type: 'success', message: '验证手机号失败，请检查网络' })
       } else {

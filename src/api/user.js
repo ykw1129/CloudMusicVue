@@ -9,37 +9,33 @@ export function login (data) {
   })
 }
 // 获取用户详细信息
-export function getUserDetail (id, data) {
+export function getUserDetail (id) {
   return request({
     url: `/user/detail?uid=${id}&timestamp=${Date.now()}`,
-    method: 'get',
-    data
+    method: 'get'
   })
 }
 // 获取用户动态
-export function getUserEvent (query, data) {
+export function getUserEvent (query) {
   return request({
     url: `/user/event?uid=${query.id}&limit=${query.limit}`,
-    method: 'get',
-    data
+    method: 'get'
   })
 }
 // 获取用户信息 , 歌单，收藏，mv, dj 数量
-export function getUserSubcount (data) {
+export function getUserSubcount () {
   return request({
     url: `/user/subcount?timestamp=${Date.now()}`,
     withCredentials: true,
-    method: 'get',
-    data
+    method: 'get'
   })
 }
 // 获取用户登录状态
-export function getUserStatus (data) {
+export function getUserStatus () {
   return request({
     url: `/user/status?timestamp=${Date.now()}`,
     method: 'get',
-    withCredentials: true,
-    data
+    withCredentials: true
   })
 }
 

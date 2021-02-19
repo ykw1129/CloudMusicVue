@@ -215,7 +215,7 @@ export default {
 
 <style lang="less" scoped>
 
-      .van-cell{
+.van-cell{
   font-size: 0.4rem;
 }
 .fade-enter-active{
@@ -261,6 +261,9 @@ export default {
       display: inline;
       margin: auto;
       line-height:1
+    }
+    /deep/ .van-cell.van-cell--borderless.van-field{
+      padding: .1rem .16rem;
     }
 }
 
