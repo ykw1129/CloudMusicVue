@@ -18,12 +18,16 @@
         <van-search
           v-model="searchValue"
           shape="round"
+          @search="onSearch"
+          @cancel="onCancel"
+          @focus="onFocus"
           background="rgb(235,32,0)"
           placeholder="请输入歌曲，歌手，专辑"
         />
       </van-col>
     </van-row>
-    <myswipe />
+    <hot-List></hot-List>
+    <my-Swipe />
     <van-tabs
       @rendered="onSubscribeChange"
       v-model="active"
@@ -128,10 +132,12 @@
 <script>
 import { getSubscribePlayList, getUserCreatePlayList } from '@/api/playlist'
 import recommend from '../../components/my/recommend'
-import myswipe from '../../components/my/myswipe'
+import mySwipe from '../../components/my/my-swipe'
+import hotList from '../../components/my/hot-list'
 export default {
   data () {
     return {
+      hotlistShow: false,
       active: 'subscribe',
       userId: '',
       searchValue: '',
@@ -153,7 +159,8 @@ export default {
   },
   components: {
     recommend,
-    myswipe
+    mySwipe,
+    hotList
   },
   created () {
     // 初始化store
@@ -161,7 +168,7 @@ export default {
   },
   methods: {
     // 获取用户歌单
-    async getUserplayList () {
+    async getUserPlayList () {
       const { data: res } = await getUserCreatePlayList(this.$store.state.User.userid)
       if (res.code !== 200) {
         this.playlistLoading = false
@@ -190,25 +197,38 @@ export default {
         this.recommendlist = res.recommend
       }
     },
+    // 推荐歌单改变
     onSubscribeChange (name, title) {
       if (name === 'subscribe') {
         this.getSubscribe()
       } else {
-        this.getUserplayList()
+        this.getUserPlayList()
       }
     },
+    // 推荐歌单刷新
     onSubscribeRefresh () {
       this.getSubscribe()
       this.isSubscribeLoading = false
     },
+    // 歌单刷新
     onPlaylistRefresh () {
-      this.getUserplayList()
+      this.getUserPlayList()
       this.isPlaylistLoading = false
     },
+    // 进入歌单详细页面
     toPlayList (id) {
       this.$router.push({ name: 'PlayList', params: { id: id } })
+    },
+    // 点击查询或点击回车键
+    onSearch (e) {
+      console.log(e)
+    },
+    onFocus () {
+      this.hotlistShow = !this.hotlistShow
+    },
+    onCancel (e) {
+      console.log(e)
     }
-
   }
 }
 </script>

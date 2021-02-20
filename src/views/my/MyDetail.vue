@@ -106,7 +106,7 @@
             :finished="isEventFinished"
             finished-text="没有更多了"
           >
-            <eventswitch
+            <event-Switch
               v-for="event in events"
               :imgUrl="event.imgUrl"
               :urlId="event.id"
@@ -121,7 +121,7 @@
               :msg = "event.msg"
               :actName="event.actName"
               :content="event.content"
-            ></eventswitch>
+            ></event-Switch>
           </van-list>
         </van-pull-refresh>
       </van-tab>
@@ -131,7 +131,7 @@
 
 <script>
 import { getUserDetail, getUserEvent } from '@/api/user'
-import eventswitch from '../../components/my/eventswitch.vue'
+import eventSwitch from '../../components/my/event-switch.vue'
 export default {
   data () {
     return {
@@ -163,7 +163,7 @@ export default {
     }
   },
   components: {
-    eventswitch
+    eventSwitch
   },
   computed: {
 

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-02-18 21:04:13
- * @LastEditTime: 2021-02-19 11:06:12
+ * @LastEditTime: 2021-02-19 13:18:31
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \cloudmusicvue\src\api\search.js
@@ -44,7 +44,7 @@ export function getSuggestSearch (query) {
 }
 
 // 搜索多重匹配
-export function getMultipleSearch ({ keywords }) {
+export function getMultipleSearch (keywords) {
   return request({
     url: `/search/multimatch?keywords=${keywords}`
   })
