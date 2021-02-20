@@ -21,12 +21,13 @@
           @search="onSearch"
           @cancel="onCancel"
           @focus="onFocus"
+          @blur="onBlur"
           background="rgb(235,32,0)"
           placeholder="请输入歌曲，歌手，专辑"
         />
       </van-col>
     </van-row>
-    <hot-List></hot-List>
+    <hot-List :isHide="hotlistShow" :List="hotList" ></hot-List>
     <my-Swipe />
     <van-tabs
       @rendered="onSubscribeChange"
@@ -130,6 +131,7 @@
 </template>
 
 <script>
+import { getEasyHotListSearch } from '../../api/search'
 import { getSubscribePlayList, getUserCreatePlayList } from '@/api/playlist'
 import recommend from '../../components/my/recommend'
 import mySwipe from '../../components/my/my-swipe'
@@ -137,7 +139,8 @@ import hotList from '../../components/my/hot-list'
 export default {
   data () {
     return {
-      hotlistShow: false,
+      hotList: [],
+      hotlistShow: true,
       active: 'subscribe',
       userId: '',
       searchValue: '',
@@ -223,11 +226,26 @@ export default {
     onSearch (e) {
       console.log(e)
     },
+    // focus搜索框
     onFocus () {
       this.hotlistShow = !this.hotlistShow
+      this.getHotList()
     },
+    // focus搜索框
+    onBlur () {
+      this.hotlistShow = !this.hotlistShow
+    },
+    // 取消搜索框
     onCancel (e) {
       console.log(e)
+    },
+    async getHotList () {
+      const { data: res } = await getEasyHotListSearch()
+      if (res.code !== 200) {
+        this.$notify({ type: 'danger', message: '获取热搜列表失败' })
+      } else {
+        this.hotList = res.result.hots
+      }
     }
   }
 }

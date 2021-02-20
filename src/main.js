@@ -60,6 +60,13 @@ Vue.directive('loading', {
     }
   }
 })
+Vue.directive('error', {
+  update (el, binding, vnode) {
+    if (binding.value) {
+      console.log(123)
+    }
+  }
+})
 Vue.prototype.$dialog = Dialog
 Vue.prototype.sessionMethods = sessionMethods
 Vue.prototype.localMethods = localMethods
