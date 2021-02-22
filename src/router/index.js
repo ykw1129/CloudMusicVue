@@ -11,6 +11,7 @@ const Village = () => import('../views/village/Village')
 const Detail = () => import('../views/my/MyDetail')
 const Player = () => import('../views/player/Player')
 const PlayList = () => import('../views/playlist/PlayList')
+const Search = () => import('../views/search/Search')
 Vue.use(VueRouter)
 
 const routes = [{
@@ -64,6 +65,10 @@ const routes = [{
   name: 'PlayList',
   component: PlayList
 
+}, {
+  path: '/search',
+  name: 'Search',
+  component: Search
 }
 ]
 

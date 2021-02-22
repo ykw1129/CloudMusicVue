@@ -1,8 +1,9 @@
 <template>
-    <div :class="{'hot-list':true,hide:isHide}">
+    <div :class="{'hot-list':true,'hide':isHide}">
         <div class="list-box">
+          <p>最近热搜</p>
             <ul >
-              <li v-for="(item,index) in List" :key="index">
+              <li @click="sendKeyword(item.first)" v-for="(item,index) in List" :key="index">
                 <span>{{index+1}}</span>{{item.first}}
                 </li>
             </ul>
@@ -26,6 +27,11 @@ export default {
         return true
       }
     }
+  },
+  methods: {
+    sendKeyword (keyword) {
+      this.$emit('get-keyword', keyword)
+    }
   }
 }
 </script>
@@ -46,19 +52,26 @@ export default {
     &.hide{
       transition: all 0.7s;
       height: 0;
-      .list-box{
-
-      }
     }
     .list-box{
         transition: all 0.7s;
         background-color: #fff;
         border-radius:  0 0 8px 8px;
+        padding: 0.5rem .08rem;
+        p{
+          color: @red;
+          text-align: center;
+          font-size: .5rem;
+        }
         ul{
           padding: .2rem 1.5rem;
+          display: flex;
+          flex-flow: row wrap;
+          justify-content: space-between;
           li{
             display: inline-block;
-            width: 50%;
+            width: 40%;
+            margin: .2rem;
             font-size: .35rem;
             overflow: hidden;
             text-overflow: ellipsis;

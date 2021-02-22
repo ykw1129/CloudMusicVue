@@ -28,7 +28,7 @@
         />
       </van-col>
     </van-row>
-    <suggest-List :suggestList="suggestList" :isHide="suggestListHide"></suggest-List>
+    <suggest-List @load-keyword="onKeyword" :suggestList="suggestList" :isHide="suggestListHide"></suggest-List>
     <hot-List @get-keyword="onKeyword" :isHide="hotListHide" :List="hotList" ></hot-List>
     <my-Swipe />
     <van-tabs
@@ -208,6 +208,9 @@ export default {
         this.recommendlist = res.recommend
       }
     },
+    onc () {
+      console.log(123)
+    },
     // 推荐歌单改变
     onSubscribeChange (name, title) {
       if (name === 'subscribe') {
@@ -230,10 +233,6 @@ export default {
     toPlayList (id) {
       this.$router.push({ name: 'PlayList', params: { id: id } })
     },
-    // 点击查询或点击回车键
-    onSearch (e) {
-      console.log(e)
-    },
     // focus搜索框
     onFocus () {
       this.hotListHide = !this.hotListHide
@@ -243,8 +242,9 @@ export default {
     // focus搜索框
     onBlur () {
       this.hotListHide ? this.hotListHide = false : this.hotListHide = true
-      this.placeholder = '请输入歌曲，歌手，专辑'
-      this.suggestListHide = true
+      this.$nextTick(() => {
+        this.placeholder = '请输入歌曲，歌手，专辑'
+      })
     },
     // 取消搜索框
     onCancel (e) {
@@ -254,9 +254,19 @@ export default {
       this.getSuggest()
       this.searchValue.length <= 0 ? this.suggestListHide = true : this.suggestListHide = false
     },
+    // 跳入查询详情页
     onKeyword (data) {
-      this.targetKeyword = data
+      this.$router.push({ name: 'Search', query: { keywords: data } })
     },
+    // 按下回车键或者点击搜索
+    onSearch (data) {
+      if (this.searchValue.length <= 0) {
+        this.$router.push({ name: 'Search', query: { keywords: this.placeholder } })
+      } else {
+        this.$router.push({ name: 'Search', query: { keywords: data } })
+      }
+    },
+    // 获取热门搜索列表
     async getHotList () {
       const { data: res } = await getEasyHotListSearch()
       if (res.code !== 200) {
@@ -265,6 +275,7 @@ export default {
         this.hotList = res.result.hots
       }
     },
+    // 获取默认搜索
     async getDefault () {
       const { data: res } = await loadDefaultSearch()
       if (res.code !== 200) {
