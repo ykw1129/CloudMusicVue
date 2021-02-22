@@ -22,12 +22,14 @@
           @cancel="onCancel"
           @focus="onFocus"
           @blur="onBlur"
+          @input="onInput"
           background="rgb(235,32,0)"
-          placeholder="请输入歌曲，歌手，专辑"
+          :placeholder="placeholder"
         />
       </van-col>
     </van-row>
-    <hot-List :isHide="hotlistShow" :List="hotList" ></hot-List>
+    <suggest-List :suggestList="suggestList" :isHide="suggestListHide"></suggest-List>
+    <hot-List @get-keyword="onKeyword" :isHide="hotListHide" :List="hotList" ></hot-List>
     <my-Swipe />
     <van-tabs
       @rendered="onSubscribeChange"
@@ -131,16 +133,21 @@
 </template>
 
 <script>
-import { getEasyHotListSearch } from '../../api/search'
+import { getSuggestSearch, loadDefaultSearch, getEasyHotListSearch } from '../../api/search'
 import { getSubscribePlayList, getUserCreatePlayList } from '@/api/playlist'
 import recommend from '../../components/my/recommend'
 import mySwipe from '../../components/my/my-swipe'
 import hotList from '../../components/my/hot-list'
+import suggestList from '../../components/my/suggest-list'
 export default {
   data () {
     return {
+      targetKeyword: '',
+      placeholder: '请输入歌曲，歌手，专辑',
+      suggestListHide: true,
+      suggestList: [],
       hotList: [],
-      hotlistShow: true,
+      hotListHide: true,
       active: 'subscribe',
       userId: '',
       searchValue: '',
@@ -163,7 +170,8 @@ export default {
   components: {
     recommend,
     mySwipe,
-    hotList
+    hotList,
+    suggestList
   },
   created () {
     // 初始化store
@@ -228,16 +236,26 @@ export default {
     },
     // focus搜索框
     onFocus () {
-      this.hotlistShow = !this.hotlistShow
+      this.hotListHide = !this.hotListHide
       this.getHotList()
+      this.getDefault()
     },
     // focus搜索框
     onBlur () {
-      this.hotlistShow = !this.hotlistShow
+      this.hotListHide ? this.hotListHide = false : this.hotListHide = true
+      this.placeholder = '请输入歌曲，歌手，专辑'
+      this.suggestListHide = true
     },
     // 取消搜索框
     onCancel (e) {
       console.log(e)
+    },
+    onInput () {
+      this.getSuggest()
+      this.searchValue.length <= 0 ? this.suggestListHide = true : this.suggestListHide = false
+    },
+    onKeyword (data) {
+      this.targetKeyword = data
     },
     async getHotList () {
       const { data: res } = await getEasyHotListSearch()
@@ -245,6 +263,21 @@ export default {
         this.$notify({ type: 'danger', message: '获取热搜列表失败' })
       } else {
         this.hotList = res.result.hots
+      }
+    },
+    async getDefault () {
+      const { data: res } = await loadDefaultSearch()
+      if (res.code !== 200) {
+        this.$notify({ type: 'danger', message: '获取默认关键词失败' })
+      } else {
+        this.placeholder = res.data.showKeyword
+      }
+    },
+    async getSuggest () {
+      const { data: res } = await getSuggestSearch({ keywords: this.searchValue })
+      if (res.code !== 200) {
+      } else {
+        this.suggestList = res.result.allMatch
       }
     }
   }
