@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-02-18 21:04:13
- * @LastEditTime: 2021-02-22 23:28:44
+ * @LastEditTime: 2021-02-23 15:31:06
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \cloudmusicvue\src\api\search.js
@@ -11,7 +11,7 @@ import request from '@/utils/request'
 // 搜索
 export function Search (query) {
   return request({
-    url: `/cloudsearch?keywords=${query.keywords}&limit=${query.limit || 30}&offset=${query.offset || 0}&type=${query.type || 1}`
+    url: `/search?keywords=${query.keywords}&limit=${query.limit || 30}&offset=${query.offset || 0}&type=${query.type || 1}`
   })
 }
 
