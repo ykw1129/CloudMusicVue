@@ -1,4 +1,5 @@
 import axios from 'axios'
+import router from 'vue-router'
 import { addPending, removePending } from '@/plugins/pendding/pendding.js'
 const service = axios.create({
   // Base URL, 按照vue-cli的要求，在系统根目录下`.env.xx`文件中定义
@@ -11,6 +12,10 @@ const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,
   timeout: 5000 // request timeout
 })
+// 设置请求次数，请求的间隙
+service.defaults.retry = 4
+service.defaults.retryDelay = 1000
+
 axios.interceptors.request.use(config => {
   removePending(config) // 在请求开始前，对之前的请求做检查取消操作
   addPending(config) // 将当前请求添加到 pending 中
@@ -32,6 +37,15 @@ axios.interceptors.response.use(response => {
     console.log('重复请求: ' + error.message)
   } else {
     // handle error code
+    switch (error.response.status) {
+      case 401:
+        router.push('/login')
+        break
+      case 404:
+        break
+      case 500:
+        break
+    }
   }
   return Promise.reject(error)
 })

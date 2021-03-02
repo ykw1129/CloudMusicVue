@@ -1,45 +1,74 @@
 <template>
-    <div id="Player">
-          <van-nav-bar
-      :title="playList.currentSong"
-      left-arrow
-      @click-left="back"
-    >
+  <div id="player" :style="{backgroundColor:mainColor}">
+    <van-nav-bar :title="currentSong" left-arrow @click-left="back">
       <template #left>
-          <van-icon
-            name="arrow-left"
-            size="18"
-            color="rgb(235, 32, 0)"
-          />
+        <van-icon name="arrow-left" size="18" color="rgb(235, 32, 0)" />
       </template>
       <template #right>
-        <van-icon
-          name="share-o"
-          size="18"
-          color="rgb(235, 32, 0)"
-        />
+        <van-icon name="share-o" size="18" color="rgb(235, 32, 0)" />
       </template>
     </van-nav-bar>
-            <div class="songimg">
-            <van-skeleton avatar avatar-size="200px" avatar-shape="square" :loading="loading">
-           <img :src="currentSongImgUrl+'?param=400y400'" alt="">
-            </van-skeleton>
-            </div>
-        <AudioPlayer :audio-list="audioList" ref="AudioComponent" :before-next="beforePlayNext" :before-prev="beforePlayPrev" :before-play="playBefore"/>
+    <div class="songmsg">
+      <h5 :style="{color:fontColor}">{{currentSong}}</h5>
+      <p
+        :style="{color:fontColor}"
+      >{{currentSongAlbum?currentSongAlbum:'未知专辑'}} - {{currentSongAuthor}}</p>
     </div>
+    <div class="songimg">
+      <van-loading color="#C0C4CC" type="spinner" size="4rem" v-if="!currentSongImgUrl" />
+      <img :src="currentSongImgUrl+'?param=400y400'" alt v-else />
+    </div>
+    <div class="player">
+      <audio-player
+        :audio-list="audioList"
+        ref="AudioComponent"
+        style="margin:0.5rem 0"
+        :before-next="beforePlayNext"
+        :before-prev="beforePlayPrev"
+        :before-play="playBefore"
+      />
+    </div>
+    <div class="songoperation">
+      <div class="item">
+        <van-icon
+          :name="like?'like':'like-o'"
+          size="0.5rem"
+          :color="like?'rgb(235, 32, 0)':fontColor"
+          @click="handleLike"
+        />
+      </div>
+      <div class="item">
+        <van-icon name="comment-o" size="0.5rem" badge="999+" :color="fontColor" />
+      </div>
+      <div class="item">
+        <van-icon name="down" size="0.5rem" :color="fontColor" />
+      </div>
+      <div class="item">
+        <van-icon name="share-o" size="0.5rem" :color="fontColor" />
+      </div>
+      <div class="item">
+        <van-icon name="more-o" size="0.5rem" :color="fontColor" />
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
+import analyze from 'rgbaster'
 import { mapActions, mapGetters, mapMutations, mapState } from 'vuex'
+import { getSongLikeList } from '@/api/song'
 import '@liripeng/vue-audio-player/lib/vue-audio-player.css'
-import { AudioPlayer } from '@liripeng/vue-audio-player'
+import AudioPlayer from '@liripeng/vue-audio-player'
 export default {
   data () {
     return {
-      loading: true,
-      currentPlayIndex: ''
+      currentPlayIndex: '',
+      mainColor: '',
+      fontColor: '#333',
+      like: false
     }
   },
+  props: ['id'],
   watch: {
     currentSongUrl: {
       handler (val) {
@@ -52,22 +81,16 @@ export default {
           })
         }
       }
-    },
-    currentSongImgUrl: {
-      handler (val) {
-        if (val) {
-          this.loading = false
-        }
-      },
-      immediate: true
     }
   },
   computed: {
     ...mapState({
       playState: state => state.playList.playState,
+      currentSong: state => state.playList.currentSong,
       currentSongImgUrl: state => state.playList.currentSongImgUrl,
       currentSongUrl: state => state.playList.currentSongUrl,
-      playList: state => state.playList
+      currentSongAlbum: state => state.playList.currentSongAlbum,
+      currentSongAuthor: state => state.playList.currentSongAuthor
     }),
     ...mapMutations([
     ]),
@@ -86,20 +109,17 @@ export default {
       this.$nextTick(() => {
         if (this.playState) {
           setTimeout(() => {
-            this.$refs.AudioComponent.play()
+            // this.$refs.AudioComponent.play()
           }, 500)
         } else {
           setTimeout(() => {
-            this.$refs.AudioComponent.pause()
+            // this.$refs.AudioComponent.pause()
           }, 500)
         }
       })
     },
     back () {
       history.go(-1)
-    },
-    titleRun () {
-
     },
     // 判断audioList是否存在歌曲
     hasAllAudioList () {
@@ -122,26 +142,79 @@ export default {
         })
       }
     },
+    // 点击下一首前的操作
     beforePlayNext (next) {
-      // this.$refs.AudioComponent.pause()
       next()
     },
+    // 点击上一首前的操作
     beforePlayPrev (prev) {
-      // this.$refs.AudioComponent.pause()
       prev()
     },
     playBefore (play) {
       // 切歌播放前 改变state中当前音乐的一些参数
       this.$store.commit('CHANGESONG', this.$refs.AudioComponent.currentPlayIndex)
       play()
-    }
+    },
+    async getMainColor (url) {
+      const res = await analyze(url, {
+        ignore: ['rgb(255,255,255)', 'rgb(0,0,0)']
+      })
 
+      this.mainColor = res[10].color
+      this.rgb = this.getRGB(this.mainColor)
+    },
+    // 获取rgb数值
+    getRGB (str) {
+      const match = str.match(/rgba?\((\d{1,3}), ?(\d{1,3}), ?(\d{1,3})\)?(?:, ?(\d(?:\.\d?))\))?/)
+      const rgb = match ? { red: match[1], green: match[2], blue: match[3] } : null
+      this.getIsLight(rgb)
+    },
+    // 根据亮色暗色更改字体颜色
+    getIsLight (color) {
+      if (0.213 * color.red + 0.715 * color.green + 0.072 * color.red > 255 / 2) {
+        this.fontColor = '#333'
+      } else {
+        this.fontColor = '#fff'
+      }
+    },
+    // TODO: 点击喜欢 API报错
+    async handleLike () {
+      this.like = !this.like
+      this.$notify({ type: 'warning', message: '该功能正在开发中' })
+      /*       try {
+        const { data: res } = await getSongLike({ id: this.$route.params.id, like: !this.like })
+        console.log(res)
+        if (res.code !== 200) {
+          this.$notify({ type: 'warning', message: '歌曲操作失败,请稍后再试' })
+        } else {
+          this.like = !this.like
+          if (this.like) {
+            this.$notify({ type: 'success', message: '❤喜欢成功！' })
+          } else {
+            this.$notify({ type: 'success', message: '❤取消喜欢成功！' })
+          }
+        }
+      } catch {
+
+      } */
+    },
+    // 判断是否是喜欢的歌曲
+    async getLikeSongList () {
+      const { data: res } = await getSongLikeList(this.$route.params.id)
+      if (res.code !== 200) {
+        this.$notify({ type: 'warning', message: '获取歌曲状态失败,请稍后再试' })
+      } else {
+        this.like = res.ids.indexOf(this.$route.params.id) !== -1
+      }
+    }
   },
   created () {
   },
   mounted () {
     this.hasAllAudioList()
     this.getPlayState()
+    this.getMainColor(this.currentSongImgUrl)
+    this.getLikeSongList()
   },
   beforeDestroy () {
     this.$store.commit('STOPPLAYER')
@@ -150,6 +223,8 @@ export default {
 </script>
 
 <style lang="less" scoped>
+#player{
+  height: 100vh;
 .songimg{
   width: 100%;
   text-align: center;
@@ -160,13 +235,39 @@ export default {
     margin-right: 0;
     border-radius: 15px;
     overflow: hidden;
-
   }
         img{
             border-radius: 15px;
-        width: 200px;
-        height: 200px;
+        width: 4rem;
+        height: 4rem;
   }
 
 }
+.songmsg{
+  h5{
+    text-align: center;
+    font-size: .5rem;
+    margin: .2rem 0;
+  }
+  p{
+    text-align: center;
+    font-size: .4rem;
+    margin: .5rem 0;
+  }
+}
+.songoperation{
+  margin-top: auto;
+  display: flex;
+  justify-content: space-around;
+  .item{
+  }
+}
+.player{
+  padding: .1rem .4rem;
+  /deep/ .audio-player .audio__play-volume-icon-wrap{
+  top: 0;
+}
+}
+}
+
 </style>

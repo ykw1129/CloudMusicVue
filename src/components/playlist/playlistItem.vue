@@ -1,15 +1,17 @@
-import { getSongDetail, getSongUrl } from '@/api/song';
 <template>
-  <div class="songitem van-hairline--bottom" @click="toPlayer">
+  <div class="songitem van-hairline--bottom" @click="getSongUrlPlayer">
     <div class="index">
       <p>{{index+1}}</p>
     </div>
     <div class="content">
-      <p class="name">{{songMsg.songName}}<span>{{songMsg.des}}</span></p>
+      <p class="name">
+        {{songMsg.songName}}
+        <span>{{songMsg.des}}</span>
+      </p>
       <p class="album">{{songMsg.songAuthor}}-{{songMsg.album}}</p>
     </div>
     <div class="operation">
-      <van-icon name="more-o" color="#BEBEBE" size="0.5rem"/>
+      <van-icon name="more-o" color="#BEBEBE" size="0.5rem" />
     </div>
   </div>
 </template>
@@ -49,7 +51,8 @@ export default {
         songImgUrl: res.songs[0].al.picUrl
       }
     },
-    async getSongUrl () {
+    // TODO:通过this.$emit传递给页面,需要改进
+    async getSongUrlPlayer () {
       const { data: res } = await getSongUrl(this.songId)
       if (res.code !== 200) {
         this.$notify({ type: 'danger', message: '获取歌曲失败' })
@@ -61,13 +64,11 @@ export default {
         songImgUrl: this.songMsg.songImgUrl,
         songName: this.songMsg.songName,
         songAuthor: this.songMsg.songAuthor,
-        songUrl: this.songMsg.songUrl
+        songUrl: this.songMsg.songUrl,
+        songAlbum: this.songMsg.album
       }
       this.$store.dispatch('toPlayList', song)
-      this.$router.push({ name: 'Player' })
-    },
-    toPlayer () {
-      this.getSongUrl()
+      this.$router.push({ name: 'Player', params: { id: this.songId } })
     }
   }
 }

@@ -17,6 +17,7 @@ export default new Vuex.Store({
       currentIndex: '',
       currentSongImgUrl: '',
       currentSongUrl: '',
+      currentSongAlbum: '',
       list: [],
       status: true
     }
@@ -45,9 +46,9 @@ export default new Vuex.Store({
     TOPLAYLIST (state, list) {
       state.playList.list.unshift(list)
       // js数组中的对象去重
-      var result = []
-      var obj = {}
-      for (var i = 0; i < state.playList.list.length; i++) {
+      const result = []
+      const obj = {}
+      for (let i = 0; i < state.playList.list.length; i++) {
         state.playList.list[i].index = i + 1
         if (!obj[state.playList.list[i].songId]) {
           result.push(state.playList.list[i])
@@ -60,6 +61,7 @@ export default new Vuex.Store({
       state.playList.currentSongAuthor = list.songAuthor
       state.playList.currentSongImgUrl = list.songImgUrl
       state.playList.currentSongUrl = list.songUrl
+      state.playList.currentSongAlbum = list.songAlbum
       state.playList.currentIndex = list.index
       state.playList.currentSong = list.songName
       localMethods.setLocal('playList', state.playList)
@@ -82,6 +84,7 @@ export default new Vuex.Store({
       state.playList.currentSongAuthor = state.playList.list[currentPlayIndex].songAuthor
       state.playList.currentSongImgUrl = state.playList.list[currentPlayIndex].songImgUrl
       state.playList.currentSongUrl = state.playList.list[currentPlayIndex].songUrl
+      state.playList.currentSongAlbum = state.playList.list[currentPlayIndex].songAlbum
       localMethods.setLocal('playList', state.playList)
     },
     // 修正播放列表,删除链接为null的歌曲

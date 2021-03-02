@@ -56,7 +56,7 @@ const routes = [{
   component: () => import('../views/users/Register')
 },
 {
-  path: '/player',
+  path: '/player/:id',
   name: 'Player',
   component: Player
 },

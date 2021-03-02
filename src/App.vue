@@ -7,7 +7,10 @@
 import './assets/css/reset.css'
 import './assets/icon/iconfont/iconfont.css'
 export default {
-
+  created () {
+    this.$store.dispatch('getUserInfo')
+    this.$store.dispatch('getIsLogin')
+  }
 }
 </script>
 <style lang="less">

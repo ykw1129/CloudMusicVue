@@ -10,12 +10,14 @@
 </van-nav-bar>
   <div class="detail">
     <div class="left">
-      <img :src="playlistCoverImg" :alt="playlistName">
+      <van-loading color="#C0C4CC" type="spinner" size="2rem" v-if="!playlistCoverImg" />
+      <img :src="playlistCoverImg+'?param=200y200'" :alt="playlistName" v-else >
     </div>
     <div class="right">
         <div class="name">{{playlistName}}</div>
         <div class="creator">
-          <img :src="playlistCreatorAvatar" :alt="playlistName">
+          <img :src="playlistCreatorAvatar+'?param=80y80'" :alt="playlistName" v-if="playlistCreatorAvatar">
+          <van-loading color="#C0C4CC" type="spinner" size="0.8rem" v-else />
           <span>{{playlistCreatorName}} <van-icon name="arrow" /> </span>
         </div>
         <div class="editmsg">编辑信息<van-icon name="arrow" /></div>
@@ -47,9 +49,9 @@
     :finished="finished"
     finished-text="没有更多了"
   >
-              <template v-slot:default>
-                <playlistItem v-for="(privilege,index) in privileges" :key="privilege.id" :songId="privilege.id" :index="index"/>
-              </template>
+  <template v-slot:default>
+    <playlistItem v-for="(privilege,index) in privileges" :key="privilege.id" :songId="privilege.id" :index="index"/>
+  </template>
   </van-list>
 </van-pull-refresh>
 </div>
@@ -186,6 +188,7 @@ export default {
     }
   }
   .list{
+    min-height: 100vh;
     background: #F5F5F5;
     border-radius: 10px 10px 0 0;
   }

@@ -1,133 +1,102 @@
 <template>
   <div id="my">
     <transition name="fade">
-    <router-view />
+      <router-view />
     </transition>
     <div class="my-hone" v-if="this.$route.meta.show">
-
-    <van-row class="search">
-      <van-col span="3">
-        <router-link to="/mydetail" name="my">
-        <img
-          :src="avatarUrl"
-          alt="user-icon"
-        >
-        </router-link>
-      </van-col>
-      <van-col span="21">
-        <van-search
-          v-model="searchValue"
-          shape="round"
-          @search="onSearch"
-          @cancel="onCancel"
-          @focus="onFocus"
-          @blur="onBlur"
-          @input="onInput"
-          background="rgb(235,32,0)"
-          :placeholder="placeholder"
-        />
-      </van-col>
-    </van-row>
-    <suggest-List @load-keyword="onKeyword" :suggestList="suggestList" :isHide="suggestListHide"></suggest-List>
-    <hot-List @get-keyword="onKeyword" :isHide="hotListHide" :List="hotList" ></hot-List>
-    <my-Swipe />
-    <van-tabs
-      @rendered="onSubscribeChange"
-      v-model="active"
-      class="playlist-tabs"
-    >
-      <van-tab name="subscribe">
-        <template #title>
-          <van-icon
-            name="good-job-o"
-            size="15"
-            color="rgb(235, 32, 0)"
+      <van-row class="search">
+        <van-col span="3">
+          <router-link to="/mydetail" name="my" style="display:flex;algin-items:center">
+            <img :src="avatarUrl" alt="user-icon" style="height:100%;width:100%" />
+          </router-link>
+        </van-col>
+        <van-col span="21">
+          <van-search
+            v-model="searchValue"
+            shape="round"
+            @search="onSearch"
+            @cancel="onCancel"
+            @focus="onFocus"
+            @blur="onBlur"
+            @input="onInput"
+            background="rgb(235,32,0)"
+            :placeholder="placeholder"
           />
-          &nbsp;
-          <span>每日推荐</span>
-        </template>
-        <van-pull-refresh
-          v-model="isSubscribeLoading"
-          @refresh="onSubscribeRefresh"
-          success-text="刷新成功"
-        >
-          <van-list
-            v-model="subscribeLoading"
-            :error.sync="subscribeError"
-            :finished="subscribeFinished"
-            loading-text="正在努力加载中"
-            finished-text="没有更多了"
-            error-text="请求失败，点击重新加载"
+        </van-col>
+      </van-row>
+      <suggest-List @load-keyword="onKeyword" :suggestList="suggestList" :isHide="suggestListHide"></suggest-List>
+      <hot-List @get-keyword="onKeyword" :isHide="hotListHide" :List="hotList"></hot-List>
+      <my-Swipe />
+      <van-tabs @rendered="onSubscribeChange" v-model="active" class="playlist-tabs">
+        <van-tab name="subscribe">
+          <template #title>
+            <van-icon name="good-job-o" size="15" color="rgb(235, 32, 0)" />&nbsp;
+            <span>每日推荐</span>
+          </template>
+          <van-pull-refresh
+            v-model="isSubscribeLoading"
+            @refresh="onSubscribeRefresh"
+            success-text="刷新成功"
           >
-            <template v-slot:default>
-              <recommend
-                :id ="recommend.id"
-                :key="recommend.id"
-                v-for="recommend in recommendlist"
-                :imgurl="recommend.picUrl"
-                :title="recommend.name"
-                :text="recommend.copywriter"
-                :username="recommend.creator.nickname"
-                :userimg="recommend.creator.avatarUrl"
-              ></recommend>
-            </template>
-          </van-list>
-        </van-pull-refresh>
-      </van-tab>
-      <van-tab
-        class="createlist"
-        name="mylist"
-      >
-        <template #title>
-          <van-icon
-            name="like-o"
-            size="15"
-            color="rgb(235, 32, 0)"
-          />
-          &nbsp;
-          <span>我的歌单</span>
-        </template>
-        <van-pull-refresh
-          v-model="isPlaylistLoading"
-          @refresh="onPlaylistRefresh"
-          success-text="刷新成功"
-        >
-          <van-list
-            v-model="playlistLoading"
-            :error.sync="playlistError"
-            :finished="playlistFinished"
-            loading-text="正在努力加载中"
-            finished-text="没有更多了"
-            error-text="请求失败，点击重新加载"
+            <van-list
+              v-model="subscribeLoading"
+              :error.sync="subscribeError"
+              :finished="subscribeFinished"
+              loading-text="正在努力加载中"
+              finished-text="没有更多了"
+              error-text="请求失败，点击重新加载"
+            >
+              <template v-slot:default>
+                <recommend
+                  :id="recommend.id"
+                  :key="recommend.id"
+                  v-for="recommend in recommendlist"
+                  :imgurl="recommend.picUrl"
+                  :title="recommend.name"
+                  :text="recommend.copywriter"
+                  :username="recommend.creator.nickname"
+                  :userimg="recommend.creator.avatarUrl"
+                ></recommend>
+              </template>
+            </van-list>
+          </van-pull-refresh>
+        </van-tab>
+        <van-tab class="createlist" name="mylist">
+          <template #title>
+            <van-icon name="like-o" size="15" color="rgb(235, 32, 0)" />&nbsp;
+            <span>我的歌单</span>
+          </template>
+          <van-pull-refresh
+            v-model="isPlaylistLoading"
+            @refresh="onPlaylistRefresh"
+            success-text="刷新成功"
           >
-            <template v-slot:default>
-              <van-grid
-                :column-num="3"
-                square
-                clickable
-                icon-size="64px"
-              >
-
-                <van-grid-item
-                @click="toPlayList(item.id)"
-                  v-for="item in playlist"
-                  :key="item.id"
-                >
-                  <i>
-                    <img
-                      v-lazy="item.coverImgUrl"
-                      :alt="item.name"
-                    />
-                  </i>
-                  <span>{{item.name}}</span>
-                </van-grid-item>
-
-              </van-grid>
-            </template>
-          </van-list>
-        </van-pull-refresh>
-      </van-tab>
-    </van-tabs>
+            <van-list
+              v-model="playlistLoading"
+              :error.sync="playlistError"
+              :finished="playlistFinished"
+              loading-text="正在努力加载中"
+              finished-text="没有更多了"
+              error-text="请求失败，点击重新加载"
+            >
+              <template v-slot:default>
+                <van-grid :column-num="3" square clickable icon-size="64px">
+                  <van-grid-item
+                    @click="toPlayList(item.id)"
+                    v-for="item in playlist"
+                    :key="item.id"
+                  >
+                    <i>
+                      <img v-lazy="item.coverImgUrl" :alt="item.name" />
+                    </i>
+                    <span class="songsName">{{item.name}}</span>
+                  </van-grid-item>
+                </van-grid>
+              </template>
+            </van-list>
+          </van-pull-refresh>
+        </van-tab>
+      </van-tabs>
     </div>
   </div>
 </template>
@@ -192,7 +161,6 @@ export default {
     // 之所以这样获取是防止用户logo闪烁问题
     storeInit () {
       this.$store.dispatch('getUserInfo')
-      this.$store.dispatch('getIsLogin')
       this.avatarUrl = this.$store.state.User.avatarUrl
       this.userId = this.$store.state.User.userId
     },
@@ -284,6 +252,7 @@ export default {
         this.placeholder = res.data.showKeyword
       }
     },
+    // 获取搜索建议
     async getSuggest () {
       const { data: res } = await getSuggestSearch({ keywords: this.searchValue })
       if (res.code !== 200) {
@@ -370,9 +339,13 @@ export default {
         span {
             text-align: center;
             color: #646566;
-            font-size: 0.4rem;
-            word-wrap: break-word;
+            font-size: 0.3rem;
             padding-top: 0.3rem;
+            overflow : hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
 
         }
     }
