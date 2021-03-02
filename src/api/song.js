@@ -14,3 +14,21 @@ export function getSongUrl (id) {
     method: 'get'
   })
 }
+// 喜欢音乐
+export function getSongLike (query) {
+  return request({
+    url: `/like?id=${query.id}&like=${query.like}`,
+    method: 'get'
+  })
+}
+// 喜欢音乐列表
+export function getSongLikeList (id) {
+  return request({
+    url: `/likelist?id=${id}`,
+    method: 'get'
+  })
+}
+// 歌曲评论
+export function getSongComment () {
+
+}
