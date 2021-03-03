@@ -216,7 +216,7 @@ export default {
     },
     // 取消搜索框
     onCancel (e) {
-      console.log(e)
+      console.log('取消搜索框')
     },
     onInput () {
       this.getSuggest()
