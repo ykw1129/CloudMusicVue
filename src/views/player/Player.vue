@@ -38,7 +38,7 @@
         />
       </div>
       <div class="item">
-        <van-icon name="comment-o" size="0.5rem" badge="999+" :color="fontColor" />
+        <van-icon name="comment-o" size="0.5rem" badge="999+" :color="fontColor"  @click="commentShow = true" />
       </div>
       <div class="item">
         <van-icon name="down" size="0.5rem" :color="fontColor" />
@@ -50,6 +50,11 @@
         <van-icon name="more-o" size="0.5rem" :color="fontColor" />
       </div>
     </div>
+    <van-action-sheet v-model="commentShow"  >
+      <template #default>
+
+      </template>
+    </van-action-sheet>
   </div>
 </template>
 
@@ -62,6 +67,7 @@ import AudioPlayer from '@liripeng/vue-audio-player'
 export default {
   data () {
     return {
+      commentShow: false,
       currentPlayIndex: '',
       mainColor: '',
       fontColor: '#333',

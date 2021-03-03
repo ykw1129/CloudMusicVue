@@ -255,8 +255,7 @@ export default {
     // 获取搜索建议
     async getSuggest () {
       const { data: res } = await getSuggestSearch({ keywords: this.searchValue })
-      if (res.code !== 200) {
-      } else {
+      if (res.code !== 200) { return null } else {
         this.suggestList = res.result.allMatch
       }
     }

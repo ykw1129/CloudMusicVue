@@ -29,6 +29,9 @@ export function getSongLikeList (id) {
   })
 }
 // 歌曲评论
-export function getSongComment () {
-
+export function getSongComment (query) {
+  return request({
+    url: `/comment/music?id=${query.id}&limit=${query.limit || 20}&offset=${query.offset}`,
+    method: 'get'
+  })
 }

@@ -394,7 +394,7 @@ export default {
         songAlbum: this.songMsg.album
       }
       this.$store.dispatch('toPlayList', song)
-      this.$router.push({ name: 'Player' })
+      this.$router.push({ name: 'Player', params: { id } })
     }
   },
   created () {
