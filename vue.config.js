@@ -5,6 +5,7 @@ module.exports = {
     proxy: {
       '/': {
         target: 'https://localhost:3000',
+        // 修改api
         changeOrigin: true,
         secure: true
       }
