@@ -4,7 +4,7 @@ module.exports = {
   devServer: {
     proxy: {
       '/': {
-        target: 'https://mapi.ykweb.xyz',
+        target: 'https://localhost:3000',
         changeOrigin: true,
         secure: true
       }
