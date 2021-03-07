@@ -1,6 +1,6 @@
 module.exports = {
   publicPath: './', // 基本路径
-  outputDir: 'dist', // 输出文件目录
+  outputDir: 'music', // 输出文件目录
   devServer: {
     proxy: {
       '/': {
