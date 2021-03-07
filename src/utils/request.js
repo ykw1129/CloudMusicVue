@@ -14,9 +14,8 @@ const service = axios.create({
 })
 // 设置请求次数，请求的间隙
 service.defaults.retry = 4
-service.defaults.retryDelay = 1000
-
-axios.interceptors.request.use(config => {
+service.defaults.withCredentials = true
+service.interceptors.request.use(config => {
   removePending(config) // 在请求开始前，对之前的请求做检查取消操作
   addPending(config) // 将当前请求添加到 pending 中
   return config
@@ -24,7 +23,7 @@ axios.interceptors.request.use(config => {
   return Promise.reject(error)
 })
 
-axios.interceptors.response.use(response => {
+service.interceptors.response.use(response => {
   removePending(response) // 在请求结束后，移除本次请求
   if (response.status === 200 && window.sessionStorage.getItem('token')) {
     window.sessionStorage.setItem('isLogin', true)
