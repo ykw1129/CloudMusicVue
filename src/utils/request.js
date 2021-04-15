@@ -9,7 +9,7 @@ const service = axios.create({
      * 因为前后端分离，存在跨域，前后端都需要解决跨域请求
      * 前端处理跨域是在`vue.config.js`目录下，利用proxy将请求代理到实际的服务端地址
      */
-  baseURL: process.env.VUE_APP_BASE_API,
+  baseURL: 'http://mapi.ykweb.xyz',
   timeout: 5000 // request timeout
 })
 // 设置请求次数，请求的间隙
